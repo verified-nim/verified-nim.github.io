@@ -58,7 +58,7 @@
       </nav>
       <div class="prose">
         <h2 id="cost">Pass rate and cost per solved task</h2>
-        <p>In October 2026 we ran a pre-registered study: four hard Nim tasks, five blind runs per arm, a low-cost model (DeepSeek V4.1 Flash, maximum thinking) with and without the verified skill. Tasks, arms, metrics and scorers were fixed before the first run. Costs are recomputed from logged tokens at the provider's off-peak API rates.</p>
+        <p>In October 2026 we ran a pre-registered study: four hard Nim tasks, five blind runs per arm, a low-cost model (DeepSeek V4.1 Flash) with and without the verified skill. Tasks, arms, metrics and scorers were fixed before the first run. Costs are recomputed from logged tokens at the provider's off-peak API rates.</p>
         <div class="table-wrap">
           <table class="compare">
             <thead><tr><th scope="col">Task (5 runs per arm)</th><th scope="col" class="is-us">Verified skill</th><th scope="col">No skill</th><th scope="col">Fisher p</th></tr></thead>
@@ -73,7 +73,7 @@
         </div>
         <ul>
           <li><strong>Per attempt</strong>, the skill-guided agent used about twice the tokens (3.1M vs 1.6M) and cost about $0.048 vs $0.028.</li>
-          <li><strong>Per solved task</strong>, it cost about <strong>$0.05 vs $0.21</strong>: four times cheaper, because the unguided agent rarely finishes.</li>
+          <li><strong>Per solved task</strong>, it cost about <strong>$0.05 vs $0.21</strong>, about a quarter, because the unguided agent rarely finishes.</li>
           <li><strong>A larger model</strong> (DeepSeek V4 Pro) without skills passed 0 of 6 on the bug-report and port tasks, at the same or up to four times the cost per attempt.</li>
           <li>On the container task the model already copes; there the skill adds about 30% cost for a gain that is not statistically significant.</li>
         </ul>
@@ -99,28 +99,26 @@
         <ul>
           <li><strong>912 claims</strong> across 21 skills, checked against Nim 2.3.1 or Nimony 0.6.3. 783 are testable by a program; the rest are process advice.</li>
           <li><strong>690 compiler-run test programs</strong> back the testable claims.</li>
-          <li><strong>127 statements corrected</strong> from the first drafts, and <strong>104</strong> given a precise caveat: right in the common case, wrong at an edge an agent will reach.</li>
-          <li><strong>7 Nimony compiler bugs</strong> in error handling, <a href="https://github.com/nim-lang/nimony/issues/2674">#2674</a>&ndash;<a href="https://github.com/nim-lang/nimony/issues/2680">#2680</a>, filed 2026-10-15 and fixed upstream within two days. Four lost errors silently or crashed.</li>
+          <li><strong>127 corrections</strong> to the first drafts, about one in seven claims, and <strong>104</strong> claims given a precise caveat: right in the common case, wrong at an edge an agent will reach.</li>
+          <li><strong>7 Nimony compiler bugs</strong> in error handling (<a href="https://github.com/nim-lang/nimony/issues/2674">#2674</a>&ndash;<a href="https://github.com/nim-lang/nimony/issues/2680">#2680</a>); four lost errors silently or crashed. Upstream fixed them within two days, and the fix changed a <code>.raises</code> rule the error-handling skill taught, so the next test run flagged the sentences to rewrite.</li>
           <li>Auditing the Nimony assembler skill found further toolchain bugs, including a silent miscompile. Some are public as <a href="https://github.com/nim-lang/nimony/issues/2686">#2686</a> and <a href="https://github.com/nim-lang/nimony/issues/2687">#2687</a>.</li>
         </ul>
-        <p>Two corrections in detail: <a href="posts/moved-from-object-segfaults.html">why a moved-from object segfaults on reuse</a> and <a href="posts/release-build-swallowed-the-error.html">the Nimony release build that swallowed the error</a>.</p>
+        <p>A skill file repeats its mistakes in every run that loads it, so one correction fixes every later run. Re-running these tests on new compiler builds is what the subscription pays for. Two corrections in detail: <a href="posts/moved-from-object-segfaults.html">why a moved-from object segfaults on reuse</a> and <a href="posts/release-build-swallowed-the-error.html">the Nimony release build that swallowed the error</a>.</p>
 
         <h2 id="scope">Scope and method notes</h2>
         <ul>
           <li>Earlier three-arm trials are n=3 per arm; the cost study is n=5 per arm; catalog probes are n=1 per arm.</li>
-          <li>Cost-study tasks were chosen because they had separated before, so its pass-rate gaps are an upper bound. One model family, one weekend of runs. Two verdicts hit by a scoring race were re-scored with the unchanged scorers.</li>
-          <li>The C-to-Nim port result is after one skill revision (2/3 before); the other arms were not re-run.</li>
-          <li>The error-handling result is after a documented scorer revision; the first scoring gave 2/3, 0/3, 0/3.</li>
-          <li>Some probe separations measure whether the agent adopted a convention the skill teaches, such as evidence labels in a report.</li>
-          <li>In probes, five skills had no separating task because every arm solved it; one of those later separated in the full trial above. On one doc-comment task the verified skill scored 2/3 against 3/3. Tasks that every arm solves are kept as regression checks.</li>
-          <li>Run counts trace to our notes and datasets; raw run logs were not retained.</li>
+          <li>Cost-study tasks were chosen because they had separated before, so its pass-rate gaps are an upper bound. All runs used one model family.</li>
+          <li>Two three-arm results come after a revision, one to the skill and one to the scorer. Before it, the verified skill scored 2/3 on each.</li>
+          <li>Some probe separations only show that the agent adopted a convention the skill teaches.</li>
+          <li>On one doc-comment probe the verified skill scored 2/3 against 3/3 without it.</li>
         </ul>
         <p>Stronger models will solve more tasks unaided. We track that and prune guidance that stops helping, which keeps the skills small.</p>
 
         <h2 id="next">What comes next</h2>
         <p>A larger published benchmark: Nim and Nimony tasks across several models and compiler versions, with and without the skills, with every model, version and sample size stated. Task contents stay private so agents cannot train to the test.</p>
         <div class="cta next-steps">
-          <div><h2>Give your agent the verified skills</h2><p>The full catalog from $10 a month.</p></div>
+          <div><h2>Give your agent the verified skills</h2><p>The full catalog from $8 a month (the founding yearly price of $96, open until 30 November 2026).</p><!-- CONTENT: after 30 November 2026 revert to $10/month --></div>
           <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access</a><a class="btn" href="pricing.html">Pricing</a></div>
         </div>
       </div>

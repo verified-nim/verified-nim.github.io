@@ -52,89 +52,76 @@
 <section class="section" id="onboarding" aria-labelledby="onb-h">
   <div class="wrap">
     <div class="section__head"><span class="eyebrow">onboarding</span><h2 id="onb-h">From payment to installed skills</h2></div>
-    <div class="measure">
-    <ol class="steps">
+    <ol class="setup">
       <li><h3>Connect your GitHub account</h3>
-        <p>After checkout, open the customer portal (linked in your receipt email, or at <code>https://polar.sh/verified-nim/portal</code>) and connect GitHub on the "GitHub repository access" benefit. This tells us which account to invite.</p>
-        <p class="small">Team: assign each seat to a teammate's email in the portal. Each teammate claims the seat (the link is valid 24 hours and can be resent) and connects their own GitHub account.<!-- CONTENT: until Polar seats are verified, Team is onboarded by email instead --></p></li>
+        <div class="setup__body">
+          <p>After checkout, open the <a href="https://polar.sh/verified-nim/portal">customer portal</a> (also linked in your receipt email) and connect GitHub on the &ldquo;GitHub repository access&rdquo; benefit. That is the account we invite.</p>
+          <p class="small muted">Team: assign each seat to a teammate&rsquo;s email in the portal. Each teammate claims the seat (the link is valid 24 hours and can be resent) and connects their own GitHub account.<!-- CONTENT: until Polar seats are verified, Team is onboarded by email instead --></p>
+        </div></li>
       <li><h3>Accept the repository invitation</h3>
-        <p>GitHub emails you an invite to <code>verified-nim/skills</code>. Accept it at <code>https://github.com/verified-nim/skills/invitations</code> while signed in to that account. Invites expire after 7 days; reconnect GitHub in the portal to get a new one.</p></li>
-      <li><h3>Let git reach the repository without prompting</h3>
-        <p>NYX does not prompt for passwords, so sign git in to GitHub first:</p>
-        <figure class="terminal" aria-label="Set up git credentials">
+        <div class="setup__body">
+          <p>GitHub emails you an invite to <code>verified-nim/skills</code>. Accept it at <a href="https://github.com/verified-nim/skills/invitations">github.com/verified-nim/skills/invitations</a> while signed in to that account.</p>
+          <p class="small muted">Invites expire after 7 days. Reconnect GitHub in the portal to get a new one.</p>
+        </div></li>
+      <li><h3>Sign git in to GitHub</h3>
+        <div class="setup__body">
+          <p>NYX fetches with git and never prompts for a password, so git must already reach the repository:</p>
+          <figure class="terminal" aria-label="Set up git credentials">
 <pre><code><span class="t-prompt">gh auth login</span>
 <span class="t-prompt">gh auth setup-git</span>
-<span class="t-prompt">git ls-remote https://github.com/verified-nim/skills</span>  <span class="t-dim"># lists refs, no password prompt</span></code></pre>
-        </figure>
-        <p class="small muted">Git Credential Manager or an SSH key work too.</p>
-        <div class="callout callout--warn"><span class="callout__title">Using a fine-grained personal access token?</span>
-          <p>It must list <code>verified-nim/skills</code> under <strong>Repository access</strong>, with <strong>Contents: Read</strong>. Accepting the invite does not add the repository to an existing token. Without it, git fails with 403 or 404. Edit the token at GitHub &rarr; Settings &rarr; Developer settings &rarr; Fine-grained tokens, or use <code>gh auth login</code> instead.</p>
+<span class="t-prompt">git ls-remote https://github.com/verified-nim/skills</span></code></pre>
+          </figure>
+          <p class="small muted">The last command should list refs without asking for anything. Git Credential Manager works too. For an SSH key, have git fetch GitHub over SSH: <code>git config --global url."git@github.com:".insteadOf https://github.com/</code></p>
+          <div class="callout callout--warn"><span class="callout__title">Using a fine-grained personal access token?</span>
+            <p>It must list <code>verified-nim/skills</code> under <strong>Repository access</strong>, with <strong>Contents: Read</strong>. Accepting the invite does not add the repository to an existing token. Without it, git fails with 403 or 404. Edit the token at GitHub &rarr; Settings &rarr; Developer settings &rarr; Fine-grained tokens, or use <code>gh auth login</code> instead.</p>
+          </div>
         </div></li>
       <li><h3>Install NYX</h3>
-        <figure class="terminal" aria-label="Install NYX on Linux or macOS">
-          <div class="terminal__bar"><span>Linux &amp; macOS</span><span>installs to ~/.local/bin</span></div>
+        <div class="setup__body">
+          <figure class="terminal" aria-label="Install NYX on Linux or macOS">
+            <div class="terminal__bar"><span>Linux &amp; macOS</span><span>installs to ~/.local/bin</span></div>
 <pre><code><span class="t-prompt">curl -fsSL https://github.com/planetis-m/nyx/releases/latest/download/install.sh | sh</span></code></pre>
-        </figure>
-        <figure class="terminal" aria-label="Install NYX on Windows">
-          <div class="terminal__bar"><span>Windows (PowerShell)</span><span>installs to %LOCALAPPDATA%\Programs\nyx</span></div>
+          </figure>
+          <figure class="terminal" aria-label="Install NYX on Windows">
+            <div class="terminal__bar"><span>Windows (PowerShell)</span><span>installs to %LOCALAPPDATA%\Programs\nyx</span></div>
 <pre><code><span class="t-dim">PS&gt;</span> irm https://github.com/planetis-m/nyx/releases/latest/download/install.ps1 | iex</code></pre>
-        </figure>
-        <p class="small muted">Requires <code>git</code>. <a href="https://github.com/planetis-m/nyx">Source</a>.</p></li>
+          </figure>
+          <p class="small muted">Requires <code>git</code>. NYX is open source: <a href="https://github.com/planetis-m/nyx">planetis-m/nyx</a>.</p>
+        </div></li>
       <li><h3>Run NYX in your project</h3>
-        <figure class="terminal" aria-label="First run">
-          <div class="terminal__bar"><span>in your repository root</span></div>
+        <div class="setup__body">
+          <figure class="terminal" aria-label="First run">
+            <div class="terminal__bar"><span>in your repository root</span></div>
 <pre><code><span class="t-prompt">nyx</span></code></pre>
-        </figure>
-        <p>Pick your agent targets and skills in the wizard. Run <code>nyx</code> once in each new project, or <code>nyx setup -g</code> for user-level skill directories.</p></li>
+          </figure>
+          <p>Pick your agents and skills in the wizard. Detected agents start ticked. Run <code>nyx</code> once in each new project.</p>
+        </div></li>
       <li id="pointer"><h3>Tell your agent the skills exist</h3>
-        <p>Agents load skills far more reliably when told the skills exist. Add this pointer to <code>AGENTS.md</code> or <code>CLAUDE.md</code>:</p>
-        <figure class="code-block">
-          <figcaption><span>AGENTS.md</span><span>example</span></figcaption>
+        <div class="setup__body">
+          <p>Agents load skills far more reliably when told they exist. Add a pointer to <code>AGENTS.md</code> or <code>CLAUDE.md</code>:</p>
+          <figure class="code-block">
+            <figcaption><span>AGENTS.md</span><span>example</span></figcaption>
 <pre><code>## Nim / Nimony
 Before writing, reviewing or debugging Nim or Nimony code, load the matching
 nim-* or nimony-* skill from the skills directory and follow it.</code></pre>
-        </figure>
-        <p class="small muted">Naming the skill in your prompt works too.</p></li>
-      <li><h3>Stay updated</h3>
-        <p>Running <code>nyx</code> checks for updates at most once every 30 days. Force it any time:</p>
-        <figure class="terminal" aria-label="Update">
-<pre><code><span class="t-prompt">nyx update</span>  <span class="t-dim"># update skills in every project and the user scope</span></code></pre>
-        </figure></li>
+          </figure>
+          <p class="small muted">Naming the skill in your prompt works too.</p>
+        </div></li>
     </ol>
-    </div>
   </div>
 </section>
 
 <section class="section section--alt" id="targets" aria-labelledby="targets-h">
   <div class="wrap">
-    <div class="section__head"><span class="eyebrow">reference</span><h2 id="targets-h">Commands and targets</h2>
-      <p>Only detected targets start ticked in the wizard. Targets sharing a skill directory install each skill once.</p></div>
-    <div class="split">
-      <div><figure class="terminal" aria-label="NYX commands">
-  <div class="terminal__bar"><span>nyx &mdash; commands</span><span>from the NYX README</span></div>
-<pre><code><span class="t-prompt">nyx</span>             <span class="t-dim"># set up this project, or show its status if already set up</span>
-<span class="t-prompt">nyx setup</span>       <span class="t-dim"># set up or reconfigure this project</span>
-<span class="t-prompt">nyx update</span>      <span class="t-dim"># update skills in every project and the user scope</span>
-<span class="t-prompt">nyx remove</span>      <span class="t-dim"># remove nyx from this project</span>
-<span class="t-prompt">nyx setup -g</span>    <span class="t-dim"># set up or reconfigure user-level skill directories</span>
-<span class="t-prompt">nyx remove -g</span>   <span class="t-dim"># remove nyx from user-level skill directories</span></code></pre>
-</figure></div>
-      <div><div class="table-wrap">
-  <table>
-    <caption>Agent targets NYX installs into (from the NYX README)</caption>
-    <thead><tr><th scope="col">Skill directory</th><th scope="col">Targets</th></tr></thead>
-    <tbody>
-      <tr><td><code>.agents/skills</code></td><td>Codex, Agents, Cursor, OpenCode, Antigravity, GitHub Copilot, Amp, Goose</td></tr>
-      <tr><td><code>.claude/skills</code></td><td>Claude Code</td></tr>
-      <tr><td><code>.cline/skills</code></td><td>Cline</td></tr>
-      <tr><td><code>.crush/skills</code></td><td>Crush</td></tr>
-      <tr><td><code>.devin/skills</code></td><td>Windsurf</td></tr>
-      <tr><td><code>.pi/skills</code></td><td>Pi</td></tr>
-      <tr><td><code>.roo/skills</code></td><td>Roo Code</td></tr>
-      <tr><td><code>.continue/skills</code></td><td>Continue</td></tr>
-    </tbody>
-  </table>
-</div></div>
+    <div class="section__head"><h2 id="targets-h">After setup</h2></div>
+    <div class="measure">
+      <dl class="cmd-list">
+        <div><dt><code>nyx</code></dt><dd>Shows this project&rsquo;s status and checks for skill updates at most once every 30 days.</dd></div>
+        <div><dt><code>nyx update</code></dt><dd>Updates skills now, in every project and the user scope.</dd></div>
+        <div><dt><code>nyx setup -g</code></dt><dd>Installs into your user-level skill directories instead of one project.</dd></div>
+      </dl>
+      <p>Supported agents: Claude Code, Codex, Cursor, GitHub Copilot, OpenCode, Windsurf, Cline, Roo Code, Continue, Crush, Amp, Goose, Antigravity and Pi.</p>
+      <p class="small muted">Every command, skill directory and environment variable is in the <a href="https://github.com/planetis-m/nyx#usage">NYX README</a>.</p>
     </div>
   </div>
 </section>

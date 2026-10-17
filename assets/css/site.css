@@ -564,6 +564,27 @@ tbody th { font-weight: 600; }
 .pricing-subhead { font-size: var(--step-3); margin-bottom: var(--space-5); }
 .pricing-note { font-size: var(--step--1); color: var(--muted); max-width: 60rem; margin: 0; }
 
+/* 6b. Page: get access ---------------------------------------------------
+   .setup: numbered onboarding steps. Hairline rows; on wide screens the
+   number and title sit in a left column so commands get the full width.
+   .cmd-list: command / description pairs. */
+.setup { list-style: none; counter-reset: setup; padding: 0; margin: 0; border-top: 1px solid var(--border); }
+.setup > li { counter-increment: setup; display: grid; grid-template-columns: 2rem minmax(0, 1fr); column-gap: var(--space-2); align-items: baseline; padding-block: var(--space-5) var(--space-6); border-bottom: 1px solid var(--border); }
+.setup > li::before { content: counter(setup); font: 500 var(--step-1)/var(--leading-tight) var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.setup h3 { font-size: var(--step-1); margin: 0; }
+.setup__body { grid-column: 1 / -1; margin-top: var(--space-4); }
+.setup__body .terminal, .setup__body .code-block, .setup__body .callout { margin-bottom: var(--space-4); }
+.setup__body > :last-child { margin-bottom: 0; }
+@media (min-width: 60rem) {
+  .setup > li { grid-template-columns: 2.5rem 15rem minmax(0, 1fr); column-gap: var(--space-5); padding-block: var(--space-6); }
+  .setup__body { grid-column: 3; margin-top: 0; }
+}
+.cmd-list { margin: 0 0 var(--space-5); border-top: 1px solid var(--border); }
+.cmd-list > div { display: grid; gap: var(--space-1) var(--space-5); padding-block: var(--space-3); border-bottom: 1px solid var(--border); }
+.cmd-list dt, .cmd-list dd { margin: 0; }
+.cmd-list dd { color: var(--muted); }
+@media (min-width: 40rem) { .cmd-list > div { grid-template-columns: 9rem minmax(0, 1fr); align-items: baseline; } }
+
 /* 7. Print --------------------------------------------------------------- */
 @media print {
   .site-header, .site-footer, .toc, .cta, .skip-link { display: none; }
