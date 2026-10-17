@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why verified skills win · Verified Nim Skills</title>
+<meta name="description" content="Self-generated skills don't verify themselves, docs don't say what is safe, and bigger models cost more on every call. Why compiler-verified Nim skills win.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://verified-nim.github.io/why.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+<meta property="og:title" content="Why verified skills win · Verified Nim Skills">
+<meta property="og:description" content="Self-generated skills don't verify themselves, docs don't say what is safe, and bigger models cost more on every call. Why compiler-verified Nim skills win.">
+<meta property="og:type" content="website">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html">
+      <img src="assets/img/nyx-logo.svg" alt="NYX" width="192" height="48">
+      <span class="brand__sub">Verified Nim Skills</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+      <li><a href="index.html">Product</a></li>
+      <li><a href="why.html" aria-current="page">Why verified</a></li>
+      <li><a href="posts/index.html">Evidence</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a class="btn btn--primary" href="get-access.html">Get access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<article>
+  <header class="article-header">
+    <div class="wrap">
+      <span class="eyebrow">why verified skills</span>
+      <h1>Why verified skills beat generated skills, docs and bigger models</h1>
+      <p class="lede measure">Any agent can write fluent Nim, and fluent advice about Nim. Neither is checked until the compiler runs it. In Verified Nim Skills, the compiler has already run every testable claim, and it runs them again on new builds.</p>
+      <ul class="post-meta"><li>Updated <time datetime="2026-10-17">2026-10-17</time></li><li>4 min read</li></ul>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="article-layout">
+      <nav class="toc" aria-labelledby="toc-h">
+        <h2 id="toc-h">On this page</h2>
+        <ol>
+          <li><a href="#problem">The problem</a></li>
+          <li><a href="#generate">Self-written skills don&rsquo;t check themselves</a></li>
+          <li><a href="#small">Small, targeted, tested</a></li>
+          <li><a href="#mcp">Docs say what exists, not what is safe</a></li>
+          <li><a href="#cheap">Cheaper models become viable</a></li>
+          <li><a href="#subscription">Why a subscription</a></li>
+        </ol>
+      </nav>
+      <div class="prose">
+        <h2 id="problem">The problem: Nim that looks right</h2>
+        <p>Code models are weaker on low-resource languages, and Nim is one.<sup class="fnref"><a href="#fn-9" id="fnref-9">9</a></sup> The dangerous mistakes compile: ownership hooks that crash on legal reuse, copy guards that miss aliasing, fuzz harnesses that die on an empty input. They pass the happy-path test and fail in production.</p>
+        <p>An agent cannot catch these by reading. Someone has to run the code. <a href="posts/moved-from-object-segfaults.html">See three real examples &rarr;</a></p>
+
+        <h2 id="generate">Self-written skills don&rsquo;t check themselves</h2>
+        <p>Claude Code and Codex both ship skill creators.<sup class="fnref"><a href="#fn-1" id="fnref-1">1</a></sup> The output reads well. It is not verified.</p>
+        <p>SkillsBench measured this directly. Curated skills raised task success by about 16 percentage points. Skills that models wrote for themselves gave no average gain.<sup class="fnref"><a href="#fn-2" id="fnref-2">2</a></sup> In the authors&rsquo; words, models &ldquo;cannot reliably author the procedural knowledge they benefit from consuming.&rdquo;</p>
+        <p>Generated skills improve only with a test loop.<sup class="fnref"><a href="#fn-3" id="fnref-3">3</a></sup> For Nim, that loop means test programs run against the real compiler, in debug and release, re-run on every new build. That loop is our product.</p>
+        <p>Our own carefully written drafts needed a correction or a caveat on about one claim in four. A self-generated skill carries the same kind of errors, unchecked. <a href="benchmarks.html#verification">What the audit found</a>.</p>
+
+        <h2 id="small">Why our skills are small, targeted and tested</h2>
+        <p>Bloated, unverified skill packs make agents worse:</p>
+        <ul>
+          <li>In SkillsBench, focused sets of two or three skills beat comprehensive bundles, which came out slightly negative. 16 of 84 tasks got worse with skills.<sup class="fnref"><a href="#fn-2" id="fnref-2b">2</a></sup></li>
+          <li>An ETH study found generic context files raised inference cost by over 20% without improving success.<sup class="fnref"><a href="#fn-4" id="fnref-4">4</a></sup> Model quality also drops as input grows.<sup class="fnref"><a href="#fn-5" id="fnref-5">5</a></sup></li>
+        </ul>
+        <p>Each of our skills covers one topic, so the agent loads one or two, not twenty. Every edit is evidence-gated: we tighten or delete before we add. Trimming one verified skill that made agents over-measure cut mean agent time per task by 44%, at the same pass rate.</p>
+        <p>Skills also have to load. Agents skip unforced skills often,<sup class="fnref"><a href="#fn-6" id="fnref-6">6</a></sup><sup class="fnref"><a href="#fn-7" id="fnref-7">7</a></sup> so onboarding includes a two-line <code>AGENTS.md</code> pointer that tells the agent to load them.</p>
+
+        <h2 id="mcp">Docs say what exists, not what is safe</h2>
+        <p>Context7 indexes Nim and Nimony, and nimlangserver has an MCP mode.<sup class="fnref"><a href="#fn-8" id="fnref-8">8</a></sup> Keep them. They answer &ldquo;what API exists&rdquo;.</p>
+        <p>They don&rsquo;t answer &ldquo;will this crash&rdquo;. No doc page lists compiler bugs nobody has found yet. Our verification found one, a <a href="posts/release-build-swallowed-the-error.html">release build that silently drops errors</a>, and got it fixed upstream. Raw docs also add the context volume the studies above warn about.</p>
+        <div class="callout callout--ok"><span class="callout__title">The setup that works</span><p>Keep a docs MCP for lookup, add Verified Nim Skills for what is safe, and put a two-line pointer in <code>AGENTS.md</code> so the agent loads them. <a href="get-access.html#pointer">Copy the pointer</a>.</p></div>
+
+        <h2 id="cheap">Cheaper models become viable</h2>
+        <p>A bigger model costs more on every call. Claude Opus 5.5 lists at $4 input and $20 output per million tokens;<sup class="fnref"><a href="#fn-11" id="fnref-11">11</a></sup> DeepSeek-V4-Flash-class models list at about $0.14 and $0.28.<sup class="fnref"><a href="#fn-10" id="fnref-10">10</a></sup> And no model, however large, has seen the compiler build you installed last week.</p>
+        <p>With our skills, a low-cost model passed 18 of 20 hard Nim tasks. Without them, it passed 3 of 20. Each skill-guided attempt used about twice the tokens, yet each solved task cost about $0.05 instead of $0.21. A larger model without skills passed 0 of 6. That is why we build and test the skills on low-cost, fast models. <a href="benchmarks.html#cost">See all 40 blind trials</a>. Published work points the same way: smaller models with good skills compete with larger models without them.<sup class="fnref"><a href="#fn-2" id="fnref-2c">2</a></sup><sup class="fnref"><a href="#fn-6" id="fnref-6b">6</a></sup></p>
+
+        <h2 id="subscription">Why a subscription, not a download</h2>
+        <p>Compilers move, and correct guidance goes stale without anyone touching it. A moved library path broke all 12 tests of one skill during our own verification. Newer rules required an explicit <code>std/syncio</code> import. An API a skill named had been renamed.</p>
+        <p>The test suite turns that drift into a list of failures we fix before your agent hits them. You pay for that stream. Cancel, and you keep what you received.</p>
+
+        <div class="cta next-steps">
+          <div><h2>Give your agent the compiler&rsquo;s view of Nim</h2><p>The full verified catalog from $10 a month.</p></div>
+          <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access</a><a class="btn" href="pricing.html">See pricing</a></div>
+        </div>
+
+        <section class="footnotes" aria-labelledby="fn-h">
+          <h2 id="fn-h">Sources</h2>
+          <ol>
+            <li id="fn-1"><a href="https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills">Anthropic: Improving skill-creator</a>; <a href="https://learn.chatgpt.com/docs/build-skills">OpenAI: Build skills</a>. <a class="fn-back" href="#fnref-1" aria-label="Back to reference 1">&#8617;</a></li>
+            <li id="fn-2">SkillsBench, <a href="https://arxiv.org/abs/2602.12670">arXiv:2602.12670</a> (v1 figures: 24.3% &rarr; 40.6% curated; &minus;1.3pp self-generated; <a href="https://arxiv.org/html/2602.12670v1">v1 HTML</a>). Not a Nim-specific study. <a class="fn-back" href="#fnref-2" aria-label="Back to reference 2">&#8617;</a></li>
+            <li id="fn-3">SkillAxe, <a href="https://arxiv.org/abs/2606.10546">arXiv:2606.10546</a>: evaluation-guided refinement closed 47&ndash;67% of the gap to human-written skills. <a class="fn-back" href="#fnref-3" aria-label="Back to reference 3">&#8617;</a></li>
+            <li id="fn-4">Evaluating AGENTS.md (ICLR 2026), <a href="https://arxiv.org/abs/2602.11988">arXiv:2602.11988</a>. <a class="fn-back" href="#fnref-4" aria-label="Back to reference 4">&#8617;</a></li>
+            <li id="fn-5"><a href="https://research.trychroma.com/context-rot">Chroma: Context rot</a>. <a class="fn-back" href="#fnref-5" aria-label="Back to reference 5">&#8617;</a></li>
+            <li id="fn-6"><a href="https://tessl.io/blog/a-proposed-framework-for-evaluating-skills-research-eng-blog">Tessl: A proposed framework for evaluating skills</a>. <a class="fn-back" href="#fnref-6" aria-label="Back to reference 6">&#8617;</a></li>
+            <li id="fn-7"><a href="https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals">Vercel: AGENTS.md outperforms skills in our agent evals</a>. <a class="fn-back" href="#fnref-7" aria-label="Back to reference 7">&#8617;</a></li>
+            <li id="fn-8"><a href="https://context7.com/api/v2/libs/search?libraryName=nimony&amp;query=nimony">Context7 library search: nimony</a>; <a href="https://vibehackers.io/mcp/nimlangserver">nimlangserver MCP</a>. <a class="fn-back" href="#fnref-8" aria-label="Back to reference 8">&#8617;</a></li>
+            <li id="fn-9">MultiPL-T, <a href="https://arxiv.org/pdf/2308.09895">arXiv:2308.09895</a>; survey of low-resource code generation, <a href="https://arxiv.org/pdf/2410.03981">arXiv:2410.03981</a>. <a class="fn-back" href="#fnref-9" aria-label="Back to reference 9">&#8617;</a></li>
+            <li id="fn-10">Aggregator figure, October 2026: <a href="https://cloudzero.com/blog/deepseek-pricing/">CloudZero: DeepSeek pricing</a>. <a class="fn-back" href="#fnref-10" aria-label="Back to reference 10">&#8617;</a></li>
+            <li id="fn-11"><a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic pricing</a>, October 2026. <a class="fn-back" href="#fnref-11" aria-label="Back to reference 11">&#8617;</a></li>
+          </ol>
+        </section>
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="why.html">Why verified skills?</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="get-access.html">Get access</a></li>
+          <li><a href="benchmarks.html">Benchmarks</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Evidence</h2>
+        <ul>
+          <li><a href="posts/index.html">Articles</a></li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <ul>
+          <li><a href="https://github.com/planetis-m/nyx">NYX installer</a></li>
+          <li><a href="https://github.com/planetis-m/skills">Public skills (CC BY-NC-SA 4.0)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Company</h2>
+        <ul>
+          <li><a href="license.html">Commercial license</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="terms.html#refunds">Refunds</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="mailto:verified.nim@gmail.com">verified.nim@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__legal">
+      <span>&copy; 2026 GERALIS A KAI SIA L.P.</span>
+      <span class="mono">static site &middot; no trackers &middot; no cookies</span><!-- CONTENT: keep true; remove if analytics are ever added -->
+    </div>
+  </div>
+</footer>
+</body>
+</html>

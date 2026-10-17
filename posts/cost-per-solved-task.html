@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM cost per solved task: 40 blind Nim agent trials</title>
+<meta name="description" content="A low-cost model solved 18 of 20 hard Nim tasks with verified skills and 3 of 20 without. Attempts cost more; each solved task cost a quarter as much.">
+<meta name="author" content="Antonis Geralis">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://verified-nim.github.io/posts/cost-per-solved-task.html">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<meta property="og:site_name" content="Verified Nim Skills">
+<meta property="og:title" content="Cost per solved task: what a cheap coding agent really costs on Nim">
+<meta property="og:description" content="A low-cost model solved 18 of 20 hard Nim tasks with verified skills and 3 of 20 without. Attempts cost more; each solved task cost a quarter as much.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://verified-nim.github.io/posts/cost-per-solved-task.html">
+<meta property="article:published_time" content="2026-10-17">
+<meta property="article:author" content="Antonis Geralis">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Cost per solved task: what a cheap coding agent really costs on Nim",
+  "description": "A low-cost model solved 18 of 20 hard Nim tasks with verified skills and 3 of 20 without. Attempts cost more; each solved task cost a quarter as much.",
+  "datePublished": "2026-10-17",
+  "dateModified": "2026-10-17",
+  "author": {
+    "@type": "Person",
+    "name": "Antonis Geralis",
+    "url": "https://github.com/planetis-m"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://verified-nim.github.io/posts/cost-per-solved-task.html"
+  },
+  "url": "https://verified-nim.github.io/posts/cost-per-solved-task.html",
+  "inLanguage": "en",
+  "keywords": "Nim, AI coding agents, agent skills, LLM cost"
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/img/nyx-logo.svg" alt="NYX" width="192" height="48">
+      <span class="brand__sub">Verified Nim Skills</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+      <li><a href="../index.html">Product</a></li>
+      <li><a href="../why.html">Why verified</a></li>
+      <li><a href="../posts/index.html" aria-current="page">Evidence</a></li>
+      <li><a href="../pricing.html">Pricing</a></li>
+      <li><a class="btn btn--primary" href="../get-access.html">Get access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<article>
+  <header class="article-header">
+    <div class="wrap">
+      <p class="mb-0"><a class="btn btn--ghost" href="index.html">&larr; All articles</a></p>
+      <span class="eyebrow">benchmark</span>
+      <h1>Cost per solved task: what a cheap coding agent really costs on Nim</h1>
+      <ul class="post-meta">
+        <li><time datetime="2026-10-17">17 October 2026</time></li>
+        <li>Antonis Geralis</li>
+        <li>4 min read</li>
+        <li><span class="badge badge--ok">pre-registered study</span></li>
+      </ul>
+      <p class="lede measure">Budget per solved task, not per attempt. The same low-cost model solved 18 of 20 hard Nim tasks with our verified skills and 3 of 20 without. Each skill-guided attempt cost more, yet a solved task cost about <strong>$0.05 instead of $0.21</strong>.</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="article-layout">
+      <nav class="toc" aria-labelledby="toc-h">
+        <h2 id="toc-h">On this page</h2>
+        <ol>
+          <li><a href="#result">18 of 20 with the skill, 3 of 20 without</a></li>
+          <li><a href="#per-attempt">Why cost per attempt misleads</a></li>
+          <li><a href="#tasks">The four tasks</a></li>
+          <li><a href="#bigger-model">&ldquo;Just use a bigger model?&rdquo;</a></li>
+          <li><a href="#lean">Where the skill didn&rsquo;t pay</a></li>
+          <li><a href="#method">Method</a></li>
+        </ol>
+      </nav>
+
+      <div class="prose">
+        <h2 id="result">18 of 20 with the skill, 3 of 20 without</h2>
+        <p>We gave a low-cost model, DeepSeek V4.1 Flash at maximum thinking, four hard Nim tasks and ran each one five times with our verified skill and five times without. Every run was blind and sandboxed, scored by deterministic checks, with the plan fixed before the first run.</p>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead><tr><th scope="col">Same model, 20 trials per arm</th><th scope="col" class="is-us">Verified skill</th><th scope="col">No skill</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Tasks solved</th><td class="is-us"><span class="yes"><strong>18/20</strong></span></td><td><span class="no">3/20</span></td></tr>
+              <tr><th scope="row">Tokens per attempt</th><td class="is-us">3.1M</td><td>1.6M</td></tr>
+              <tr><th scope="row">API cost per attempt</th><td class="is-us">$0.048</td><td>$0.028</td></tr>
+              <tr><th scope="row">API cost per solved task</th><td class="is-us"><strong>$0.054</strong></td><td>$0.206</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="per-attempt">Why cost per attempt misleads</h2>
+        <p>With the skill loaded, the agent read more, checked its own output more often and made more tool calls. That doubled the tokens per attempt. Compare agents per attempt and the unguided one wins, but only because most of its attempts stopped early with a wrong answer.</p>
+        <p>Look at the totals instead. Twenty skill-guided attempts cost <strong>$0.97 and produced 18 solutions</strong>. Twenty unguided attempts cost <strong>$0.62 and produced 3</strong>. On three of the four tasks the unguided agent never passed in five tries, so its cost per solved task there is not higher; it is undefined. You can keep paying for attempts and still have nothing to merge.</p>
+        <p>The API bill is a few cents either way. The expensive part is an engineer reviewing a confident, plausible result that is wrong. The skill cut that from 17 results in 20 to 2 in 20.</p>
+
+        <h2 id="tasks">The four tasks</h2>
+        <p>Each task is work where an agent can produce something that compiles and looks finished but fails a check that matters in production. Task contents stay private so that models cannot be trained to the test.</p>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead><tr><th scope="col">Task (5 runs per arm)</th><th scope="col" class="is-us">Verified skill</th><th scope="col">No skill</th><th scope="col">Fisher p</th><th scope="col">Cost per solve</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Bug report with a reproducer for an intermittent crash</th><td class="is-us"><span class="yes">5/5</span></td><td><span class="no">0/5</span></td><td>0.008</td><td>$0.028 / &ndash;</td></tr>
+              <tr><th scope="row">C-to-Nim port of a tool with a latent bug</th><td class="is-us"><span class="yes">5/5</span></td><td><span class="no">0/5</span></td><td>0.008</td><td>$0.060 / &ndash;</td></tr>
+              <tr><th scope="row">Error handling across modules and a teammate&rsquo;s API</th><td class="is-us"><span class="yes">3/5</span></td><td><span class="no">0/5</span></td><td>0.17</td><td>$0.055 / &ndash;</td></tr>
+              <tr><th scope="row">Manually managed container with lifecycle hooks</th><td class="is-us"><span class="yes">5/5</span></td><td>3/5</td><td>0.44</td><td>$0.074 / $0.108</td></tr>
+              <tr><th scope="row">Total</th><td class="is-us"><strong>18/20</strong></td><td><strong>3/20</strong></td><td></td><td><strong>$0.054 / $0.206</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Cost per solve is skill / no skill; a dash means no run solved the task. The bug report and the port are five passes against zero, each significant on its own. Error handling, 3/5 against 0/5, is a large gap that five runs cannot confirm alone.</p>
+
+        <h2 id="bigger-model">&ldquo;Just use a bigger model?&rdquo;</h2>
+        <p>On the bug-report and port tasks we also ran DeepSeek V4 Pro, a larger and pricier model, without skills.</p>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead><tr><th scope="col">Bug report and port tasks</th><th scope="col" class="is-us">Cheap model + verified skill</th><th scope="col">Larger model, no skill</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Tasks solved</th><td class="is-us"><span class="yes"><strong>10/10</strong></span></td><td><span class="no">0/6</span></td></tr>
+              <tr><th scope="row">Cost per attempt, bug report</th><td class="is-us">$0.028</td><td>$0.029</td></tr>
+              <tr><th scope="row">Cost per attempt, port</th><td class="is-us">$0.060</td><td>$0.251</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The larger model passed <strong>0 of 6</strong>. On the port it cost about four times as much per attempt, took about twice as long and failed the same checks as the cheap unguided model. A bigger model knows more in general. It did not discover the Nim-specific conventions and pitfalls that decide these tasks. The skill puts them in front of the agent, so a cheap model gets them right.</p>
+
+        <h2 id="lean">Where the skill didn&rsquo;t pay</h2>
+        <p>On the container task the model already copes: 3 of 5 without the skill, 5 of 5 with it. That gain is not significant, and each skill-guided attempt cost about 30% more. Cost per solved task was still lower, but we would not sell a skill on that margin. Every line of guidance costs tokens on every run, so when a model starts solving a task unaided, we prune the guidance for it.</p>
+
+        <h2 id="method">Method</h2>
+        <div class="callout callout--note"><span class="callout__title">How the study ran</span>
+          <p>Tasks, arms, metrics and scorers were fixed in writing before the first run. Each trial ran blind in a fresh sandbox; a pass meant every deterministic check passed. Costs are recomputed from logged token counts at the provider&rsquo;s off-peak API rates; at peak rates every dollar figure doubles and the ratios stay the same. The tasks were picked because they had separated skill from no skill before, so the gaps are a best case for hard Nim work, not an average. Sample sizes and the remaining notes are on the <a href="../benchmarks.html#scope">benchmarks page</a>.</p>
+        </div>
+        <p>For the kind of Nim code that compiles, passes a quick test and is still wrong, see <a href="moved-from-object-segfaults.html">why a moved-from object segfaults on reuse</a>.</p>
+
+        <aside class="next-steps cta" aria-labelledby="next-h">
+          <div><h2 id="next-h">Make your cheap agent finish the job</h2><p>The full verified Nim catalog, maintained and updated, from $10 a month.</p></div>
+          <div class="btn-row"><a class="btn btn--primary" href="../get-access.html">Get access</a><a class="btn" href="../pricing.html">Pricing</a></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../index.html">Overview</a></li>
+          <li><a href="../why.html">Why verified skills?</a></li>
+          <li><a href="../pricing.html">Pricing</a></li>
+          <li><a href="../get-access.html">Get access</a></li>
+          <li><a href="../benchmarks.html">Benchmarks</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Evidence</h2>
+        <ul>
+          <li><a href="../posts/index.html">Articles</a></li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <ul>
+          <li><a href="https://github.com/planetis-m/nyx">NYX installer</a></li>
+          <li><a href="https://github.com/planetis-m/skills">Public skills (CC BY-NC-SA 4.0)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Company</h2>
+        <ul>
+          <li><a href="../license.html">Commercial license</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+          <li><a href="../privacy.html">Privacy</a></li>
+          <li><a href="mailto:verified.nim@gmail.com">verified.nim@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__legal">
+      <span>&copy; 2026 GERALIS A KAI SIA L.P.</span>
+      <span class="mono">static site &middot; no trackers &middot; no cookies</span><!-- CONTENT: keep true; remove if analytics are ever added -->
+    </div>
+  </div>
+</footer>
+</body>
+</html>

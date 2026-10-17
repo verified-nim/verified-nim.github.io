@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nimony release build silently drops a raised error</title>
+<meta name="description" content="Debug raised; -d:release returned 42. Checking an agent skill against Nimony found 7 error-handling compiler bugs, all fixed upstream the next day.">
+<meta name="author" content="Antonis Geralis">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://verified-nim.github.io/posts/release-build-swallowed-the-error.html">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<meta property="og:site_name" content="Verified Nim Skills">
+<meta property="og:title" content="Your Nimony release build swallowed the error">
+<meta property="og:description" content="Debug raised; -d:release returned 42. Checking an agent skill against Nimony found 7 error-handling compiler bugs, all fixed upstream the next day.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://verified-nim.github.io/posts/release-build-swallowed-the-error.html">
+<meta property="article:published_time" content="2026-10-17">
+<meta property="article:author" content="Antonis Geralis">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Your Nimony release build swallowed the error",
+  "description": "Debug raised; -d:release returned 42. Checking an agent skill against Nimony found 7 error-handling compiler bugs, all fixed upstream the next day.",
+  "datePublished": "2026-10-17",
+  "dateModified": "2026-10-17",
+  "author": {
+    "@type": "Person",
+    "name": "Antonis Geralis",
+    "url": "https://github.com/planetis-m"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://verified-nim.github.io/posts/release-build-swallowed-the-error.html"
+  },
+  "url": "https://verified-nim.github.io/posts/release-build-swallowed-the-error.html",
+  "inLanguage": "en",
+  "keywords": "Nimony, Nim, error handling, compiler bugs"
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/img/nyx-logo.svg" alt="NYX" width="192" height="48">
+      <span class="brand__sub">Verified Nim Skills</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+      <li><a href="../index.html">Product</a></li>
+      <li><a href="../why.html">Why verified</a></li>
+      <li><a href="../posts/index.html" aria-current="page">Evidence</a></li>
+      <li><a href="../pricing.html">Pricing</a></li>
+      <li><a class="btn btn--primary" href="../get-access.html">Get access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<article>
+  <header class="article-header">
+    <div class="wrap">
+      <p class="mb-0"><a class="btn btn--ghost" href="index.html">&larr; All articles</a></p>
+      <span class="eyebrow">nimony &middot; upstream</span>
+      <h1>Your Nimony release build swallowed the error</h1>
+      <ul class="post-meta">
+        <li><time datetime="2026-10-17">17 October 2026</time></li>
+        <li>Antonis Geralis</li>
+        <li>5 min read</li>
+        <li><span class="badge badge--err">reproduced on Nimony 0.6.3 @ 5574918d</span></li>
+        <li><span class="badge badge--ok">fix verified on Nimony 0.6.3 @ 0a20752c</span></li>
+      </ul>
+      <p class="lede measure">A Nimony routine raised an error. The debug build caught it; the release build returned 42 as if nothing had happened. Test error paths in the build mode you ship. Checking one AI-agent skill against the compiler found this bug, six more error-handling defects and three rules the compiler had already outgrown. All seven bugs were fixed upstream the next day.</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="article-layout">
+      <nav class="toc" aria-labelledby="toc-h">
+        <h2 id="toc-h">On this page</h2>
+        <ol>
+          <li><a href="#failure">Release returns 42, debug raises</a></li>
+          <li><a href="#why">Why debug tests never see it</a></li>
+          <li><a href="#rules">Three outdated rules, seven compiler bugs</a></li>
+          <li><a href="#moved">Then the compiler moved again</a></li>
+          <li><a href="#now">What the skill says now</a></li>
+        </ol>
+      </nav>
+
+      <div class="prose">
+        <h2 id="failure">Release returns 42, debug raises</h2>
+        <div class="diag diag--error" role="group" aria-label="Runtime output">
+          <div class="diag__head"><span class="diag__label">release build</span><span class="diag__msg">the raised IOError never reached the handler</span><span class="diag__loc">repro.nim</span></div>
+<pre class="diag__body"><code>$ nimony c -r repro.nim
+caught IOError
+$ nimony c -d:release -r repro.nim
+<span class="hl">outer(-1) returned 42</span></code></pre>
+          <div class="diag__note"><p>Same source, same compiler. Only <code>-d:release</code> differs.</p></div>
+        </div>
+        <figure class="code-block">
+          <figcaption><span>repro.nim</span><span>Nimony 0.6.3 @ 5574918d</span></figcaption>
+<pre><code><span class="tok-k">import</span> std/syncio
+
+<span class="tok-k">proc</span> leaf(x: int) {.raises, noinline.} =
+  <span class="tok-k">if</span> x &lt; <span class="tok-n">0</span>: <span class="tok-k">raise</span> IOError
+
+<span class="tok-k">proc</span> relay(x: int) {.raises.} = leaf(x)   <span class="tok-c"># small: gets spliced</span>
+
+<span class="tok-k">proc</span> outer(x: int): int {.raises, noinline.} =
+  relay(x)
+  result = <span class="tok-n">42</span>
+
+<span class="tok-k">try</span>:
+  <span class="tok-k">let</span> r = outer(-<span class="tok-n">1</span>)
+  echo <span class="tok-s">"outer(-1) returned "</span>, r
+<span class="tok-k">except</span> ErrorCode <span class="tok-k">as</span> e:
+  echo <span class="tok-s">"caught "</span>, e</code></pre>
+        </figure>
+        <p><code>leaf(-1)</code> raises, <code>relay</code> and <code>outer</code> forward it, and the <code>try</code> should catch it. In a release build, <code>outer</code> returns 42, the <code>except</code> arm never runs, nothing reaches stderr and the exit code is 0.</p>
+        <p>It turned up while I was measuring a real JSON-Lines workload: a malformed record was accepted in the release build and never reported. Shipped, the first sign of trouble would have been bad data downstream.</p>
+
+        <h2 id="why">Why debug tests never see it</h2>
+        <p><code>relay</code> is tiny, so the optimizer splices its body into <code>outer</code>, and after the splice the check for a pending error looked at the wrong place. Debug builds do not inline <code>relay</code>, so every debug test passes. The upstream fix is in the inliner (<a href="https://github.com/nim-lang/nimony/pull/2682">nim-lang/nimony#2682</a>).<sup class="fnref" id="fnref-1"><a href="#fn-1" aria-describedby="fn-h">1</a></sup></p>
+        <p>An agent cannot reason its way to this. The source and the semantics on paper are correct. Only running the program under the flags you ship shows the problem.</p>
+
+        <h2 id="rules">Three outdated rules, seven compiler bugs</h2>
+        <p>The skill I was checking had been written quickly from documentation and experience. It stated three rules as fact, and on Nimony 0.6.3 at commit <code>5574918d</code> the compiler contradicted all three:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>The skill said</th><th>The compiler did</th></tr></thead>
+            <tbody>
+              <tr><td>Only <code>ErrorCode</code> can be raised.</td><td><code>{.raises: T.}</code> also accepted a domain enum (ordinals 1&ndash;255) and <code>ref object of Exception</code> types.</td></tr>
+              <tr><td>Exceptions never carry messages.</td><td>A <code>ref object of Exception</code> keeps <code>msg</code> and its own fields, at the cost of one allocation per raise.</td></tr>
+              <tr><td>Keep errors out of <code>Result</code>.</td><td><code>std/result</code> works. Don&rsquo;t wrap every internal helper in <code>Result</code>, but one <code>Result</code> per unit of work at a public entry point is fine.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>An agent following the old rules avoids features that work. An agent that finds those features unguided walks into the defects below, because they all sat on exactly those paths. I wrote a small program for each corrected claim and ran it in debug and release builds. Seven exposed compiler defects, filed on 15 October 2026 and all closed as completed the next day:</p>
+        <ul>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2674">#2674</a>: optimized builds silently drop an error raised through a spliced relay routine (the program above).</li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2675">#2675</a>: optimized builds fail C compilation when <code>except ErrorCode as e</code> follows a statement-position raising call.</li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2676">#2676</a>: <code>{.raises: Enum.}</code> truncates ordinals above 255 to 0, so the error becomes &ldquo;no error&rdquo;.</li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2677">#2677</a>: a plain <code>object</code> as the raises type passes semantic checking but produces invalid C.</li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2678">#2678</a>: typed ref <code>except</code> arms without a catch-all, in a non-raising routine, produce invalid C or silently swallow the exception.</li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2679">#2679</a>: an <code>ErrorCode</code> propagating into a ref-exception handler segfaults.</li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2680">#2680</a>: <code>except T as e</code> does not filter value-code error types, so a <code>B</code> arm catches an <code>A</code>.</li>
+        </ul>
+        <p>Four of the seven lose an error silently, catch the wrong one, or crash. None shows up in a debug-only test of the happy path.</p>
+
+        <h2 id="moved">Then the compiler moved again</h2>
+        <p>The fix for #2675&ndash;#2680 (<a href="https://github.com/nim-lang/nimony/pull/2695">nim-lang/nimony#2695</a>, merged on 16 October) also changed the language rule: <code>.raises</code> now takes <code>ErrorCode</code> or a <code>ref</code> object type, and nothing else. A domain enum accepted the day before is now rejected:</p>
+        <div class="diag diag--error" role="group" aria-label="Compiler error">
+          <div class="diag__head"><span class="diag__label"></span><span class="diag__msg"><code>.raises</code> takes <code>ErrorCode</code> or a <code>ref</code> object type, not <code>Code</code></span><span class="diag__loc">enumraise.nim(3, 34)</span></div>
+<pre class="diag__body"><code><span class="tok-k">type</span> Code = <span class="tok-k">enum</span> cNone, cBad
+<span class="tok-k">proc</span> leaf(x: int): int {.raises: Code.} =
+<span class="caret">                                 ^</span></code></pre>
+          <div class="diag__note"><p>Nimony 0.6.3 @ <code>0a20752c</code>, which includes the fixes. The same file compiled on <code>5574918d</code>.</p></div>
+        </div>
+        <p>So my correction (&ldquo;domain enums work too&rdquo;) was out of date one day after I made it, and the version string still said <code>0.6.3</code>. Re-running the suite on the new build failed exactly the tests that pinned the old behavior, which marked the sentences in the skill that had to change. An agent&rsquo;s knowledge of a compiler that changes weekly is a snapshot of an unknown date. Re-verification is what keeps the guidance current, and it is what the subscription pays for.</p>
+
+        <h2 id="now">What the skill says now</h2>
+        <div class="diag diag--ok" role="group" aria-label="Verified">
+          <div class="diag__head"><span class="diag__label">verified</span><span class="diag__msg">prints <code>expected a digit at 1</code> on 5574918d and 0a20752c</span></div>
+<pre class="diag__body"><code><span class="tok-k">type</span>
+  ParseError = <span class="tok-k">ref object of</span> Exception
+    pos: int
+
+<span class="tok-k">proc</span> parseDigit(s: string; i: int): int {.raises: ParseError.} =
+  <span class="tok-k">if</span> s[i] <span class="tok-k">notin</span> {<span class="tok-s">'0'</span>..<span class="tok-s">'9'</span>}:
+    <span class="tok-k">raise</span> ParseError(msg: <span class="tok-s">"expected a digit"</span>, pos: i)
+  result = ord(s[i]) - ord(<span class="tok-s">'0'</span>)
+
+<span class="tok-k">try</span>:
+  <span class="tok-k">discard</span> parseDigit(<span class="tok-s">"4x"</span>, <span class="tok-n">1</span>)
+<span class="tok-k">except</span> ParseError <span class="tok-k">as</span> e:
+  echo e.msg, <span class="tok-s">" at "</span>, e.pos</code></pre>
+        </div>
+        <p>Use <code>ErrorCode</code> for cheap, message-free errors and a <code>ref</code> exception type when the handler needs context, and test error paths in the build mode you ship, not only in debug. Every Nim and Nimony skill in the catalog is checked against the compiler this way; the <a href="moved-from-object-segfaults.html">ownership-hooks case study</a> shows what that catches in Nim 2.</p>
+        <p class="muted small">Run on Linux amd64 with the C backend and the default memory manager. Nimony is pre-1.0; treat any rule here as true for the commits named.</p>
+
+        <section class="footnotes" aria-labelledby="fn-h">
+          <h2 id="fn-h">Notes</h2>
+          <ol>
+            <li id="fn-1">I reproduced #2674 by building Nimony at commit <code>5574918d</code> from source and running the program above with and without <code>-d:release</code>. On a build at <code>0a20752c</code>, which contains the upstream fix commits <code>c3c6013d</code> (#2682) and <code>159960c3</code> (#2695), both builds print <code>caught IOError</code>. <a class="fn-back" href="#fnref-1" aria-label="Back to reference 1">&#8617;</a></li>
+          </ol>
+        </section>
+
+        <aside class="next-steps cta" aria-labelledby="next-h">
+          <div><h2 id="next-h">Give your agent guidance that tracks the compiler</h2><p>The verified catalog covers Nim and Nimony error handling and is re-checked when the compiler changes. From $10/month.</p></div>
+          <div class="btn-row"><a class="btn btn--primary" href="../get-access.html">Get access</a><a class="btn" href="../pricing.html">Pricing</a></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../index.html">Overview</a></li>
+          <li><a href="../why.html">Why verified skills?</a></li>
+          <li><a href="../pricing.html">Pricing</a></li>
+          <li><a href="../get-access.html">Get access</a></li>
+          <li><a href="../benchmarks.html">Benchmarks</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Evidence</h2>
+        <ul>
+          <li><a href="../posts/index.html">Articles</a></li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <ul>
+          <li><a href="https://github.com/planetis-m/nyx">NYX installer</a></li>
+          <li><a href="https://github.com/planetis-m/skills">Public skills (CC BY-NC-SA 4.0)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Company</h2>
+        <ul>
+          <li><a href="../license.html">Commercial license</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+          <li><a href="../privacy.html">Privacy</a></li>
+          <li><a href="mailto:verified.nim@gmail.com">verified.nim@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__legal">
+      <span>&copy; 2026 GERALIS A KAI SIA L.P.</span>
+      <span class="mono">static site &middot; no trackers &middot; no cookies</span><!-- CONTENT: keep true; remove if analytics are ever added -->
+    </div>
+  </div>
+</footer>
+</body>
+</html>

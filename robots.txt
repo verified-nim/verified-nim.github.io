@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://verified-nim.github.io/sitemap.xml

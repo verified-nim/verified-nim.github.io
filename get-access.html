@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get access · Verified Nim Skills</title>
+<meta name="description" content="Subscribe, connect GitHub, accept the repository invite, run NYX. Step-by-step onboarding with the real commands.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://verified-nim.github.io/get-access.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+<meta property="og:title" content="Get access · Verified Nim Skills">
+<meta property="og:description" content="Subscribe, connect GitHub, accept the repository invite, run NYX. Step-by-step onboarding with the real commands.">
+<meta property="og:type" content="website">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html">
+      <img src="assets/img/nyx-logo.svg" alt="NYX" width="192" height="48">
+      <span class="brand__sub">Verified Nim Skills</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+      <li><a href="index.html">Product</a></li>
+      <li><a href="why.html">Why verified</a></li>
+      <li><a href="posts/index.html">Evidence</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a class="btn btn--primary" href="get-access.html" aria-current="page">Get access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">get access</span>
+    <h1 class="hero__title">Verified Nim skills in your agent in minutes</h1>
+    <p class="hero__lede">Subscribe, accept a read-only GitHub invite and run NYX. Your GitHub account is the only login. Works with Claude Code, Codex, Cursor, Copilot and more.</p>
+    <div class="btn-row hero__actions">
+      <a class="btn btn--primary" href="https://buy.polar.sh/polar_cl_0Y28AHDviXSKxW1s3GhXQqmw2QxmWXv1Ilf2l16KJB8">Subscribe yearly &middot; $96 founding rate</a><!-- CONTENT: after 30 November 2026 point this at https://buy.polar.sh/polar_cl_GVLvyxp7bhwlZFjo4WOQdZ655Hq7VNmu11beS3AawX0 and change the label to $120 -->
+      <a class="btn" href="https://buy.polar.sh/polar_cl_1h1BcCbUKh6bjNUS4w4C9MuVhxv9o2l8X8B7P0wlyEC">Subscribe monthly &middot; $15</a>
+      <a class="btn btn--ghost" href="mailto:verified.nim@gmail.com?subject=Team%20seats">Email us for Team seats</a>
+    </div>
+    <p class="hero__note">Checkout by Polar (merchant of record). Founding rate until 30 November 2026, kept for as long as your subscription stays active. After that, yearly is $120. Prices include VAT where applicable. By subscribing you ask for immediate access to the private repository and acknowledge that you lose your 14-day right of withdrawal once access is granted. No refunds after that, except where the law requires. <a href="terms.html#refunds">Refund terms</a>. <a href="pricing.html">Pricing details</a>.</p>
+  </div>
+</section>
+
+<section class="section" id="onboarding" aria-labelledby="onb-h">
+  <div class="wrap">
+    <div class="section__head"><span class="eyebrow">onboarding</span><h2 id="onb-h">From payment to installed skills</h2></div>
+    <div class="measure">
+    <ol class="steps">
+      <li><h3>Connect your GitHub account</h3>
+        <p>After checkout, open the customer portal (linked in your receipt email, or at <code>https://polar.sh/verified-nim/portal</code>) and connect GitHub on the "GitHub repository access" benefit. This tells us which account to invite.</p>
+        <p class="small">Team: assign each seat to a teammate's email in the portal. Each teammate claims the seat (the link is valid 24 hours and can be resent) and connects their own GitHub account.<!-- CONTENT: until Polar seats are verified, Team is onboarded by email instead --></p></li>
+      <li><h3>Accept the repository invitation</h3>
+        <p>GitHub emails you an invite to <code>verified-nim/skills</code>. Accept it at <code>https://github.com/verified-nim/skills/invitations</code> while signed in to that account. Invites expire after 7 days; reconnect GitHub in the portal to get a new one.</p></li>
+      <li><h3>Let git reach the repository without prompting</h3>
+        <p>NYX does not prompt for passwords, so sign git in to GitHub first:</p>
+        <figure class="terminal" aria-label="Set up git credentials">
+<pre><code><span class="t-prompt">gh auth login</span>
+<span class="t-prompt">gh auth setup-git</span>
+<span class="t-prompt">git ls-remote https://github.com/verified-nim/skills</span>  <span class="t-dim"># lists refs, no password prompt</span></code></pre>
+        </figure>
+        <p class="small muted">Git Credential Manager or an SSH key work too.</p></li>
+      <li><h3>Install NYX</h3>
+        <figure class="terminal" aria-label="Install NYX on Linux or macOS">
+          <div class="terminal__bar"><span>Linux &amp; macOS</span><span>installs to ~/.local/bin</span></div>
+<pre><code><span class="t-prompt">curl -fsSL https://github.com/planetis-m/nyx/releases/latest/download/install.sh | sh</span></code></pre>
+        </figure>
+        <figure class="terminal" aria-label="Install NYX on Windows">
+          <div class="terminal__bar"><span>Windows (PowerShell)</span><span>installs to %LOCALAPPDATA%\Programs\nyx</span></div>
+<pre><code><span class="t-dim">PS&gt;</span> irm https://github.com/planetis-m/nyx/releases/latest/download/install.ps1 | iex</code></pre>
+        </figure>
+        <p class="small muted">Requires <code>git</code>. <a href="https://github.com/planetis-m/nyx">Source</a>.</p></li>
+      <li><h3>Run NYX in your project</h3>
+        <figure class="terminal" aria-label="First run">
+          <div class="terminal__bar"><span>in your repository root</span></div>
+<pre><code><span class="t-prompt">nyx</span></code></pre>
+        </figure>
+        <p>Pick your agent targets and skills in the wizard. Run <code>nyx</code> once in each new project, or <code>nyx setup -g</code> for user-level skill directories.</p></li>
+      <li id="pointer"><h3>Tell your agent the skills exist</h3>
+        <p>Agents load skills far more reliably when told the skills exist. Add this pointer to <code>AGENTS.md</code> or <code>CLAUDE.md</code>:</p>
+        <figure class="code-block">
+          <figcaption><span>AGENTS.md</span><span>example</span></figcaption>
+<pre><code>## Nim / Nimony
+Before writing, reviewing or debugging Nim or Nimony code, load the matching
+nim-* or nimony-* skill from the skills directory and follow it.</code></pre>
+        </figure>
+        <p class="small muted">Naming the skill in your prompt works too.</p></li>
+      <li><h3>Stay updated</h3>
+        <p>Running <code>nyx</code> checks for updates at most once every 30 days. Force it any time:</p>
+        <figure class="terminal" aria-label="Update">
+<pre><code><span class="t-prompt">nyx update</span>  <span class="t-dim"># update skills in every project and the user scope</span></code></pre>
+        </figure></li>
+    </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="targets" aria-labelledby="targets-h">
+  <div class="wrap">
+    <div class="section__head"><span class="eyebrow">reference</span><h2 id="targets-h">Commands and targets</h2>
+      <p>Only detected targets start ticked in the wizard. Targets sharing a skill directory install each skill once.</p></div>
+    <div class="split">
+      <div><figure class="terminal" aria-label="NYX commands">
+  <div class="terminal__bar"><span>nyx &mdash; commands</span><span>from the NYX README</span></div>
+<pre><code><span class="t-prompt">nyx</span>             <span class="t-dim"># set up this project, or show its status if already set up</span>
+<span class="t-prompt">nyx setup</span>       <span class="t-dim"># set up or reconfigure this project</span>
+<span class="t-prompt">nyx update</span>      <span class="t-dim"># update skills in every project and the user scope</span>
+<span class="t-prompt">nyx remove</span>      <span class="t-dim"># remove nyx from this project</span>
+<span class="t-prompt">nyx setup -g</span>    <span class="t-dim"># set up or reconfigure user-level skill directories</span>
+<span class="t-prompt">nyx remove -g</span>   <span class="t-dim"># remove nyx from user-level skill directories</span></code></pre>
+</figure></div>
+      <div><div class="table-wrap">
+  <table>
+    <caption>Agent targets NYX installs into (from the NYX README)</caption>
+    <thead><tr><th scope="col">Skill directory</th><th scope="col">Targets</th></tr></thead>
+    <tbody>
+      <tr><td><code>.agents/skills</code></td><td>Codex, Agents, Cursor, OpenCode, Antigravity, GitHub Copilot, Amp, Goose</td></tr>
+      <tr><td><code>.claude/skills</code></td><td>Claude Code</td></tr>
+      <tr><td><code>.cline/skills</code></td><td>Cline</td></tr>
+      <tr><td><code>.crush/skills</code></td><td>Crush</td></tr>
+      <tr><td><code>.devin/skills</code></td><td>Windsurf</td></tr>
+      <tr><td><code>.pi/skills</code></td><td>Pi</td></tr>
+      <tr><td><code>.roo/skills</code></td><td>Roo Code</td></tr>
+      <tr><td><code>.continue/skills</code></td><td>Continue</td></tr>
+    </tbody>
+  </table>
+</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="leave-h">
+  <div class="wrap">
+    <div class="section__head"><h2 id="leave-h">Cancelling</h2></div>
+    <div class="measure">
+      <p>Cancel in the <a href="https://polar.sh/verified-nim/portal">customer portal</a>. Repository access ends when the paid period ends. Access starts as soon as you connect GitHub, and from then on payments are non-refundable. Cancelling stops future renewals; it does not refund the current period.</p>
+      <div class="diag diag--note" role="group" aria-label="What NYX does without access">
+        <div class="diag__head"><span class="diag__label"></span><span class="diag__msg">repository unreachable</span></div>
+        <div class="diag__note"><p>Git never prompts for credentials; missing access leaves installed skills in place. You keep using the versions you received under the <a href="license.html">license</a>. Updates stop.</p></div>
+      </div>
+      <p>To remove skills from a project yourself, run <code>nyx remove</code>. It removes only what NYX created and leaves skills you edited alone.</p>
+      <p class="small muted">Invoices: add company name, address and VAT ID at checkout or in the portal. Help: <a href="mailto:verified.nim@gmail.com">verified.nim@gmail.com</a>.</p>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="why.html">Why verified skills?</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="get-access.html">Get access</a></li>
+          <li><a href="benchmarks.html">Benchmarks</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Evidence</h2>
+        <ul>
+          <li><a href="posts/index.html">Articles</a></li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <ul>
+          <li><a href="https://github.com/planetis-m/nyx">NYX installer</a></li>
+          <li><a href="https://github.com/planetis-m/skills">Public skills (CC BY-NC-SA 4.0)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Company</h2>
+        <ul>
+          <li><a href="license.html">Commercial license</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="terms.html#refunds">Refunds</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="mailto:verified.nim@gmail.com">verified.nim@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__legal">
+      <span>&copy; 2026 GERALIS A KAI SIA L.P.</span>
+      <span class="mono">static site &middot; no trackers &middot; no cookies</span><!-- CONTENT: keep true; remove if analytics are ever added -->
+    </div>
+  </div>
+</footer>
+</body>
+</html>

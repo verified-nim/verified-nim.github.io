@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchmarks · Verified Nim Skills</title>
+<meta name="description" content="40 pre-registered blind trials: a low-cost model passed 18/20 hard Nim tasks with verified skills and 3/20 without, at a quarter of the cost per solved task.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://verified-nim.github.io/benchmarks.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+<meta property="og:title" content="Benchmarks · Verified Nim Skills">
+<meta property="og:description" content="40 pre-registered blind trials: a low-cost model passed 18/20 hard Nim tasks with verified skills and 3/20 without, at a quarter of the cost per solved task.">
+<meta property="og:type" content="website">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html">
+      <img src="assets/img/nyx-logo.svg" alt="NYX" width="192" height="48">
+      <span class="brand__sub">Verified Nim Skills</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+      <li><a href="index.html">Product</a></li>
+      <li><a href="why.html">Why verified</a></li>
+      <li><a href="posts/index.html">Evidence</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a class="btn btn--primary" href="get-access.html">Get access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<article>
+  <header class="article-header">
+    <div class="wrap">
+      <span class="eyebrow">benchmarks</span>
+      <h1>18 of 20 with our skills. 3 of 20 without.</h1>
+      <p class="lede measure">Same low-cost model, a quarter of the cost per solved task. Below is every result from 40 pre-registered blind trials, with sample sizes and method notes.</p>
+      <ul class="post-meta"><li>Updated <time datetime="2026-10-17">2026-10-17</time></li></ul>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="article-layout">
+      <nav class="toc" aria-labelledby="toc-h">
+        <h2 id="toc-h">On this page</h2>
+        <ol>
+          <li><a href="#cost">Pass rate and cost per solved task</a></li>
+          <li><a href="#trials">Verified skill vs its unverified draft</a></li>
+          <li><a href="#verification">What the compiler audit found</a></li>
+          <li><a href="#scope">Scope and method notes</a></li>
+          <li><a href="#next">What comes next</a></li>
+        </ol>
+      </nav>
+      <div class="prose">
+        <h2 id="cost">Pass rate and cost per solved task</h2>
+        <p>In October 2026 we ran a pre-registered study: four hard Nim tasks, five blind runs per arm, a low-cost model (DeepSeek V4.1 Flash, maximum thinking) with and without the verified skill. Tasks, arms, metrics and scorers were fixed before the first run. Costs are recomputed from logged tokens at the provider's off-peak API rates.</p>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead><tr><th scope="col">Task (5 runs per arm)</th><th scope="col" class="is-us">Verified skill</th><th scope="col">No skill</th><th scope="col">Fisher p</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Bug report with a reproducer</th><td class="is-us"><span class="yes">5/5</span></td><td><span class="no">0/5</span></td><td>0.008</td></tr>
+              <tr><th scope="row">C-to-Nim port of a tool with a latent bug</th><td class="is-us"><span class="yes">5/5</span></td><td><span class="no">0/5</span></td><td>0.008</td></tr>
+              <tr><th scope="row">Error handling across modules</th><td class="is-us"><span class="yes">3/5</span></td><td><span class="no">0/5</span></td><td>0.17</td></tr>
+              <tr><th scope="row">Manually managed container with lifecycle hooks</th><td class="is-us"><span class="yes">5/5</span></td><td>3/5</td><td>0.44</td></tr>
+              <tr><th scope="row">Total</th><td class="is-us"><strong>18/20</strong></td><td><strong>3/20</strong></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul>
+          <li><strong>Per attempt</strong>, the skill-guided agent used about twice the tokens (3.1M vs 1.6M) and cost about $0.048 vs $0.028.</li>
+          <li><strong>Per solved task</strong>, it cost about <strong>$0.05 vs $0.21</strong>: four times cheaper, because the unguided agent rarely finishes.</li>
+          <li><strong>A larger model</strong> (DeepSeek V4 Pro) without skills passed 0 of 6 on the bug-report and port tasks, at the same or up to four times the cost per attempt.</li>
+          <li>On the container task the model already copes; there the skill adds about 30% cost for a gain that is not statistically significant.</li>
+        </ul>
+        <p>Read <a href="posts/cost-per-solved-task.html">the full write-up of the cost study</a>.</p>
+
+        <h2 id="trials">Verified skill vs its unverified draft</h2>
+        <p>The verified skill passed every run; its unverified draft passed one in three. Agents solved each task in a sandbox with the verified skill, the unverified draft of the same skill, or no skill, and deterministic checks scored the result. Recent runs used a low-cost, fast model in the DeepSeek-V4-Flash class.</p>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead><tr><th scope="col">Task (3 runs per arm)</th><th scope="col" class="is-us">Verified skill</th><th scope="col">Unverified draft</th><th scope="col">No skill</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Bug-report drafting</th><td class="is-us"><span class="yes">3/3</span></td><td>1/3</td><td><span class="no">0/3</span></td></tr>
+              <tr><th scope="row">C-to-Nim port of a tool with a latent bug</th><td class="is-us"><span class="yes">3/3</span></td><td>1/3</td><td><span class="no">0/3</span></td></tr>
+              <tr><th scope="row">Error-handling discipline across modules</th><td class="is-us"><span class="yes">3/3</span></td><td>1/3</td><td><span class="no">0/3</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Probes across the catalog.</strong> On 12 of 17 skills, the agent without the skill failed a check that the skill-guided agent passed (one run per arm). The failures included a use-after-free under self-assignment aliasing, C-library build configuration that only works on one machine, fuzz harnesses missing required flags, and test runners that silently skip new tests.</p>
+        <p><strong>Effort.</strong> Trimming one skill cut mean agent time per task by 44% (about 1,480 s to 824 s) at the same 3/3 pass rate. Maintenance pays off even when a task already passes.</p>
+
+        <h2 id="verification">What the compiler audit found</h2>
+        <p>This evidence does not depend on agent behavior at all.</p>
+        <ul>
+          <li><strong>912 claims</strong> across 21 skills, checked against Nim 2.3.1 or Nimony 0.6.3. 783 are testable by a program; the rest are process advice.</li>
+          <li><strong>690 compiler-run test programs</strong> back the testable claims.</li>
+          <li><strong>127 statements corrected</strong> from the first drafts, and <strong>104</strong> given a precise caveat: right in the common case, wrong at an edge an agent will reach.</li>
+          <li><strong>7 Nimony compiler bugs</strong> in error handling, <a href="https://github.com/nim-lang/nimony/issues/2674">#2674</a>&ndash;<a href="https://github.com/nim-lang/nimony/issues/2680">#2680</a>, filed 2026-10-15 and fixed upstream within two days. Four lost errors silently or crashed.</li>
+          <li>Auditing the Nimony assembler skill found further toolchain bugs, including a silent miscompile. Some are public as <a href="https://github.com/nim-lang/nimony/issues/2686">#2686</a> and <a href="https://github.com/nim-lang/nimony/issues/2687">#2687</a>.</li>
+        </ul>
+        <p>Two corrections in detail: <a href="posts/moved-from-object-segfaults.html">why a moved-from object segfaults on reuse</a> and <a href="posts/release-build-swallowed-the-error.html">the Nimony release build that swallowed the error</a>.</p>
+
+        <h2 id="scope">Scope and method notes</h2>
+        <ul>
+          <li>Earlier three-arm trials are n=3 per arm; the cost study is n=5 per arm; catalog probes are n=1 per arm.</li>
+          <li>Cost-study tasks were chosen because they had separated before, so its pass-rate gaps are an upper bound. One model family, one weekend of runs. Two verdicts hit by a scoring race were re-scored with the unchanged scorers.</li>
+          <li>The C-to-Nim port result is after one skill revision (2/3 before); the other arms were not re-run.</li>
+          <li>The error-handling result is after a documented scorer revision; the first scoring gave 2/3, 0/3, 0/3.</li>
+          <li>Some probe separations measure whether the agent adopted a convention the skill teaches, such as evidence labels in a report.</li>
+          <li>In probes, five skills had no separating task because every arm solved it; one of those later separated in the full trial above. On one doc-comment task the verified skill scored 2/3 against 3/3. Tasks that every arm solves are kept as regression checks.</li>
+          <li>Run counts trace to our notes and datasets; raw run logs were not retained.</li>
+        </ul>
+        <p>Stronger models will solve more tasks unaided. We track that and prune guidance that stops helping, which keeps the skills small.</p>
+
+        <h2 id="next">What comes next</h2>
+        <p>A larger published benchmark: Nim and Nimony tasks across several models and compiler versions, with and without the skills, with every model, version and sample size stated. Task contents stay private so agents cannot train to the test.</p>
+        <div class="cta next-steps">
+          <div><h2>Give your agent the verified skills</h2><p>The full catalog from $10 a month.</p></div>
+          <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access</a><a class="btn" href="pricing.html">Pricing</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="why.html">Why verified skills?</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="get-access.html">Get access</a></li>
+          <li><a href="benchmarks.html">Benchmarks</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Evidence</h2>
+        <ul>
+          <li><a href="posts/index.html">Articles</a></li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <ul>
+          <li><a href="https://github.com/planetis-m/nyx">NYX installer</a></li>
+          <li><a href="https://github.com/planetis-m/skills">Public skills (CC BY-NC-SA 4.0)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Company</h2>
+        <ul>
+          <li><a href="license.html">Commercial license</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="terms.html#refunds">Refunds</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="mailto:verified.nim@gmail.com">verified.nim@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__legal">
+      <span>&copy; 2026 GERALIS A KAI SIA L.P.</span>
+      <span class="mono">static site &middot; no trackers &middot; no cookies</span><!-- CONTENT: keep true; remove if analytics are ever added -->
+    </div>
+  </div>
+</footer>
+</body>
+</html>

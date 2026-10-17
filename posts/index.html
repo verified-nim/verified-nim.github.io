@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nim AI-agent case studies · Verified Nim Skills</title>
+<meta name="description" content="Nim failures that compile and pass tests, each proven with a compiler-run test, and what cheap coding agents cost per solved task with and without skills.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://verified-nim.github.io/posts/index.html">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<meta property="og:title" content="Nim AI-agent case studies · Verified Nim Skills">
+<meta property="og:description" content="Nim failures that compile and pass tests, each proven with a compiler-run test, and what cheap coding agents cost per solved task with and without skills.">
+<meta property="og:type" content="website">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/img/nyx-logo.svg" alt="NYX" width="192" height="48">
+      <span class="brand__sub">Verified Nim Skills</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+      <li><a href="../index.html">Product</a></li>
+      <li><a href="../why.html">Why verified</a></li>
+      <li><a href="../posts/index.html" aria-current="page">Evidence</a></li>
+      <li><a href="../pricing.html">Pricing</a></li>
+      <li><a class="btn btn--primary" href="../get-access.html">Get access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">evidence</span>
+    <h1 class="hero__title">Nim that compiles, passes, and is still wrong</h1>
+    <p class="hero__lede">Nim failures caught by compiler-run tests, and a blind study of what a cheap coding agent costs per solved Nim task.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <!-- CONTENT: one <li class="post-list__item"> per article, newest first. Copy the block below. -->
+    <ol class="post-list">
+      <li class="post-list__item">
+        <h2 class="post-list__title"><a href="moved-from-object-segfaults.html">Nim <code>=wasMoved</code>: why a moved-from object segfaults on reuse</a></h2>
+        <p class="post-list__summary">Nilling the pointer makes destroy safe and leaves reuse broken. Three ownership-hook rules pass review and ordinary tests, then segfault, run hooks on uninitialized memory or read freed memory.</p>
+        <ul class="post-meta">
+          <li><time datetime="2026-10-17">17 October 2026</time></li>
+          <li>5 min read</li>
+        </ul>
+      </li>
+      <li class="post-list__item">
+        <h2 class="post-list__title"><a href="cost-per-solved-task.html">Cost per solved task: what a cheap coding agent really costs on Nim</a></h2>
+        <p class="post-list__summary">With verified skills a low-cost model solved 18 of 20 hard Nim tasks, against 3 of 20 without. Each attempt cost more; each solved task cost about a quarter as much.</p>
+        <ul class="post-meta">
+          <li><time datetime="2026-10-17">17 October 2026</time></li>
+          <li>4 min read</li>
+        </ul>
+      </li>
+      <li class="post-list__item">
+        <h2 class="post-list__title"><a href="release-build-swallowed-the-error.html">Your Nimony release build swallowed the error</a></h2>
+        <p class="post-list__summary">Debug raised; <code>-d:release</code> returned 42. Checking one agent skill against Nimony found three outdated rules and seven compiler bugs, all fixed upstream the next day.</p>
+        <ul class="post-meta">
+          <li><time datetime="2026-10-17">17 October 2026</time></li>
+          <li>5 min read</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../index.html">Overview</a></li>
+          <li><a href="../why.html">Why verified skills?</a></li>
+          <li><a href="../pricing.html">Pricing</a></li>
+          <li><a href="../get-access.html">Get access</a></li>
+          <li><a href="../benchmarks.html">Benchmarks</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Evidence</h2>
+        <ul>
+          <li><a href="../posts/index.html">Articles</a></li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <ul>
+          <li><a href="https://github.com/planetis-m/nyx">NYX installer</a></li>
+          <li><a href="https://github.com/planetis-m/skills">Public skills (CC BY-NC-SA 4.0)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Company</h2>
+        <ul>
+          <li><a href="../license.html">Commercial license</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+          <li><a href="../privacy.html">Privacy</a></li>
+          <li><a href="mailto:verified.nim@gmail.com">verified.nim@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__legal">
+      <span>&copy; 2026 GERALIS A KAI SIA L.P.</span>
+      <span class="mono">static site &middot; no trackers &middot; no cookies</span><!-- CONTENT: keep true; remove if analytics are ever added -->
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verified Nim Skills: stop coding agents shipping Nim that crashes in production</title>
+<meta name="description" content="Coding agents write Nim that compiles, passes the test and still segfaults. Verified Nim Skills give Claude Code, Codex, Cursor and other agents guidance where every testable claim is proven by a compiler-run test. Installed by the open-source NYX CLI.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://verified-nim.github.io/">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+<meta property="og:title" content="Verified Nim Skills: stop coding agents shipping Nim that crashes in production">
+<meta property="og:description" content="Coding agents write Nim that compiles, passes the test and still segfaults. Verified Nim Skills give agents guidance where every testable claim is proven by a compiler-run test.">
+<meta property="og:type" content="website">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html">
+      <img src="assets/img/nyx-logo.svg" alt="NYX" width="192" height="48">
+      <span class="brand__sub">Verified Nim Skills</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+      <li><a href="index.html" aria-current="page">Product</a></li>
+      <li><a href="why.html">Why verified</a></li>
+      <li><a href="posts/index.html">Evidence</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a class="btn btn--primary" href="get-access.html">Get access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="hero">
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow">nim skills for coding agents</span>
+      <h1 class="hero__title">Your agent&rsquo;s Nim compiles. It passes the test. It still segfaults.</h1>
+      <p class="hero__lede">Fast, low-cost coding agents get Nim&rsquo;s ownership hooks, C interop and test setup wrong, and review and happy-path tests miss it. Verified Nim Skills drop into Claude Code, Codex, Cursor and other agents. Every testable claim in them is proven by a compiler-run test.</p>
+      <ul class="post-meta" aria-label="Verification so far">
+        <li>912 claims audited</li>
+        <li>690 compiler-run tests</li>
+        <li>127 statements corrected</li>
+      </ul>
+      <div class="btn-row hero__actions">
+        <a class="btn btn--primary" href="get-access.html">Get access &middot; from $10/month</a>
+        <a class="btn" href="#problems">See what agents get wrong</a>
+      </div>
+      <p class="hero__note"><span class="badge badge--ok">verified on Nim 2.3.1 &middot; Nimony 0.6.3</span><!-- CONTENT: update versions with each re-verification --></p>
+    </div>
+    <div>
+      <div class="diag diag--hero" role="group" aria-label="A moved-from Nim object segfaults on legal reuse">
+        <div class="diag__head"><span class="diag__file">writer.nim</span><span class="diag__loc"><a href="posts/moved-from-object-segfaults.html">Read the case study</a></span></div>
+<pre class="diag__body"><code><span class="tok-k">proc</span> `=wasMoved`(w: <span class="tok-k">var</span> Writer) =
+  w.data = <span class="tok-k">nil</span>     <span class="tok-c"># destroy is now a no-op...</span>
+                   <span class="tok-c"># pos and capacity stay stale</span>
+
+<span class="tok-k">var</span> b = move(a)
+a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a moved-from value is legal</span></code></pre>
+        <div class="diag__out"><span class="diag__out-label">runtime</span><pre class="diag__out-line"><code>SIGSEGV: Illegal storage access. <span class="nowrap">(Attempt to read from nil?)</span></code></pre></div>
+        <div class="diag__note"><p>The next legal write goes through nil. The advice behind it, &ldquo;<code>=wasMoved</code> only needs to make <code>=destroy</code> a no-op&rdquo;, passes review and the destroy test. The verified skill resets every field, and a test reproduces the crash and proves the fix.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="problems" aria-labelledby="problems-h">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">the problem</span>
+      <h2 id="problems-h">Three Nim bugs that review won&rsquo;t catch</h2>
+      <p>All three compile, look idiomatic and pass a quick test. Only running the code caught them.</p>
+    </div>
+    <div class="grid grid--3">
+      <a class="card card--link" href="posts/moved-from-object-segfaults.html#alias">
+        <span class="card__kicker">use-after-free &middot; blind trial</span>
+        <h3 class="card__title">A copy hook that reads freed memory</h3>
+        <p>A <code>=copy</code> guard that compares addresses misses aliasing, so the copy reads a buffer it just freed. The demo and the stress test still pass. Without the skill, the agent&rsquo;s container failed this memory-safety check. With the skill, it passed.</p>
+      </a>
+      <a class="card card--link" href="posts/moved-from-object-segfaults.html#dup">
+        <span class="card__kicker">uninitialized memory &middot; our own skill</span>
+        <h3 class="card__title"><code>=dup</code> hooks that run on garbage</h3>
+        <p>Copy into freshly allocated raw storage and the compiler injects a <code>=sink</code> that treats uninitialized memory as a live value. Our verified skill had the right pragma for the wrong reason. A compiler-run test now pins the real rule.</p>
+      </a>
+      <div class="card">
+        <span class="card__kicker">silent test skips &middot; blind trial</span>
+        <h3 class="card__title">A green suite that never runs your new tests</h3>
+        <p>Add a test file and the suite stays green, because the new test never runs. Without the skill, the agent&rsquo;s runner listed the tests by hand. With the skill, the runner finds every test file.</p>
+      </div>
+    </div>
+    <p class="mt-6">The pattern holds across the catalog. On 12 of 17 skills, the agent without the skill failed a check that the skill-guided agent passed. Other failures include C-library builds that work on only one machine and fuzz harnesses missing required flags.</p>
+  </div>
+</section>
+
+<section class="section section--alt" id="results" aria-labelledby="results-h">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">blind trials</span>
+      <h2 id="results-h">Same cheap model: 18 of 20 solved with our skills, 3 of 20 without</h2>
+      <p>Four hard Nim tasks, each run five times with the skill and five times without: a bug report with a reproducer, a C-to-Nim port, cross-module error handling and a manually managed container. Every run was blind and sandboxed. Deterministic checks scored it, and the plan was fixed before the first run.</p>
+    </div>
+    <div class="grid grid--3">
+      <div class="card"><span class="card__kicker">with verified skills</span><h3 class="card__title">18/20 passed</h3><p>Every task solved in most runs.</p></div>
+      <div class="card"><span class="card__kicker">without skills</span><h3 class="card__title">3/20 passed</h3><p>Three of the four tasks never solved.</p></div>
+      <div class="card"><span class="card__kicker">cost per solved task</span><h3 class="card__title">$0.05 vs $0.21</h3><p>Four times cheaper per solved task. The skill-guided agent reads more per attempt and finishes far more often.</p></div>
+    </div>
+    <p class="mt-6">A larger model without skills passed 0 of 6 on two of the tasks. The audit is what you pay for: on three earlier tasks, the unverified drafts of the same skills passed 1 of 3 each, and the verified skills passed 3 of 3. <a href="benchmarks.html">Full results</a>.</p>
+    <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access &middot; from $10/month</a></div>
+  </div>
+</section>
+
+<section class="section" id="compare" aria-labelledby="compare-h">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">why this wins</span>
+      <h2 id="compare-h">The alternatives don&rsquo;t check their work</h2>
+    </div>
+    <div class="grid grid--3">
+      <div class="card"><span class="card__kicker">&ldquo;I&rsquo;ll generate my own skill&rdquo;</span><h3 class="card__title">Self-written skills don&rsquo;t verify themselves</h3><p>Skills that models wrote for themselves gave no average gain in SkillsBench. Curated skills added about 16 points. Our own careful drafts failed the compiler audit in over a hundred places.</p></div>
+      <div class="card"><span class="card__kicker">&ldquo;I have a docs MCP&rdquo;</span><h3 class="card__title">Docs say what exists, not what is safe</h3><p>Docs describe the hooks. They don&rsquo;t warn your agent that its <code>=wasMoved</code> leaves stale fields, or that its address guard misses aliasing. Keep the MCP for lookup and add the skills for safety.</p></div>
+      <div class="card"><span class="card__kicker">&ldquo;I&rsquo;ll use a bigger model&rdquo;</span><h3 class="card__title">More cost per call, same blind spots</h3><p>A frontier model costs more on every request and still has not seen the compiler build you installed last week. Verified guidance costs a flat monthly fee.</p></div>
+    </div>
+    <p class="mt-6"><a href="why.html">Why verified skills win, with sources</a>.</p>
+  </div>
+</section>
+
+<section class="section section--alt" id="nimony" aria-labelledby="nimony-h">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">why a subscription</span>
+      <h2 id="nimony-h">Re-verified every time the compiler moves</h2>
+      <p>The test suite runs again on new Nim and Nimony builds, so compiler drift reaches you as a fix in your next update. The same tests catch compiler bugs: verifying our Nimony error-handling skill exposed seven, all fixed upstream within two days of our reports.</p>
+    </div>
+    <div class="grid grid--2">
+      <a class="card card--link" href="posts/release-build-swallowed-the-error.html">
+        <span class="card__kicker">nimony #2674</span>
+        <h3 class="card__title">The release build swallowed the error</h3>
+        <p>Debug builds raised. <code>-d:release</code> returned 42 as if nothing happened. Only a test in both modes catches that.</p>
+      </a>
+      <a class="card card--link" href="https://github.com/nim-lang/nimony/issues?q=is%3Aissue+author%3Aplanetis-m">
+        <span class="card__kicker">nimony #2675&ndash;#2680</span>
+        <h3 class="card__title">Six more, all fixed</h3>
+        <p>Errors truncated to &ldquo;no error&rdquo;, a handler that segfaults, a handler that catches the wrong type, and invalid generated C.</p>
+      </a>
+    </div>
+    <p class="mt-6">Planning for Nim 3? The catalog already covers Nimony error handling and compiler plugins.</p>
+  </div>
+</section>
+
+<section class="section" id="what" aria-labelledby="what-h">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">what you get</span>
+      <h2 id="what-h">What the subscription adds to the public skills</h2>
+      <p>The <a href="https://github.com/planetis-m/skills">public skills</a> stay free for non-commercial use. They are separate community work, not a free tier.</p>
+    </div>
+    <!-- CONTENT: confirm every row against the private repo at launch. -->
+    <div class="table-wrap">
+      <table class="compare">
+        <thead><tr><th scope="col">&nbsp;</th><th scope="col" class="is-us">Verified Nim Skills</th><th scope="col">Public skills</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Claims tested against the current compilers</th><td class="is-us"><span class="yes">All testable claims</span></td><td><span class="partial">Not systematically</span></td></tr>
+          <tr><th scope="row">Audit corrections applied and retested</th><td class="is-us"><span class="yes">Yes</span></td><td><span class="partial">Some synced, no guarantee</span></td></tr>
+          <tr><th scope="row">Nimony: error handling, plugins</th><td class="is-us"><span class="yes">Yes</span></td><td><span class="partial">Plugins and native release only</span></td></tr>
+          <tr><th scope="row">Re-verified on new compiler builds</th><td class="is-us"><span class="yes">While subscribed</span></td><td><span class="partial">Best effort</span></td></tr>
+          <tr><th scope="row">Use in commercial work</th><td class="is-us"><span class="yes">Internal use</span></td><td><span class="no">Non-commercial only</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">Catalog areas: ownership hooks, error handling, API design, C bindings and wrappers, testing, fuzzing, debugging, defect analysis, bug reporting, porting, performance, code organization, style, doc comments, Atlas, and Nimony error handling and plugins.<!-- CONTENT: confirm list against the private repo at launch --></p>
+  </div>
+</section>
+
+<section class="section section--alt" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">setup</span>
+      <h2 id="how-h">In your agent in three steps</h2>
+      <p>Works with Claude Code, Codex, Cursor, GitHub Copilot, OpenCode, Windsurf and <a href="get-access.html#targets">more</a>.</p>
+    </div>
+    <div class="grid grid--3">
+      <div class="card"><span class="card__kicker">1</span><h3 class="card__title">Subscribe</h3><p>Check out with Polar. Invoices carry your company name and VAT ID.</p></div>
+      <div class="card"><span class="card__kicker">2</span><h3 class="card__title">Connect GitHub</h3><p>Accept the read-only invite to the private catalog.</p></div>
+      <div class="card"><span class="card__kicker">3</span><h3 class="card__title">Run NYX</h3><p>The open-source installer puts the skills where your agent looks, and <code>nyx update</code> pulls each re-verification. <a href="get-access.html#onboarding">Setup guide</a>.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pricing" aria-labelledby="pricing-h">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">pricing</span>
+      <h2 id="pricing-h">Costs less than one hour of your review time a month</h2>
+    </div>
+<div class="pricing">
+  <article class="plan plan--featured" aria-labelledby="plan-individual">
+    <h3 class="plan__name" id="plan-individual">Individual</h3>
+    <p class="plan__for">One developer.</p>
+    <p class="plan__price">$10 <span class="plan__per">/ month, billed yearly &middot; or $15 month to month</span></p>
+    <ul class="plan__list">
+      <li>Full catalog, every update while subscribed</li>
+      <li>Commercial internal-use license</li>
+      <li>Invoices with your VAT ID</li>
+    </ul>
+    <div class="plan__cta"><a class="btn btn--primary btn--block" href="get-access.html">Get access</a></div>
+    <p class="plan__fine">Founding members: $96 / year until 30 November 2026, kept while subscribed.</p>
+  </article>
+  <article class="plan" aria-labelledby="plan-team">
+    <h3 class="plan__name" id="plan-team">Team</h3>
+    <p class="plan__for">Two or more developers, one invoice.</p>
+    <p class="plan__price">$10 <span class="plan__per">/ seat / month, billed yearly &middot; or $15 month to month</span></p>
+    <ul class="plan__list">
+      <li>Same catalog, one GitHub account per seat</li>
+      <li>Reassign seats when people leave</li>
+      <li>One company invoice</li>
+    </ul>
+    <div class="plan__cta"><a class="btn btn--block" href="mailto:verified.nim@gmail.com?subject=Team%20seats">Email us for Team seats</a></div>
+    <p class="plan__fine">Minimum 2 seats. Seats are set up by email.</p>
+  </article>
+</div>
+    <p><a href="pricing.html">Pricing details and billing questions</a></p>
+  </div>
+</section>
+
+<section class="section section--alt" id="faq" aria-labelledby="faq-h">
+  <div class="wrap">
+    <div class="section__head"><span class="eyebrow">faq</span><h2 id="faq-h">Questions</h2></div>
+    <div class="faq">
+      <details><summary>How do I justify this to my engineering manager?</summary><div class="faq__answer"><p>Agent-written Nim that crashes on an unusual path costs a review cycle when you are lucky and an incident when you are not. The skills target exactly those paths. We build and test them on low-cost models, so the agent you already pay for gets them right.</p></div></details>
+      <details><summary>How do you know the skills are right?</summary><div class="faq__answer"><p>Each testable claim has a program that the real compiler builds and runs, and the suite runs again on new compiler builds. When a test exposes a wrong statement, including in our own earlier versions, we fix it and ship it in your next update.</p></div></details>
+      <details><summary>I already use Context7 or another docs MCP. Do I need this?</summary><div class="faq__answer"><p>Yes, and keep the MCP. Docs tell the agent what exists. The skills tell it what is safe on today&rsquo;s compiler, what to avoid and how to isolate a failure.</p></div></details>
+      <details><summary>Will my agent actually use the skills?</summary><div class="faq__answer"><p>Add a two-line pointer to <code>AGENTS.md</code> or <code>CLAUDE.md</code> and it will load the matching skill. <a href="get-access.html#pointer">Copy the pointer</a>.</p></div></details>
+      <details><summary>Which agents are supported?</summary><div class="faq__answer"><p>Anything NYX installs into: Claude Code, Codex, Cursor, OpenCode, GitHub Copilot, Crush, Pi, Cline, Windsurf, Roo Code, Continue and others. <a href="get-access.html#targets">Full list</a>.</p></div></details>
+      <details><summary>What happens if I cancel?</summary><div class="faq__answer"><p>Repository access ends at the end of the paid period and updates stop. You keep the versions you received under the <a href="license.html">license</a>. NYX deletes nothing.</p></div></details>
+      <details><summary>Can I get a refund?</summary><div class="faq__answer"><p>No refunds once repository access has been granted: the files are yours to keep. EU and UK consumers can withdraw for a full refund before access is granted. Statutory rights for faulty or undelivered content always apply. See the <a href="terms.html#refunds">refund terms</a>.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="cta">
+      <div><h2>Stop reviewing the same agent bugs</h2><p>Give your agent Nim guidance the compiler has already checked.</p></div>
+      <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access &middot; from $10/month</a><a class="btn btn--ghost" href="posts/index.html">Read the evidence</a></div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="why.html">Why verified skills?</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="get-access.html">Get access</a></li>
+          <li><a href="benchmarks.html">Benchmarks</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Evidence</h2>
+        <ul>
+          <li><a href="posts/index.html">Articles</a></li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <ul>
+          <li><a href="https://github.com/planetis-m/nyx">NYX installer</a></li>
+          <li><a href="https://github.com/planetis-m/skills">Public skills (CC BY-NC-SA 4.0)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Company</h2>
+        <ul>
+          <li><a href="license.html">Commercial license</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="terms.html#refunds">Refunds</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="mailto:verified.nim@gmail.com">verified.nim@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__legal">
+      <span>&copy; 2026 GERALIS A KAI SIA L.P.</span>
+      <span class="mono">static site &middot; no trackers &middot; no cookies</span><!-- CONTENT: keep true; remove if analytics are ever added -->
+    </div>
+  </div>
+</footer>
+</body>
+</html>

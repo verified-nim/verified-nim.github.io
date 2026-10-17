@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nim =wasMoved: why a moved-from object segfaults</title>
+<meta name="description" content="Nilling the pointer in =wasMoved makes destroy safe, not reuse. Three Nim ownership-hook bugs that pass review and tests, verified on Nim 2.3.1.">
+<meta name="author" content="Antonis Geralis">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://verified-nim.github.io/posts/moved-from-object-segfaults.html">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<meta property="og:site_name" content="Verified Nim Skills">
+<meta property="og:title" content="Nim =wasMoved: why a moved-from object segfaults on reuse">
+<meta property="og:description" content="Nilling the pointer in =wasMoved makes destroy safe, not reuse. Three Nim ownership-hook bugs that pass review and tests, verified on Nim 2.3.1.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://verified-nim.github.io/posts/moved-from-object-segfaults.html">
+<meta property="article:published_time" content="2026-10-17">
+<meta property="article:author" content="Antonis Geralis">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Nim =wasMoved: why a moved-from object segfaults on reuse",
+  "description": "Nilling the pointer in =wasMoved makes destroy safe, not reuse. Three Nim ownership-hook bugs that pass review and tests, verified on Nim 2.3.1.",
+  "datePublished": "2026-10-17",
+  "dateModified": "2026-10-17",
+  "author": {
+    "@type": "Person",
+    "name": "Antonis Geralis",
+    "url": "https://github.com/planetis-m"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://verified-nim.github.io/posts/moved-from-object-segfaults.html"
+  },
+  "url": "https://verified-nim.github.io/posts/moved-from-object-segfaults.html",
+  "inLanguage": "en",
+  "keywords": "Nim, ownership hooks, =wasMoved, =dup, =copy, move semantics"
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/img/nyx-logo.svg" alt="NYX" width="192" height="48">
+      <span class="brand__sub">Verified Nim Skills</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+      <li><a href="../index.html">Product</a></li>
+      <li><a href="../why.html">Why verified</a></li>
+      <li><a href="../posts/index.html" aria-current="page">Evidence</a></li>
+      <li><a href="../pricing.html">Pricing</a></li>
+      <li><a class="btn btn--primary" href="../get-access.html">Get access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<article>
+  <header class="article-header">
+    <div class="wrap">
+      <p class="mb-0"><a class="btn btn--ghost" href="index.html">&larr; All articles</a></p>
+      <span class="eyebrow">ownership hooks</span>
+      <h1>Nim <code>=wasMoved</code>: why a moved-from object segfaults on reuse</h1>
+      <ul class="post-meta">
+        <li><time datetime="2026-10-17">17 October 2026</time></li>
+        <li>Antonis Geralis</li>
+        <li>5 min read</li>
+        <li><span class="badge badge--ok">verified on Nim 2.3.1</span></li>
+      </ul>
+      <p class="lede measure">Nil only the pointer in <code>=wasMoved</code> and the next legal write to the moved-from value goes through nil. The hook must reset every field your type&rsquo;s operations read, not only the one <code>=destroy</code> checks. Below are three ownership-hook rules that pass review and ordinary tests and are still wrong. One survived into my own first verified skill.</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="article-layout">
+      <nav class="toc" aria-labelledby="toc-h">
+        <h2 id="toc-h">On this page</h2>
+        <ol>
+          <li><a href="#failure">The segfault</a></li>
+          <li><a href="#why">Why nilling the pointer is not enough</a></li>
+          <li><a href="#dup"><code>=dup</code> into raw storage</a></li>
+          <li><a href="#alias">A <code>=copy</code> guard that misses aliasing</a></li>
+          <li><a href="#takeaways">Checklist for your own hooks</a></li>
+        </ol>
+      </nav>
+
+      <div class="prose">
+        <h2 id="failure">The segfault</h2>
+        <div class="diag diag--error" role="group" aria-label="Runtime output">
+          <div class="diag__head"><span class="diag__label">runtime</span><span class="diag__msg">SIGSEGV: Illegal storage access. (Attempt to read from nil?)</span><span class="diag__loc">in writeByte</span></div>
+<pre class="diag__body"><code>  <span class="tok-k">var</span> b = move(a)
+  a.writeByte <span class="tok-s">'z'</span>       <span class="tok-c"># reusing a moved-from value is legal</span>
+<span class="caret">  ^</span></code></pre>
+          <div class="diag__note"><p>Exit status 139. The type's <code>=destroy</code> is perfectly safe; the crash comes from the next write.</p></div>
+        </div>
+        <p>The advice in the original skill was: <em><code>=wasMoved</code> only needs to make <code>=destroy</code> a no-op.</em> It matches how the hook is usually described: set a pointer field to <code>nil</code> so the destructor has nothing to free. Here is a byte writer that does exactly that:</p>
+        <figure class="code-block">
+          <figcaption><span>writer.nim (excerpt)</span><span>Nim 2.3.1</span></figcaption>
+<pre><code><span class="tok-k">type</span>
+  Writer = <span class="tok-k">object</span>
+    data: <span class="tok-k">ptr</span> UncheckedArray[char]
+    pos: int
+    capacity: int
+
+<span class="tok-k">proc</span> `=destroy`(w: Writer) =
+  <span class="tok-k">if</span> w.data != <span class="tok-k">nil</span>: dealloc(w.data)
+
+<span class="tok-k">proc</span> `=wasMoved`(w: <span class="tok-k">var</span> Writer) =
+<span class="del-line">  w.data = <span class="tok-k">nil</span>          <span class="tok-c"># destroy is now a no-op... pos and capacity stay stale</span></span>
+
+<span class="tok-k">proc</span> reserve(w: <span class="tok-k">var</span> Writer; extra: int) =
+  <span class="tok-k">let</span> required = w.pos + extra
+  <span class="tok-k">if</span> required &gt; w.capacity:
+    <span class="tok-k">let</span> newCap = max(required, <span class="tok-n">64</span>)
+    w.data = <span class="tok-k">cast</span>[<span class="tok-k">ptr</span> UncheckedArray[char]](realloc(w.data, newCap))
+    w.capacity = newCap
+
+<span class="tok-k">proc</span> writeByte(w: <span class="tok-k">var</span> Writer; c: char) =
+  w.reserve(<span class="tok-n">1</span>)
+  w.data[w.pos] = c
+  inc w.pos</code></pre>
+        </figure>
+        <p>Write 32 bytes into <code>a</code>, move it into <code>b</code>, then write one byte into <code>a</code> again. The program crashes on that last write.</p>
+
+        <h2 id="why">Why nilling the pointer is not enough</h2>
+        <p>After the move, <code>a.data</code> is <code>nil</code> but <code>a.pos</code> is still 32 and <code>a.capacity</code> still 64. <code>reserve</code> sees that 33 fits in 64, skips the reallocation, and <code>writeByte</code> writes through a nil pointer.</p>
+        <p>A moved-from value in Nim is not dead. You can assign to it and call any operation your type allows on its empty state, so <code>=wasMoved</code> must leave every such operation working, not only <code>=destroy</code>. The fix is two lines:</p>
+        <div class="diag diag--ok" role="group" aria-label="Verified">
+          <div class="diag__head"><span class="diag__label">verified</span><span class="diag__msg">moved-from writer can be reused; prints <code>PASS</code></span></div>
+<pre class="diag__body"><code><span class="tok-k">proc</span> `=wasMoved`(w: <span class="tok-k">var</span> Writer) =
+  w.data = <span class="tok-k">nil</span>
+<span class="add-line">  w.pos = <span class="tok-n">0</span>
+  w.capacity = <span class="tok-n">0</span></span></code></pre>
+        </div>
+        <p>This rule <strong>survived into the first verified version</strong> of the skill. The test at the time only checked that destroying a moved-from value was safe, and it passed. A later test that reuses the moved-from value exposed it. That test now builds both variants: the fix passes, and the old hook reproduces the segfault above.</p>
+
+        <h2 id="dup"><code>{.nodestroy.}</code> on <code>=dup</code>: the right fix for the wrong reason</h2>
+        <p>The verified skill told agents to put <code>{.nodestroy.}</code> on a <code>=dup</code> that copies into freshly allocated raw storage. The pragma was right. The reason it gave, that the compiler would otherwise destroy <code>result</code> before the caller receives it, was not. <code>--expandArc</code> shows the real hazard:</p>
+        <figure class="terminal">
+          <div class="terminal__bar"><span>nim c --expandArc:dupBagPlain</span><span>Nim 2.3.1</span></div>
+<pre><code><span class="t-dim">  result.items = cast[ptr UncheckedArray[Counted]](allocImpl(...))
+  ...
+      while i_1 &lt; b.len:
+        i = i_1</span>
+<span class="t-err">        `=sink`(result.items[i], `=dup`(b.items[i]))</span></code></pre>
+        </figure>
+        <p>The plain assignment into raw storage becomes a <code>=sink</code>, and <code>=sink</code> treats the destination as a live value. Here it is uninitialized memory from <code>alloc</code>. With <code>{.nodestroy.}</code> the value is written directly. A test now counts the hook calls: one <code>=sink</code> without the pragma, zero with it.</p>
+        <p>The reason matters because agents generalize from reasons. An agent told &ldquo;<code>result</code> is destroyed early&rdquo; adds the pragma where it is not needed and misses the real rule: any assignment into memory that does not yet hold a valid value runs a hook on garbage.</p>
+
+        <h2 id="alias">A <code>=copy</code> self-assignment guard that misses aliasing</h2>
+        <figure class="code-block">
+          <figcaption><span>selfassign.nim (excerpt)</span><span>Nim 2.3.1</span></figcaption>
+<pre><code><span class="tok-k">proc</span> `=copy`(dst: <span class="tok-k">var</span> Buf; src: Buf) =
+<span class="del-line">  <span class="tok-k">if</span> addr(dst) == addr(src): <span class="tok-k">return</span>    <span class="tok-c"># looks like a guard</span></span>
+<span class="add-line">  <span class="tok-k">if</span> dst.data == src.data: <span class="tok-k">return</span>       <span class="tok-c"># compares what is owned</span></span>
+  `=destroy`(dst)
+  <span class="tok-c"># ... allocate and copy src.data into dst.data</span></code></pre>
+        </figure>
+        <p>For a small object, Nim may pass <code>src</code> by value. In the generated C, <code>src</code> is a copy on the stack, so its address never equals <code>dst</code>, even when both are the same element. The guard never fires: <code>=destroy(dst)</code> frees the buffer, and the copy then reads it through <code>src.data</code>.</p>
+        <p>The compiler removes a literal <code>a = a</code>, so the case that reaches the hook is one it cannot see, such as <code>items[i] = items[j]</code> with <code>i == j</code> at run time. In my minimal reproduction the program even prints the right answer. Valgrind disagrees:</p>
+        <div class="diag diag--error" role="group" aria-label="Valgrind output">
+          <div class="diag__head"><span class="diag__label">valgrind</span><span class="diag__msg">Invalid read of size 8</span><span class="diag__loc">eqcopy &rarr; copyMem</span></div>
+<pre class="diag__body"><code>Address 0x4a5f0b0 is 0 bytes inside a block of size 32 free'd
+   at free
+   ...
+   by eqdestroy__u0__selfassign
+   by eqcopy__u1__selfassign
+   by main_u0__selfassign
+ERROR SUMMARY: 4 errors from 4 contexts</code></pre>
+          <div class="diag__note"><p>Output of a minimal example I wrote for this article (<code>-d:useMalloc</code>), trimmed. With the data-pointer guard, valgrind reports 0 errors.</p></div>
+        </div>
+        <p>A happy-path demo and a stress test both pass this bug. Agents fall for it too. Without the skill, an agent&rsquo;s container failed exactly this aliasing memory-safety check in a blind trial. With the skill, the agent&rsquo;s container passed.</p>
+
+        <h2 id="takeaways">Checklist for your own hooks</h2>
+        <ul>
+          <li><strong><code>=wasMoved</code> resets every field an allowed operation reads.</strong> Test it by reusing a moved-from value, not only by destroying it.</li>
+          <li><strong>Assignments into <code>alloc</code>ed memory run hooks on garbage.</strong> Use <code>{.nodestroy.}</code> or write the value directly, and confirm with <code>--expandArc</code>.</li>
+          <li><strong>Guard self-assignment on the owned pointer, not on addresses,</strong> and run the copy path under valgrind with <code>-d:useMalloc</code>, because the output can look right.</li>
+        </ul>
+        <p>None of these show up in review. They need a test on the legal-but-unusual path, which is why the skills are a maintained product and not a snapshot: my own first verified version had the <code>=wasMoved</code> rule wrong, and the next test caught it. For what wrong answers like these cost when a cheap agent writes them, see <a href="cost-per-solved-task.html">cost per solved task</a>.</p>
+        <p class="muted small">All three examples were compiled and run with Nim 2.3.1 on Linux amd64 (ORC, default settings unless noted).</p>
+
+        <aside class="next-steps cta" aria-labelledby="next-h">
+          <div><h2 id="next-h">Stop your agent shipping these bugs</h2><p>The verified ownership-hooks skill covers all three cases, re-checked on new Nim builds. From $10/month.</p></div>
+          <div class="btn-row"><a class="btn btn--primary" href="../get-access.html">Get access</a><a class="btn" href="../pricing.html">Pricing</a></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../index.html">Overview</a></li>
+          <li><a href="../why.html">Why verified skills?</a></li>
+          <li><a href="../pricing.html">Pricing</a></li>
+          <li><a href="../get-access.html">Get access</a></li>
+          <li><a href="../benchmarks.html">Benchmarks</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Evidence</h2>
+        <ul>
+          <li><a href="../posts/index.html">Articles</a></li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <ul>
+          <li><a href="https://github.com/planetis-m/nyx">NYX installer</a></li>
+          <li><a href="https://github.com/planetis-m/skills">Public skills (CC BY-NC-SA 4.0)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Company</h2>
+        <ul>
+          <li><a href="../license.html">Commercial license</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+          <li><a href="../privacy.html">Privacy</a></li>
+          <li><a href="mailto:verified.nim@gmail.com">verified.nim@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__legal">
+      <span>&copy; 2026 GERALIS A KAI SIA L.P.</span>
+      <span class="mono">static site &middot; no trackers &middot; no cookies</span><!-- CONTENT: keep true; remove if analytics are ever added -->
+    </div>
+  </div>
+</footer>
+</body>
+</html>
