@@ -66,7 +66,10 @@
 <span class="t-prompt">gh auth setup-git</span>
 <span class="t-prompt">git ls-remote https://github.com/verified-nim/skills</span>  <span class="t-dim"># lists refs, no password prompt</span></code></pre>
         </figure>
-        <p class="small muted">Git Credential Manager or an SSH key work too.</p></li>
+        <p class="small muted">Git Credential Manager or an SSH key work too.</p>
+        <div class="callout callout--warn"><span class="callout__title">Using a fine-grained personal access token?</span>
+          <p>It must list <code>verified-nim/skills</code> under <strong>Repository access</strong>, with <strong>Contents: Read</strong>. Accepting the invite does not add the repository to an existing token. Without it, git fails with 403 or 404. Edit the token at GitHub &rarr; Settings &rarr; Developer settings &rarr; Fine-grained tokens, or use <code>gh auth login</code> instead.</p>
+        </div></li>
       <li><h3>Install NYX</h3>
         <figure class="terminal" aria-label="Install NYX on Linux or macOS">
           <div class="terminal__bar"><span>Linux &amp; macOS</span><span>installs to ~/.local/bin</span></div>
