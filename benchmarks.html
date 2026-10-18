@@ -74,7 +74,7 @@
         <ul>
           <li><strong>Per attempt</strong>, the skill-guided agent used about twice the tokens (3.1M vs 1.6M) and cost about $0.048 vs $0.028.</li>
           <li><strong>Per solved task</strong>, it cost about <strong>$0.05 vs $0.21</strong>, about a quarter, because the unguided agent rarely finishes.</li>
-          <li><strong>A larger model</strong> (DeepSeek V4 Pro) without skills passed 0 of 6 on the bug-report and port tasks, at the same or up to four times the cost per attempt.</li>
+          <li><strong>A frontier model doesn&rsquo;t close the gap.</strong> On the same four Nim tasks, GPT-6.1 Sol at maximum reasoning effort passed 1 of 12 runs without skills and 9 of 10 scored runs with them (two skill runs blocked by the provider&rsquo;s content filter were not scored). <a href="posts/cost-per-solved-task.html#bigger-model">Per-task results</a>.</li>
           <li>On the container task the model already copes; there the skill adds about 30% cost for a gain that is not statistically significant.</li>
         </ul>
         <p>Read <a href="posts/cost-per-solved-task.html">the full write-up of the cost study</a>.</p>
@@ -107,8 +107,8 @@
 
         <h2 id="scope">Scope and method notes</h2>
         <ul>
-          <li>Earlier three-arm trials are n=3 per arm; the cost study is n=5 per arm; catalog probes are n=1 per arm.</li>
-          <li>Cost-study tasks were chosen because they had separated before, so its pass-rate gaps are an upper bound. All runs used one model family.</li>
+          <li>Earlier three-arm trials are n=3 per arm; the cost study is n=5 per arm; the frontier-model check is n=3 per arm; catalog probes are n=1 per arm.</li>
+          <li>Cost-study tasks were chosen because they had separated before, so their pass-rate gaps are an upper bound. The cost study used one model family; the frontier check used one frontier model.</li>
           <li>Two three-arm results come after a revision, one to the skill and one to the scorer. Before it, the verified skill scored 2/3 on each.</li>
           <li>Some probe separations only show that the agent adopted a convention the skill teaches.</li>
           <li>On one doc-comment probe the verified skill scored 2/3 against 3/3 without it.</li>

@@ -110,7 +110,7 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
       <div class="card"><span class="card__kicker">without skills</span><h3 class="card__title">3/20 passed</h3><p>Three of the four tasks never solved.</p></div>
       <div class="card"><span class="card__kicker">cost per solved task</span><h3 class="card__title">$0.05 vs $0.21</h3><p>About a quarter of the cost per solved task. The skill-guided agent reads more per attempt and finishes far more often.</p></div>
     </div>
-    <p class="mt-6">A larger model without skills passed 0 of 6 on two of the tasks. The checking makes the difference: on three earlier tasks, the unverified drafts of the same skills passed 1 of 3 runs each, and the verified skills passed 3 of 3. <a href="benchmarks.html">Full results</a>.</p>
+    <p class="mt-6">The checking makes the difference: on three earlier tasks, the unverified drafts of the same skills passed 1 of 3 runs each, and the verified skills passed 3 of 3. <a href="benchmarks.html">Full results</a>.</p>
     <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month --></div>
   </div>
 </section>
@@ -124,7 +124,7 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
     <div class="grid grid--3">
       <div class="card"><span class="card__kicker">&ldquo;I&rsquo;ll generate my own skill&rdquo;</span><h3 class="card__title">Self-written skills don&rsquo;t verify themselves</h3><p>Skills that models wrote for themselves gave no average gain in SkillsBench. Curated skills added about 16 points. A skill only helps when someone has checked it.</p></div>
       <div class="card"><span class="card__kicker">&ldquo;I have a docs MCP&rdquo;</span><h3 class="card__title">Docs say what exists, not what is safe</h3><p>Docs describe the hooks. They don&rsquo;t warn your agent that its <code>=wasMoved</code> leaves stale fields, or that its address guard misses aliasing. Keep the MCP for lookup and add the skills for safety.</p></div>
-      <div class="card"><span class="card__kicker">&ldquo;I&rsquo;ll use a bigger model&rdquo;</span><h3 class="card__title">More cost per call, same blind spots</h3><p>A frontier model costs more on every request and still has not seen the compiler build you installed last week. Verified guidance costs a flat monthly fee.</p></div>
+      <div class="card"><span class="card__kicker">&ldquo;I&rsquo;ll use a bigger model&rdquo;</span><h3 class="card__title">More cost per call, same blind spots</h3><p>On our four hard Nim tasks, OpenAI&rsquo;s GPT-6.1 Sol at maximum reasoning effort passed 1 of 12 runs without skills. A frontier model also costs more on every request and has not seen the compiler build you installed last week. Verified guidance costs a flat monthly fee.</p></div>
     </div>
     <p class="mt-6"><a href="why.html">Why verified skills win, with sources</a>.</p>
   </div>

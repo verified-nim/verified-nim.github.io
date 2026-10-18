@@ -27,7 +27,7 @@
   "headline": "Cost per solved task: what a cheap coding agent really costs on Nim",
   "description": "A low-cost model passed 18 of 20 runs on four hard Nim tasks with verified skills and 3 of 20 without. Attempts cost more; each solved task cost a quarter as much.",
   "datePublished": "2026-10-17",
-  "dateModified": "2026-10-17",
+  "dateModified": "2026-10-18",
   "author": {
     "@type": "Person",
     "name": "Antonis Geralis",
@@ -130,25 +130,28 @@
         <p>Cost per solve is skill / no skill; a dash means no run solved the task. The bug report and the port are five passes against zero, each significant on its own. Error handling, 3/5 against 0/5, is a large gap that five runs cannot confirm alone.</p>
 
         <h2 id="bigger-model">&ldquo;Just use a bigger model?&rdquo;</h2>
-        <p>On the bug-report and port tasks we also ran DeepSeek V4 Pro, a larger and pricier model, without skills.</p>
+        <p>We put the question to OpenAI&rsquo;s frontier model. GPT-6.1 Sol, at maximum reasoning effort, ran the same four Nim tasks three times with the verified skill and three times without, blind and sandboxed, under the same checks.</p>
         <div class="table-wrap">
           <table class="compare">
-            <thead><tr><th scope="col">Bug report and port tasks</th><th scope="col" class="is-us">Cheap model + verified skill</th><th scope="col">Larger model, no skill</th></tr></thead>
+            <thead><tr><th scope="col">GPT-6.1 Sol (3 runs per arm)</th><th scope="col" class="is-us">Verified skill</th><th scope="col">No skill</th></tr></thead>
             <tbody>
-              <tr><th scope="row">Runs passed</th><td class="is-us"><span class="yes"><strong>10/10</strong></span></td><td><span class="no">0/6</span></td></tr>
-              <tr><th scope="row">Cost per attempt, bug report</th><td class="is-us">$0.028</td><td>$0.029</td></tr>
-              <tr><th scope="row">Cost per attempt, port</th><td class="is-us">$0.060</td><td>$0.251</td></tr>
+              <tr><th scope="row">Bug report with a reproducer</th><td class="is-us"><span class="yes">1/1</span></td><td><span class="no">0/3</span></td></tr>
+              <tr><th scope="row">C-to-Nim port</th><td class="is-us"><span class="yes">2/3</span></td><td><span class="no">0/3</span></td></tr>
+              <tr><th scope="row">Error handling across modules</th><td class="is-us"><span class="yes">3/3</span></td><td><span class="no">0/3</span></td></tr>
+              <tr><th scope="row">Container with lifecycle hooks</th><td class="is-us"><span class="yes">3/3</span></td><td>1/3</td></tr>
+              <tr><th scope="row">Total</th><td class="is-us"><strong>9/10</strong></td><td><strong>1/12</strong></td></tr>
             </tbody>
           </table>
         </div>
-        <p>The larger model passed <strong>0 of 6</strong>. On the port it cost about four times as much per attempt, took about twice as long and failed the same checks as the cheap unguided model. A bigger model knows more in general. It did not discover the Nim-specific conventions and pitfalls that decide these tasks. The skill puts them in front of the agent, so a cheap model gets them right.</p>
+        <p>Two skill runs on the bug report were blocked by the provider&rsquo;s content filter, which flagged the crash reproducer as a possible security risk, and were not scored.</p>
+        <p>Without the skill, the frontier model passed <strong>1 of 12</strong>. On the container task it reused a moved-from value in 2 of 3 runs, the exact bug behind <a href="moved-from-object-segfaults.html">why a moved-from object segfaults on reuse</a>. More reasoning does not surface Nim-specific rules a model never learned, and a frontier model bills more on every call (<a href="../why.html#cheap">list prices</a>). The skill puts those rules in front of the agent, so a cheap model gets them right.</p>
 
         <h2 id="lean">Where the skill didn&rsquo;t pay</h2>
         <p>On the container task the model already copes: 3 of 5 without the skill, 5 of 5 with it. That gain is not significant, and each skill-guided attempt cost about 30% more. Cost per solved task was still lower, but we would not sell a skill on that margin. Every line of guidance costs tokens on every run, so when a model starts solving a task unaided, we prune the guidance for it.</p>
 
         <h2 id="method">Method</h2>
         <div class="callout callout--note"><span class="callout__title">How the study ran</span>
-          <p>Tasks, arms, metrics and scorers were fixed in writing before the first run. Each trial ran blind in a fresh sandbox; a pass meant every deterministic check passed. Costs are recomputed from logged token counts at the provider&rsquo;s off-peak API rates; at peak rates every dollar figure doubles and the ratios stay the same. The tasks were picked because they had separated skill from no skill before, so the gaps are a best case for hard Nim work, not an average. Sample sizes and the remaining notes are on the <a href="../benchmarks.html#scope">benchmarks page</a>.</p>
+          <p>Tasks, arms, metrics and scorers were fixed in writing before the first run. Each trial ran blind in a fresh sandbox; a pass meant every deterministic check passed. Costs are recomputed from logged token counts at the provider&rsquo;s off-peak API rates; at peak rates every dollar figure doubles and the ratios stay the same. The tasks were picked because they had separated skill from no skill before, so the gaps are a best case for hard Nim work, not an average. The frontier check ran three times per arm on one frontier model. Sample sizes and the remaining notes are on the <a href="../benchmarks.html#scope">benchmarks page</a>.</p>
         </div>
         <p>For the kind of Nim code that compiles, passes a quick test and is still wrong, see <a href="moved-from-object-segfaults.html">why a moved-from object segfaults on reuse</a>.</p>
 
