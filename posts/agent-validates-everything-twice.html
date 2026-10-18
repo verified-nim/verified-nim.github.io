@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nim {.raises: [].}: stop your agent validating twice</title>
+<meta name="description" content="Coding agents add error paths that can never run. Validate once at the boundary, carry the proof in a distinct type, and let Nim&rsquo;s {.raises: [].} enforce it.">
+<meta name="author" content="Antonis Geralis">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://verified-nim.github.io/posts/agent-validates-everything-twice.html">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<meta property="og:site_name" content="Verified Nim Skills">
+<meta property="og:title" content="Nim {.raises: [].}: stop your agent validating trusted data twice">
+<meta property="og:description" content="Coding agents add error paths that can never run. Validate once at the boundary, carry the proof in a distinct type, and let Nim&rsquo;s {.raises: [].} enforce it.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://verified-nim.github.io/posts/agent-validates-everything-twice.html">
+<meta property="article:published_time" content="2026-10-18">
+<meta property="article:author" content="Antonis Geralis">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Nim {.raises: [].}: stop your agent validating trusted data twice",
+  "description": "Coding agents add error paths that can never run. Validate once at the boundary, carry the proof in a distinct type, and let Nim’s {.raises: [].} enforce it.",
+  "datePublished": "2026-10-18",
+  "dateModified": "2026-10-18",
+  "author": {
+    "@type": "Person",
+    "name": "Antonis Geralis",
+    "url": "https://github.com/planetis-m"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://verified-nim.github.io/posts/agent-validates-everything-twice.html"
+  },
+  "url": "https://verified-nim.github.io/posts/agent-validates-everything-twice.html",
+  "inLanguage": "en",
+  "keywords": "Nim, error handling, raises pragma, distinct types, input validation, AI coding agents"
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/img/nyx-logo.svg" alt="NYX" width="192" height="48">
+      <span class="brand__sub">Verified Nim Skills</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+      <li><a href="../index.html">Product</a></li>
+      <li><a href="../why.html">Why verified</a></li>
+      <li><a href="../posts/index.html" aria-current="page">Evidence</a></li>
+      <li><a href="../pricing.html">Pricing</a></li>
+      <li><a class="btn btn--primary" href="../get-access.html">Get access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<article>
+  <header class="article-header">
+    <div class="wrap">
+      <p class="mb-0"><a class="btn btn--ghost" href="index.html">&larr; All articles</a></p>
+      <span class="eyebrow">error handling</span>
+      <h1>Nim <code>{.raises: [].}</code>: stop your agent validating trusted data twice</h1>
+      <ul class="post-meta">
+        <li><time datetime="2026-10-18">18 October 2026</time></li>
+        <li>Antonis Geralis</li>
+        <li>4 min read</li>
+        <li><span class="badge badge--ok">verified on Nim 2.3.1</span></li>
+      </ul>
+      <p class="lede measure">Nim can prove that a proc never raises, yet coding agents fill trusted code with error paths that cannot run: an &ldquo;unknown unit&rdquo; raise on a value that already passed validation, a <code>try</code> around a call that cannot fail. Validate once at the boundary, carry the proof in a <code>distinct</code> type, and mark the code behind it <code>{.raises: [].}</code>. Without guidance, two models broke this rule in all 11 runs.</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="article-layout">
+      <nav class="toc" aria-labelledby="toc-h">
+        <h2 id="toc-h">On this page</h2>
+        <ol>
+          <li><a href="#failure">The check that can never fire</a></li>
+          <li><a href="#cost">What a dead error path costs</a></li>
+          <li><a href="#fix">Validate once, carry the proof</a></li>
+          <li><a href="#raises">Make the compiler enforce it</a></li>
+          <li><a href="#agents">0 of 11 without the skill, 8 of 11 with it</a></li>
+          <li><a href="#takeaways">Checklist for your own code</a></li>
+        </ol>
+      </nav>
+
+      <div class="prose">
+        <h2 id="failure">The check that can never fire</h2>
+        <p>A command-line tool converts lengths. The user names a unit; the conversion factors are compiled into the binary. This is the shape agents write without guidance:</p>
+        <figure class="code-block">
+          <figcaption><span>before.nim</span><span>Nim 2.3.1</span></figcaption>
+<pre><code><span class="tok-k">import</span> std/[os, tables]
+
+<span class="tok-k">const</span> Factors = {<span class="tok-s">"m"</span>: <span class="tok-n">1.0</span>, <span class="tok-s">"km"</span>: <span class="tok-n">1000.0</span>, <span class="tok-s">"mi"</span>: <span class="tok-n">1609.344</span>}.toTable
+
+<span class="tok-k">proc</span> parseUnit(s: string): string =
+  <span class="tok-k">if</span> s <span class="tok-k">notin</span> Factors:
+    <span class="tok-k">raise</span> newException(ValueError, <span class="tok-s">"unknown unit: "</span> &amp; s)
+  s
+
+<span class="tok-k">proc</span> toMeters(unit: string; value: float): float =
+<span class="del-line">  <span class="tok-k">if</span> unit <span class="tok-k">notin</span> Factors:                    <span class="tok-c"># unit came from parseUnit</span>
+    <span class="tok-k">raise</span> newException(ValueError, <span class="tok-s">"unknown unit: "</span> &amp; unit)</span>
+  value * Factors[unit]
+
+<span class="tok-k">let</span> unit = <span class="tok-k">try</span>: parseUnit(paramStr(<span class="tok-n">1</span>))
+           <span class="tok-k">except</span> ValueError <span class="tok-k">as</span> e: quit e.msg
+<span class="del-line"><span class="tok-k">try</span>:</span>
+  echo toMeters(unit, <span class="tok-n">3.0</span>)
+<span class="del-line"><span class="tok-k">except</span> ValueError, KeyError:                <span class="tok-c"># cannot happen</span>
+  quit <span class="tok-s">"conversion failed"</span></span></code></pre>
+        </figure>
+        <p>It compiles, <code>./before km</code> prints <code>3000.0</code> and <code>./before ft</code> exits with <code>unknown unit: ft</code>. Every test passes. The second &ldquo;unknown unit&rdquo; check and the <code>try</code> around <code>toMeters</code> can never run: the only <code>unit</code> that reaches them has already passed <code>parseUnit</code>, and the table cannot change after the build.</p>
+
+        <h2 id="cost">What a dead error path costs</h2>
+        <ul>
+          <li><strong>It cannot be tested.</strong> No input reaches the second raise, so no test covers it and nobody notices when its message or type drifts.</li>
+          <li><strong>It spreads to every caller.</strong> <code>toMeters</code> now says it can raise, so each caller writes a handler for a failure that cannot happen, and each handler is dead code too.</li>
+          <li><strong>It hides the real contract.</strong> The one place a user can cause an error is the boundary. When trusted code raises the same error, a reader can no longer tell where bad input is rejected.</li>
+        </ul>
+
+        <h2 id="fix">Validate once, carry the proof</h2>
+        <p>Raise once, where untrusted input enters. Return a <code>distinct</code> type from that check, so the type itself says &ldquo;this value was validated&rdquo;, and let everything behind it take only that type:</p>
+        <div class="diag diag--ok" role="group" aria-label="Verified">
+          <div class="diag__head"><span class="diag__label">verified</span><span class="diag__msg"><code>./after km</code> prints <code>3000.0</code>; <code>./after ft</code> exits 1 with <code>unknown unit: ft</code></span></div>
+<pre class="diag__body"><code><span class="tok-k">import</span> std/os
+
+<span class="tok-k">type</span> Unit = <span class="tok-k">distinct</span> int    <span class="tok-c"># index into Units; only parseUnit makes one</span>
+
+<span class="tok-k">const</span> Units = [(name: <span class="tok-s">"m"</span>, meters: <span class="tok-n">1.0</span>), (name: <span class="tok-s">"km"</span>, meters: <span class="tok-n">1000.0</span>),
+               (name: <span class="tok-s">"mi"</span>, meters: <span class="tok-n">1609.344</span>)]
+<span class="tok-k">static</span>:                     <span class="tok-c"># a bad table fails the build, not a customer's run</span>
+  <span class="tok-k">for</span> u <span class="tok-k">in</span> Units: doAssert u.meters &gt; <span class="tok-n">0</span>, <span class="tok-s">"bad factor for "</span> &amp; u.name
+
+<span class="add-line"><span class="tok-k">proc</span> parseUnit(s: string): Unit {.raises: [ValueError].} =</span>
+  <span class="tok-k">for</span> i, u <span class="tok-k">in</span> Units:
+    <span class="tok-k">if</span> u.name == s: <span class="tok-k">return</span> Unit(i)
+  <span class="tok-k">raise</span> newException(ValueError, <span class="tok-s">"unknown unit: "</span> &amp; s)
+
+<span class="add-line"><span class="tok-k">proc</span> toMeters(u: Unit; value: float): float {.raises: [].} =</span>
+  value * Units[u.int].meters
+
+<span class="tok-k">let</span> unit = <span class="tok-k">try</span>: parseUnit(paramStr(<span class="tok-n">1</span>))
+           <span class="tok-k">except</span> ValueError <span class="tok-k">as</span> e: quit e.msg
+echo toMeters(unit, <span class="tok-n">3.0</span>)</code></pre>
+        </div>
+        <p>Same output, one raise, one handler. A raw string no longer fits: <code>toMeters("km", 3.0)</code> is a <code>type mismatch</code> at compile time, so unvalidated input cannot reach the trusted path by accident. If the compiled-in table needs checking, the <code>static</code> block checks it during the build; a zero factor stops compilation instead of failing on a customer&rsquo;s machine.</p>
+
+        <h2 id="raises">Make the compiler enforce it</h2>
+        <p>A comment saying &ldquo;this cannot fail&rdquo; lasts until the next edit. <code>{.raises: [].}</code> is checked on every build. Add a raise to <code>toMeters</code>, as an agent tidying up &ldquo;missing validation&rdquo; would, and the build stops:</p>
+        <div class="diag diag--error" role="group" aria-label="Compiler error">
+          <div class="diag__head"><span class="diag__label"></span><span class="diag__msg">(ref ValueError)(msg: "negative length", parent: nil) can raise an unlisted exception: ref ValueError</span><span class="diag__loc">after.nim(16, 17)</span></div>
+<pre class="diag__body"><code><span class="tok-k">proc</span> toMeters(u: Unit; value: float): float {.raises: [].} =
+  <span class="tok-k">if</span> value &lt; <span class="tok-n">0</span>: <span class="hl"><span class="tok-k">raise</span> newException(ValueError, <span class="tok-s">"negative length"</span>)</span>
+<span class="caret">                ^</span></code></pre>
+          <div class="diag__note"><p>Nim 2.3.1, the file above with one line added. Calling a proc that can raise is rejected the same way.</p></div>
+        </div>
+        <p>In Python or TypeScript, &ldquo;this function cannot fail&rdquo; is a convention a reviewer has to remember. In Nim it is part of the signature, and the compiler rejects the redundant check before review starts. A wrong decision about where errors belong becomes a build error.</p>
+
+        <h2 id="agents">0 of 11 without the skill, 8 of 11 with it</h2>
+        <p>We tested this on a multi-module Nim command-line tool where customer-uploaded input must be validated and the product data is compiled into the binary. Each run was blind and sandboxed. Without the skill, every run validated trusted data again:</p>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead><tr><th scope="col">Runs passed</th><th scope="col" class="is-us">Verified skill</th><th scope="col">No skill</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">DeepSeek V4.1 Flash, <a href="cost-per-solved-task.html">pre-registered study</a></th><td class="is-us"><span class="yes">3/5</span></td><td><span class="no">0/5</span></td></tr>
+              <tr><th scope="row">DeepSeek V4.1 Flash, after DeepSeek&rsquo;s model update</th><td class="is-us"><span class="yes">2/3</span></td><td><span class="no">0/3</span></td></tr>
+              <tr><th scope="row">GPT-6.1 Sol, maximum reasoning</th><td class="is-us"><span class="yes">3/3</span></td><td><span class="no">0/3</span></td></tr>
+              <tr><th scope="row">Total</th><td class="is-us"><strong>8/11</strong></td><td><strong>0/11</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The unguided programs mostly produced correct output. The output was right; the design wasn&rsquo;t. They raised errors that no input could trigger and handed callers a wider error contract than the program has. More reasoning did not help: the frontier model at maximum effort made the same choice in all three runs.</p>
+        <p class="muted small">Three to five runs per arm on each model, on a task chosen because it separates agents with and without the skill. Sample sizes and the remaining notes are on the <a href="../benchmarks.html#scope">benchmarks page</a>. All code examples were compiled and run with Nim 2.3.1 on Linux amd64.</p>
+
+        <h2 id="takeaways">Checklist for your own code</h2>
+        <ul>
+          <li><strong>Find the boundary.</strong> Command-line arguments, uploaded files and network input get validated there, once.</li>
+          <li><strong>Return a <code>distinct</code> type from the validator</strong> and make trusted procs take that type, not the raw value.</li>
+          <li><strong>Mark trusted procs <code>{.raises: [].}</code>.</strong> A raise added later becomes a compile error.</li>
+          <li><strong>Check compiled-in data at compile time</strong> with a <code>static</code> block, not at run time on every start.</li>
+        </ul>
+
+        <aside class="next-steps cta" aria-labelledby="next-h">
+          <div><h2 id="next-h">Give your agent the error contract, not just the output</h2><p>The verified error-handling skill teaches agents where Nim errors belong, re-checked on new Nim builds. From $8 a month (the founding yearly price of $96, open until 30 November 2026).</p><!-- CONTENT: after 30 November 2026 revert to $10/month --></div>
+          <div class="btn-row"><a class="btn btn--primary" href="../get-access.html">Get access</a><a class="btn" href="../pricing.html">Pricing</a></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Product</h2>
+        <ul>
+          <li><a href="../index.html">Overview</a></li>
+          <li><a href="../why.html">Why verified skills?</a></li>
+          <li><a href="../pricing.html">Pricing</a></li>
+          <li><a href="../get-access.html">Get access</a></li>
+          <li><a href="../benchmarks.html">Benchmarks</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Evidence</h2>
+        <ul>
+          <li><a href="../posts/index.html">Articles</a></li>
+          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <ul>
+          <li><a href="https://github.com/planetis-m/nyx">NYX installer</a></li>
+          <li><a href="https://github.com/planetis-m/skills">Public skills (CC BY-NC-SA 4.0)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Company</h2>
+        <ul>
+          <li><a href="../license.html">Commercial license</a></li>
+          <li><a href="../terms.html">Terms</a></li>
+          <li><a href="../privacy.html">Privacy</a></li>
+          <li><a href="mailto:verified.nim@gmail.com">verified.nim@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__legal">
+      <span>&copy; 2026 GERALIS A KAI SIA L.P.</span>
+      <span class="mono">static site &middot; no trackers &middot; no cookies</span><!-- CONTENT: keep true; remove if analytics are ever added -->
+    </div>
+  </div>
+</footer>
+</body>
+</html>
