@@ -51,7 +51,7 @@
         <a class="btn" href="#problems">See what the testing catches</a>
       </div>
       <p class="hero__note">$8/month is the founding yearly price: $96 a year for subscriptions started by 30 November 2026, kept while subscribed.<!-- CONTENT: after 30 November 2026 revert to $10/month --></p>
-      <p class="hero__note"><span class="badge badge--ok">verified on Nim 2.3.1 &middot; Nimony 0.6.3</span><!-- CONTENT: update versions with each re-verification --></p>
+      <p class="hero__note">Verified on Nim 2.3.1 &middot; Nimony 0.6.3<!-- CONTENT: update versions with each re-verification --></p>
     </div>
     <div>
       <div class="diag diag--hero" role="group" aria-label="A moved-from Nim object segfaults on legal reuse">
@@ -72,7 +72,6 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
 <section class="section" id="problems" aria-labelledby="problems-h">
   <div class="wrap">
     <div class="section__head">
-      <span class="eyebrow">why a skill needs testing</span>
       <h2 id="problems-h">A skill file repeats its mistakes in every run</h2>
       <p>Your agent follows a skill without second-guessing it, so one wrong rule becomes a wrong program every time the skill loads. When we compiled and ran the claims in our own skill drafts, about one in seven needed correcting: 127 corrections across 912 claims. Testing a skill once costs less than catching each bad run.</p>
       <p>Three bugs from the audit and the trials. Each compiles, looks idiomatic and passes a quick test. Only running the code caught them.</p>
@@ -101,7 +100,6 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
 <section class="section section--alt" id="results" aria-labelledby="results-h">
   <div class="wrap">
     <div class="section__head">
-      <span class="eyebrow">blind trials</span>
       <h2 id="results-h">Same cheap model: 18 of 20 solved with our skills, 3 of 20 without</h2>
       <p>Four hard Nim tasks, each run five times with the skill and five times without: a bug report with a reproducer, a C-to-Nim port, cross-module error handling and a manually managed container. Every run was blind and sandboxed. Deterministic checks scored it, and the plan was fixed before the first run.</p>
     </div>
@@ -118,7 +116,6 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
 <section class="section" id="compare" aria-labelledby="compare-h">
   <div class="wrap">
     <div class="section__head">
-      <span class="eyebrow">why this wins</span>
       <h2 id="compare-h">The alternatives don&rsquo;t check their work</h2>
     </div>
     <div class="grid grid--3">
@@ -133,14 +130,13 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
 <section class="section section--alt" id="nimony" aria-labelledby="nimony-h">
   <div class="wrap">
     <div class="section__head">
-      <span class="eyebrow">what you pay for</span>
       <h2 id="nimony-h">The files are cheap. The checking isn&rsquo;t.</h2>
       <p>Anyone can write a skill file. The subscription pays for the work that keeps ours right.</p>
     </div>
     <div class="grid grid--3">
-      <div class="card"><span class="card__kicker">every claim run</span><h3 class="card__title">Compiled and run</h3><p>Each code claim is a program the current Nim compiler builds and runs. 690 test programs back the catalog and its audit so far.</p></div>
-      <div class="card"><span class="card__kicker">tested on agents</span><h3 class="card__title">Tried on hard tasks</h3><p>Agents solve hard Nim tasks with and without the skill. Where the agent still fails, the skill is rewritten and tested again.</p></div>
-      <div class="card"><span class="card__kicker">kept current</span><h3 class="card__title">Re-tested when the compiler moves</h3><p>New Nim and Nimony builds rerun the tests, and broken guidance is fixed. <code>nyx update</code> brings the fix to your agent.</p></div>
+      <div class="card"><h3 class="card__title">Compiled and run</h3><p>Each code claim is a program the current Nim compiler builds and runs. 690 test programs back the catalog and its audit so far.</p></div>
+      <div class="card"><h3 class="card__title">Tried on hard tasks</h3><p>Agents solve hard Nim tasks with and without the skill. Where the agent still fails, the skill is rewritten and tested again.</p></div>
+      <div class="card"><h3 class="card__title">Re-tested when the compiler moves</h3><p>New Nim and Nimony builds rerun the tests, and broken guidance is fixed. <code>nyx update</code> brings the fix to your agent.</p></div>
     </div>
     <p class="mt-6">A downloaded skill goes stale without warning. One day after we corrected the error-handling skill, a Nimony fix began rejecting a <code>.raises</code> form it had just taught, and the version number did not change. Re-running the tests flagged the exact sentences to rewrite. A one-off copy would still teach the old rule. <a href="posts/release-build-swallowed-the-error.html">Read how a release build swallowed an error</a>.</p>
   </div>
@@ -149,7 +145,6 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
 <section class="section" id="what" aria-labelledby="what-h">
   <div class="wrap">
     <div class="section__head">
-      <span class="eyebrow">what you get</span>
       <h2 id="what-h">What the subscription adds to the public skills</h2>
       <p>The <a href="https://github.com/planetis-m/skills">public skills</a> stay free. They are separate community work, not a free tier, and they do not get this testing.</p>
     </div>
@@ -158,11 +153,11 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
       <table class="compare">
         <thead><tr><th scope="col">&nbsp;</th><th scope="col" class="is-us">Verified Nim Skills</th><th scope="col">Public skills</th></tr></thead>
         <tbody>
-          <tr><th scope="row">Claims tested against the current compilers</th><td class="is-us"><span class="yes">All testable claims</span></td><td><span class="partial">Not systematically</span></td></tr>
-          <tr><th scope="row">Audit corrections applied and retested</th><td class="is-us"><span class="yes">Yes</span></td><td><span class="partial">Some synced, no guarantee</span></td></tr>
-          <tr><th scope="row">Nimony</th><td class="is-us"><span class="yes">Yes</span></td><td><span class="partial">Plugins only</span></td></tr>
-          <tr><th scope="row">Re-verified on new compiler builds</th><td class="is-us"><span class="yes">While subscribed</span></td><td><span class="partial">Best effort</span></td></tr>
-          <tr><th scope="row">Use in commercial work</th><td class="is-us"><span class="yes">Internal use</span></td><td><span class="no">Non-commercial only</span></td></tr>
+          <tr><th scope="row">Claims tested against the current compilers</th><td class="is-us">All testable claims</td><td><span class="partial">Not systematically</span></td></tr>
+          <tr><th scope="row">Audit corrections applied and retested</th><td class="is-us">Yes</td><td><span class="partial">Some synced, no guarantee</span></td></tr>
+          <tr><th scope="row">Nimony</th><td class="is-us">Yes</td><td><span class="partial">Plugins only</span></td></tr>
+          <tr><th scope="row">Re-verified on new compiler builds</th><td class="is-us">While subscribed</td><td><span class="partial">Best effort</span></td></tr>
+          <tr><th scope="row">Use in commercial work</th><td class="is-us">Internal use</td><td><span class="no">Non-commercial only</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -173,7 +168,6 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
 <section class="section section--alt" id="how" aria-labelledby="how-h">
   <div class="wrap">
     <div class="section__head">
-      <span class="eyebrow">setup</span>
       <h2 id="how-h">In your agent in three steps</h2>
       <p>Works with Claude Code, Codex, Cursor, GitHub Copilot, OpenCode, Windsurf and <a href="get-access.html#targets">more</a>.</p>
     </div>
@@ -188,7 +182,6 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
 <section class="section" id="pricing" aria-labelledby="pricing-h">
   <div class="wrap">
     <div class="section__head">
-      <span class="eyebrow">pricing</span>
       <h2 id="pricing-h">From $8 a month, the catalog stays tested on the current compiler</h2><!-- CONTENT: after 30 November 2026 revert to $10/month -->
     </div>
 <div class="pricing">
@@ -223,7 +216,7 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
 
 <section class="section section--alt" id="faq" aria-labelledby="faq-h">
   <div class="wrap">
-    <div class="section__head"><span class="eyebrow">faq</span><h2 id="faq-h">Questions</h2></div>
+    <div class="section__head"><h2 id="faq-h">Questions</h2></div>
     <div class="faq">
       <details><summary>They&rsquo;re markdown files. What am I paying for?</summary><div class="faq__answer"><p>The testing behind them. Each code claim has a program the real compiler builds and runs, the skills are tried on hard agent tasks, and the suite runs again on new compiler builds. When a test exposes a wrong statement, including in our own earlier versions, we fix it and ship it in your next update.</p></div></details>
       <details><summary>How do I justify this to my engineering manager?</summary><div class="faq__answer"><p>Agent-written Nim that crashes on an unusual path costs a review cycle when you are lucky and an incident when you are not. The skills target exactly those paths. We build and test them on low-cost models, so the agent you already pay for gets them right.</p></div></details>

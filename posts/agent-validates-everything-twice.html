@@ -73,7 +73,7 @@
         <li><time datetime="2026-10-18">18 October 2026</time></li>
         <li>Antonis Geralis</li>
         <li>4 min read</li>
-        <li><span class="badge badge--ok">verified on Nim 2.3.1</span></li>
+        <li>Verified on Nim 2.3.1</li>
       </ul>
       <p class="lede measure">Nim can prove that a proc never raises, yet coding agents fill trusted code with error paths that cannot run: an &ldquo;unknown unit&rdquo; raise on a value that already passed validation, a <code>try</code> around a call that cannot fail. Validate once at the boundary, carry the proof in a <code>distinct</code> type, and mark the code behind it <code>{.raises: [].}</code>. Without guidance, two models broke this rule in all 11 runs.</p>
     </div>
@@ -172,9 +172,9 @@ echo toMeters(unit, <span class="tok-n">3.0</span>)</code></pre>
           <table class="compare">
             <thead><tr><th scope="col">Runs passed</th><th scope="col" class="is-us">Verified skill</th><th scope="col">No skill</th></tr></thead>
             <tbody>
-              <tr><th scope="row">DeepSeek V4.1 Flash, <a href="cost-per-solved-task.html">pre-registered study</a></th><td class="is-us"><span class="yes">3/5</span></td><td><span class="no">0/5</span></td></tr>
-              <tr><th scope="row">DeepSeek V4.1 Flash, after DeepSeek&rsquo;s model update</th><td class="is-us"><span class="yes">2/3</span></td><td><span class="no">0/3</span></td></tr>
-              <tr><th scope="row">GPT-6.1 Sol, maximum reasoning</th><td class="is-us"><span class="yes">3/3</span></td><td><span class="no">0/3</span></td></tr>
+              <tr><th scope="row">DeepSeek V4.1 Flash, <a href="cost-per-solved-task.html">pre-registered study</a></th><td class="is-us">3/5</td><td><span class="no">0/5</span></td></tr>
+              <tr><th scope="row">DeepSeek V4.1 Flash, after DeepSeek&rsquo;s model update</th><td class="is-us">2/3</td><td><span class="no">0/3</span></td></tr>
+              <tr><th scope="row">GPT-6.1 Sol, maximum reasoning</th><td class="is-us">3/3</td><td><span class="no">0/3</span></td></tr>
               <tr><th scope="row">Total</th><td class="is-us"><strong>8/11</strong></td><td><strong>0/11</strong></td></tr>
             </tbody>
           </table>

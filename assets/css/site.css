@@ -2,7 +2,7 @@
    Verified Nim Skills site — design system (revision 2: restrained)
    One file, no build step. Sections:
    1 tokens  2 base  3 layout
-   4 components: header/nav, footer, buttons, badges, hero, cards, steps,
+   4 components: header/nav, footer, buttons, hero, cards, steps,
      cta, figure, terminal, diagnostics, code blocks, callouts, tables,
      plans, prose/article, toc, footnotes, posts list, faq
    5 utilities  6 page: pricing  7 print
@@ -13,8 +13,8 @@
    - ONE accent (--accent, blue): primary button, links, focus ring,
      the featured plan / "us" column. Nothing else (nav state is ink).
    - Status colours (--ok/--warn/--err) are desaturated and appear only
-     where they carry meaning: diagnostics, terminal output, badges,
-     yes/no marks. They are never decoration.
+     where they carry meaning: diagnostics, terminal output, diffs and
+     cautionary callouts. They are never decoration.
    - Code, terminals and diagnostics share one surface (--code-*) and
      follow the page theme.
    ========================================================================== */
@@ -91,7 +91,7 @@
   --space-8: 4.5rem;
 
   /* Shape: three radii by hierarchy */
-  --radius-sm: 4px;   /* inline code, kbd, badges */
+  --radius-sm: 4px;   /* inline code, kbd */
   --radius: 6px;      /* buttons, code blocks, callouts, tables */
   --radius-lg: 10px;  /* cards, plans, CTA panel */
 
@@ -261,21 +261,6 @@ tbody th { font-weight: 600; }
 .btn--block { width: 100%; }
 .btn-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
 
-/* Badges: neutral chip; status variants colour the dot only */
-.badge {
-  display: inline-flex; align-items: center; gap: 0.45em;
-  font: 500 var(--step--2)/1 var(--font-mono); white-space: nowrap;
-  padding: 0.35em 0.6em; border-radius: var(--radius-sm);
-  border: 1px solid var(--border); color: var(--muted); background: var(--surface);
-  vertical-align: middle;
-}
-.badge--ok, .badge--warn, .badge--err, .badge--accent { color: var(--fg); }
-.badge--ok::before, .badge--warn::before, .badge--err::before, .badge--accent::before { content: ""; width: 0.5em; height: 0.5em; border-radius: 50%; flex: none; }
-.badge--ok::before { background: var(--ok); }
-.badge--warn::before { background: var(--warn); }
-.badge--err::before { background: var(--err); }
-.badge--accent::before { background: var(--accent); }
-
 /* Hero */
 .hero { padding-block: var(--space-7); }
 @media (min-width: 48rem) { .hero { padding-block: var(--space-8); } }
@@ -377,14 +362,13 @@ tbody th { font-weight: 600; }
 .diag-pair > .diag { margin: 0; }
 @media (min-width: 60rem) { .diag-pair--wide { grid-template-columns: 1fr 1fr; } }
 /* .diag--hero: the home-page crash card. Editor-like and neutral; the crash
-   output line is the only status colour (a small dot and the line itself). */
+   output line is the only status colour. */
 .diag--hero { border-left: 1px solid var(--code-border); }
 .diag--hero .diag__head { justify-content: space-between; align-items: center; }
 .diag--hero .diag__loc { margin-left: 0; font-family: var(--font-sans); }
 .diag__file { color: var(--code-dim); font-size: var(--step--2); }
 .diag__out { padding: var(--space-2) var(--space-4) var(--space-3); border-top: 1px dashed var(--code-border); }
-.diag__out-label { display: flex; align-items: center; gap: var(--space-2); color: var(--code-dim); font-size: var(--step--2); }
-.diag__out-label::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: 1px; border-radius: 50%; background: var(--err); }
+.diag__out-label { display: block; color: var(--code-dim); font-size: var(--step--2); }
 .diag__out-line { padding: 0; color: var(--err); white-space: pre-wrap; overflow-wrap: anywhere; }
 .diag__out-line .nowrap { white-space: nowrap; }
 
@@ -422,14 +406,8 @@ tbody th { font-weight: 600; }
 .compare th:first-child { width: 28%; }
 .compare .is-us { background: var(--accent-soft); }
 .compare thead .is-us { color: var(--fg); box-shadow: inset 0 2px 0 var(--accent); }
-/* Marks: the glyph carries the status colour, the words stay neutral */
-.yes, .no, .partial { font-weight: 500; }
-.yes { color: var(--fg); }
-.yes::before { content: ""; display: inline-block; width: 0.32em; height: 0.62em; margin: 0 0.6em 0.18em 0.1em; border: solid var(--ok); border-width: 0 2px 2px 0; transform: rotate(45deg); vertical-align: middle; }
-.no { color: var(--muted); }
-.no::before { content: "\00d7\00a0"; color: var(--err); font-weight: 700; }
-.partial { color: var(--muted); }
-.partial::before { content: "~\00a0"; color: var(--faint); font-family: var(--font-mono); font-weight: 700; }
+/* Answers that fall short read muted; plain words, no marks */
+.no, .partial { color: var(--muted); }
 
 /* Plans. .pricing--balanced: cards share rows through subgrid on wide
    screens, so bands, prices, lists, notices and buttons line up across plans.
@@ -465,12 +443,10 @@ tbody th { font-weight: 600; }
 .plan__actions > .btn { flex: 1 1 auto; }
 .plan__actions > .btn--primary { flex-grow: 2; }
 
-/* Checked lists: plan features and the "everything included" list */
+/* Plain lists: plan features and the "everything included" list */
 .included-list { list-style: none; padding: 0; margin: 0 0 var(--space-4); display: grid; gap: 0 var(--space-5); grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 40rem) { .included-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.plan__list li, .included-list li { position: relative; padding: var(--space-2) 0 var(--space-2) 1.5rem; border-top: 1px solid var(--border); }
-.plan__list li::before, .included-list li::before { content: ""; position: absolute; left: 0.2rem; top: 0.95em; width: 0.3em; height: 0.6em; border: solid var(--muted); border-width: 0 2px 2px 0; transform: rotate(45deg); }
-.included-list li::before { border-color: var(--fg); }
+.plan__list li, .included-list li { padding: var(--space-2) 0; border-top: 1px solid var(--border); }
 .included-next { font-size: var(--step--1); color: var(--muted); margin-bottom: var(--space-3); }
 .included-next strong { color: var(--fg); font-weight: 600; }
 
@@ -500,8 +476,9 @@ tbody th { font-weight: 600; }
 
 .article-header { padding-block: var(--space-7) var(--space-5); }
 .article-header h1 { font-size: var(--step-4); max-width: 24ch; }
-.post-meta { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); align-items: center; font: var(--step--1)/1.5 var(--font-sans); color: var(--muted); margin: 0 0 var(--space-4); padding: 0; list-style: none; font-variant-numeric: tabular-nums; }
-.post-meta li + li::before { content: ""; display: inline-block; width: 3px; height: 3px; border-radius: 50%; background: var(--faint); vertical-align: middle; margin-right: var(--space-3); }
+.post-meta { display: flex; flex-wrap: wrap; gap: var(--space-1) calc(2 * var(--space-3) + 1ch); align-items: center; overflow: hidden; font: var(--step--1)/1.5 var(--font-sans); color: var(--muted); margin: 0 0 var(--space-4); padding: 0; list-style: none; font-variant-numeric: tabular-nums; }
+/* Separators sit in the column gap; the one that would start a wrapped line is clipped */
+.post-meta li::before { content: "\00b7"; display: inline-block; width: 1ch; text-align: center; margin: 0 var(--space-3) 0 calc(-1 * var(--space-3) - 1ch); color: var(--faint); }
 
 /* TOC (layout on wide screens: see .article-layout) */
 .toc { font-size: var(--step--1); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-4); background: var(--surface); }
