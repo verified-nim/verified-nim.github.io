@@ -59,7 +59,7 @@
           "name": "Don't strong models already know Nim?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "They know how to write correct Nim. In our benchmark, correctness was level with and without the skills. The skills add what a correctness check never asks for: the workflow of a careful Nim engineer."
+            "text": "Knowing Nim leaves room for memory-safety bugs and skipped engineering checks. In our latest benchmark, build and output checks were comparable; runs with the skills passed the full set of checks far more often."
           }
         },
         {
@@ -67,7 +67,7 @@
           "name": "They're markdown files. What am I paying for?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The testing behind them. Each code claim is a program the real compiler builds and runs, and the suite runs again on new compiler builds. When a test exposes a wrong statement, we fix it and ship it in your next update."
+            "text": "The testing behind them: code claims compiled and run, skills tried on hard agent tasks, and re-testing on new compiler builds. When a test exposes wrong guidance, we fix it and ship the correction in your next update."
           }
         },
         {
@@ -75,7 +75,15 @@
           "name": "Do the skills make the agent cost more?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A skill-guided run often does more work, so it can cost more. It also passes far more often, so each passing run costs less."
+            "text": "In our latest DeepSeek V4.1 Flash benchmark, cost per passing run was 35% lower at maximum effort with the skills. Each run can cost more because the agent does more work; far more runs pass."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I already use Context7 or another docs MCP. Do I need this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, and keep the MCP. Docs tell the agent what exists. The skills tell it what is safe on today’s compiler, what to avoid and how to isolate a failure."
           }
         }
       ]
@@ -105,7 +113,7 @@
   <div class="wrap split">
     <div>
       <h1 class="hero__title">Give your AI coding agent the habits of a careful Nim engineer</h1>
-      <p class="hero__lede">Your agent already writes Nim that compiles. With compiler-verified skills it also does the careful work, so you review less.</p>
+      <p class="hero__lede">Compiler-verified instruction files teach your coding agent safe Nim patterns and careful engineering habits, with every code claim compiled, run and re-tested.</p>
       <div class="btn-row hero__actions">
         <a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month -->
         <a class="btn" href="benchmarks.html">See the benchmark</a>
@@ -121,7 +129,7 @@
 <span class="tok-k">var</span> b = move(a)
 a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a moved-from value is legal</span></code></pre>
         <div class="diag__out"><span class="diag__out-label">runtime</span><pre class="diag__out-line"><code>SIGSEGV: Illegal storage access. <span class="nowrap">(Attempt to read from nil?)</span></code></pre></div>
-        <div class="diag__note">The next legal write goes through nil. The advice behind it, &ldquo;<code>=wasMoved</code> only needs to make <code>=destroy</code> a no-op&rdquo;, passes review and the destroy test. The verified skill resets every field, and a test reproduces the crash and proves the fix.</div>
+        <div class="diag__note">The next legal write goes through nil. Resetting only the pointer makes destruction safe but leaves reuse broken. The verified skill resets every field; a test reproduces the crash and proves the fix.</div>
       </div>
     </div>
   </div>
@@ -131,15 +139,15 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
   <div class="wrap">
     <div class="section__head">
       <h2 id="work-h">What changes in your agent&rsquo;s Nim work</h2>
-      <p>Strong models write Nim that builds and passes its tests. What they skip lands on your reviewer. The skills make it part of the agent&rsquo;s routine.</p>
+      <p>A build and passing tests can still leave essential engineering work for your reviewer. The skills make that work part of the agent&rsquo;s routine.</p>
     </div>
     <div class="grid grid--2">
-      <div class="card"><h3 class="card__title">Bug reports a maintainer can act on</h3><p>The agent cuts the reproducer to the minimum, runs it until it knows how often it fails, and quotes the Nim version and the failing output.</p></div>
-      <div class="card"><h3 class="card__title">Ports that put inherited bugs on record</h3><p>When a port from C keeps a defect on purpose, the agent records it in the code and the porting notes. The next maintainer doesn&rsquo;t find it the hard way.</p></div>
+      <div class="card"><h3 class="card__title">Bug reports a maintainer can act on</h3><p>The agent minimizes the reproducer, measures its failure rate, and quotes the Nim version and failing output.</p></div>
+      <div class="card"><h3 class="card__title">Ports that put inherited bugs on record</h3><p>When a C port deliberately keeps a defect, the agent records it in the code and porting notes for the next maintainer.</p></div>
       <div class="card"><h3 class="card__title">Validation once, at the trust boundary</h3><p>Untrusted input is checked where it enters. Data the compiler already proved is left alone. <a href="posts/agent-validates-everything-twice.html">See the pattern in code</a>.</p></div>
       <div class="card"><h3 class="card__title">A sanitizer that reports memory faults</h3><p>Debugging scripts stop Nim&rsquo;s crash handler from swallowing segmentation faults, so AddressSanitizer prints its report.</p></div>
     </div>
-    <p class="mt-6">In a blind benchmark on DeepSeek V4.1 Flash and GPT-6.1 Sol, runs did all of this 56 of 57 times with the skills and fewer than a third of the time without. <a href="benchmarks.html">See the benchmark</a>.</p>
+    <p class="mt-6">In blind tests on DeepSeek V4.1 Flash and GPT-6.1 Sol, the skills made the agent pass the full engineering checks far more often. <a href="benchmarks.html">See the benchmark</a>.</p>
   </div>
 </section>
 
@@ -147,24 +155,24 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
   <div class="wrap">
     <div class="section__head">
       <h2 id="problems-h">A skill file repeats its mistakes in every run</h2>
-      <p>Your agent follows a skill without second-guessing it, so one wrong rule becomes a wrong program every time the skill loads. When we compiled and ran the claims in our own skill drafts, about one in seven needed correcting: 127 corrections across 912 claims. Testing a skill once costs less than catching each bad run.</p>
-      <p>Three bugs the audit caught. Each compiles, looks idiomatic and passes a quick test.</p>
+      <p>A wrong rule repeats every time a skill loads. Compiler-run checks catch mistakes before your agent follows them.</p>
+      <p>Three bugs from the audit and trials: each compiles, looks idiomatic and passes a quick test.</p>
     </div>
     <div class="grid grid--3">
       <a class="card card--link" href="posts/moved-from-object-segfaults.html#alias">
         <h3 class="card__title">A copy hook that reads freed memory</h3>
-        <p>A <code>=copy</code> guard that compares addresses misses aliasing, so the copy reads a buffer it just freed. The demo and the stress test still pass.</p>
+        <p>An address guard in <code>=copy</code> misses aliasing and reads freed memory. The demo and stress test pass. Without the skill, the agent&rsquo;s container failed this memory-safety check. With the skill, it passed.</p>
       </a>
       <a class="card card--link" href="posts/moved-from-object-segfaults.html#dup">
         <h3 class="card__title"><code>=dup</code> hooks that run on garbage</h3>
-        <p>Copy into freshly allocated raw storage and the compiler injects a <code>=sink</code> that treats uninitialized memory as a live value. Our own verified skill had the right pragma for the wrong reason. A compiler-run test now pins the real rule.</p>
+        <p>Copy into raw storage and an injected <code>=sink</code> treats uninitialized memory as live. Our skill had the right pragma for the wrong reason. A compiler-run test now pins the rule.</p>
       </a>
       <div class="card">
         <h3 class="card__title">A green suite that never runs your new tests</h3>
-        <p>Without the skill, the agent&rsquo;s runner listed the tests by hand, so a new test file never runs and the suite stays green.</p>
+        <p>Without the skill, the agent&rsquo;s runner listed the tests by hand, so a new test file never runs and the suite stays green. With the skill, the runner finds every test file.</p>
       </div>
     </div>
-    <p class="mt-6"><a href="why.html">Why verified guidance beats a generated skill, a docs MCP or a bigger model</a>.</p>
+    <p class="mt-6"><a href="why.html">Why verified guidance beats a generated skill, a docs MCP or a bigger model</a>. See the <a href="benchmarks.html#trials">earlier trials and catalog probes</a>.</p>
   </div>
 </section>
 
@@ -175,10 +183,11 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
       <p>Anyone can write a skill file. The subscription pays for the work that keeps ours right.</p>
     </div>
     <div class="grid grid--3">
-      <div class="card"><h3 class="card__title">Compiled and run</h3><p>Each code claim is a program the current Nim compiler builds and runs before the claim ships.</p></div>
+      <div class="card"><h3 class="card__title">Compiled and run</h3><p>Each code claim has a program the current Nim compiler builds and runs before the claim ships.</p></div>
       <div class="card"><h3 class="card__title">Tried on hard tasks</h3><p>Agents solve hard Nim tasks with and without the skill. Where the agent still fails, the skill is rewritten and tested again.</p></div>
       <div class="card"><h3 class="card__title">Re-tested when the compiler moves</h3><p>New Nim and Nimony builds rerun the tests, and broken guidance is fixed. <code>nyx update</code> brings the fix to your agent.</p></div>
     </div>
+    <p class="mt-6" id="verification">The audit checked 912 claims, including 783 testable by a program, backed by 690 compiler-run tests. Testing led to 127 corrections and precise caveats on 104 claims. <a href="posts/moved-from-object-segfaults.html">See the ownership-hook corrections</a>.</p>
     <p class="mt-6">A downloaded skill goes stale without warning. When a Nimony fix began rejecting a <code>.raises</code> form the error-handling skill had just taught, the version number did not change. Re-running the tests flagged the sentences to rewrite. A one-off copy would still teach the old rule. <a href="posts/release-build-swallowed-the-error.html">Read how a release build swallowed an error</a>.</p>
   </div>
 </section>
@@ -224,10 +233,10 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
   <div class="wrap">
     <div class="section__head"><h2 id="faq-h">Questions</h2></div>
     <div class="faq">
-      <details><summary>Don&rsquo;t strong models already know Nim?</summary><div class="faq__answer"><p>They know how to write correct Nim, and in our benchmark correctness was level with and without the skills. The skills add what a correctness check never asks for: the workflow of a careful Nim engineer. <a href="benchmarks.html#know-nim">More on this</a>.</p></div></details>
-      <details><summary>They&rsquo;re markdown files. What am I paying for?</summary><div class="faq__answer"><p>The testing behind them. Each code claim is a program the real compiler builds and runs, and the suite runs again on new compiler builds. When a test exposes a wrong statement, including in our own earlier versions, the fix ships in your next update.</p></div></details>
-      <details><summary>Do the skills make the agent cost more?</summary><div class="faq__answer"><p>A skill-guided run often does more work, so it can cost more. It also passes far more often, so each passing run costs less. <a href="benchmarks.html#cost">Cost per passing run</a>.</p></div></details>
-      <details><summary>I already use Context7 or another docs MCP. Do I need this?</summary><div class="faq__answer"><p>Keep the MCP. Docs tell the agent what exists. The skills tell it what is safe on today&rsquo;s compiler and how to isolate a failure.</p></div></details>
+      <details><summary>Don&rsquo;t strong models already know Nim?</summary><div class="faq__answer"><p>Knowing Nim leaves room for memory-safety bugs and skipped engineering checks. In our latest benchmark, build and output checks were comparable; runs with the skills passed the full set of checks far more often. <a href="benchmarks.html#know-nim">See the results</a>.</p></div></details>
+      <details><summary>They&rsquo;re markdown files. What am I paying for?</summary><div class="faq__answer"><p>The testing behind them: code claims compiled and run, skills tried on hard agent tasks, and re-testing on new compiler builds. When a test exposes wrong guidance, we fix it and ship the correction in your next update.</p></div></details>
+      <details><summary>Do the skills make the agent cost more?</summary><div class="faq__answer"><p>In our latest DeepSeek V4.1 Flash benchmark, cost per passing run was 35% lower at maximum effort with the skills. Each run can cost more because the agent does more work; far more runs pass. <a href="benchmarks.html#cost">Cost per passing run</a>.</p></div></details>
+      <details><summary>I already use Context7 or another docs MCP. Do I need this?</summary><div class="faq__answer"><p>Yes, and keep the MCP. Docs tell the agent what exists. The skills tell it what is safe on today&rsquo;s compiler, what to avoid and how to isolate a failure.</p></div></details>
       <details><summary>Will my agent actually use the skills?</summary><div class="faq__answer"><p>Add a two-line pointer to <code>AGENTS.md</code> or <code>CLAUDE.md</code> and it will load the matching skill. <a href="get-access.html#pointer">Copy the pointer</a>.</p></div></details>
       <details><summary>Billing, licensing and refunds?</summary><div class="faq__answer"><p>See <a href="pricing.html">pricing</a> for plans, invoices, cancellation and refunds.</p></div></details>
     </div>

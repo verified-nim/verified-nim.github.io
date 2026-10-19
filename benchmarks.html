@@ -61,7 +61,7 @@
   <header class="article-header">
     <div class="wrap">
       <h1>What changes when your AI coding agent uses Verified Nim Skills</h1>
-      <p class="lede measure">A blind, pre-registered test on DeepSeek V4.1 Flash and GPT-6.1 Sol: the same working code, with the careful work done in nearly every run.</p>
+      <p class="lede measure">Blind tests on DeepSeek V4.1 Flash and GPT-6.1 Sol show the skills make careful engineering work part of your agent&rsquo;s routine.</p>
       <div class="btn-row">
         <a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month -->
         <a class="btn" href="#results">See the results</a>
@@ -71,7 +71,7 @@
   <div class="wrap">
     <div class="prose measure">
       <h2 id="changes">What changes in your agent&rsquo;s work</h2>
-      <p>Both models wrote correct Nim either way. The difference was in how they worked. With the skills:</p>
+      <p>In this study, both arms generally passed the build, tests and output checks. The skills made additional engineering checks pass far more often:</p>
       <ul>
         <li>Bug reports come with a tested reproducer and a measured failure rate.</li>
         <li>Ports record every bug they inherit.</li>
@@ -96,18 +96,37 @@
       </div>
       <p class="small muted">Pooled lift by row: +0.80, +0.63, +0.73 and +0.51, each with p &le; 0.0011.</p>
       <p id="controls">On the two control tasks, where no lift was expected, runs passed 17 of 18 times with the skills and 18 of 18 without.</p>
-      <p id="know-nim">Correctness was level: 74 of 75 runs with the skills and 77 of 77 without passed the build, tests and output parity. The skills change how your agent works, not whether its code compiles.</p>
+      <p id="know-nim">In this study, 74 of 75 runs with the skills and 77 of 77 without passed the build, tests and output parity. The gain was in additional engineering checks. An <a href="posts/moved-from-object-segfaults.html#alias">earlier ownership trial</a> also showed a memory-safety failure prevented by the skill.</p>
       <p id="substantive">Leave out the checks that only test conventions, and the lift is still +0.60 and +0.40 at maximum effort, +0.53 and +0.31 at low.</p>
 
       <h2 id="cost">Cost per passing run</h2>
-      <p>With the skills, the agent often does more work in a run, yet each passing run costs less. On DeepSeek V4.1 Flash, the API-priced model, a passing run cost $0.096 instead of $0.147 at maximum effort, and $0.039 instead of $0.072 at low effort.</p>
+      <p>On DeepSeek V4.1 Flash, a passing run cost $0.096 instead of $0.147 at maximum effort (35% less), and $0.039 instead of $0.072 at low effort (46% less).</p>
 
       <h2 id="method">How we tested</h2>
       <p>We pre-registered the study before any run. Agents worked blind in fresh sandboxes on 7 private Nim tasks: 5 that test skill-specific work and 2 controls, across bug reporting, porting, error handling, ownership hooks and debugging. Each model ran each task 3 times per effort level, with and without the skills. A run passes only when every check passes.</p>
       <div class="faq" id="scope">
         <details id="limits"><summary>Limitations</summary><div class="faq__answer"><p>Three runs per cell. Seven in-house tasks, withheld to keep them out of training data. Two models. At maximum effort, GPT-6.1 Sol covered 5 of the 7 tasks and ran no controls. The without-conventions measure was added after pre-registration.</p></div></details>
       </div>
-      <p id="earlier" class="small muted"><span id="questions"></span><span id="trials"></span><span id="verification"></span><span id="cost-study"></span>For background, see <a href="posts/cost-per-solved-task.html">our first, smaller study</a>.</p>
+      <h2 id="trials">Verified skills vs their unverified drafts</h2>
+      <p>Earlier blind, sandboxed trials compared verified skills, their unverified drafts and no skill. Deterministic checks scored each run.</p>
+      <div class="table-wrap">
+        <table class="compare">
+          <caption>Runs that passed every check in the earlier three-arm trials</caption>
+          <thead><tr><th scope="col">Task (3 runs per arm)</th><th scope="col" class="is-us">Verified skill</th><th scope="col">Unverified draft</th><th scope="col">No skill</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Bug-report drafting</th><td class="is-us">3/3</td><td>1/3</td><td>0/3</td></tr>
+            <tr><th scope="row">C-to-Nim port of a tool with a latent bug</th><td class="is-us">3/3</td><td>1/3</td><td>0/3</td></tr>
+            <tr><th scope="row">Error handling across modules</th><td class="is-us">3/3</td><td>1/3</td><td>0/3</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted">Small samples: 3 runs per arm. Two of these results followed a revision, one to the skill and one to the scorer; before revision, the verified skill scored 2/3 on each.</p>
+      <p><strong>Catalog probes.</strong> On 12 of 17 skills, an unguided agent failed a check that the skill-guided agent passed: memory safety, portable C builds, fuzzing flags or test discovery.</p>
+      <p class="small muted">One run per arm for each catalog probe. Some separations only show adoption of a convention the skill teaches. On a separate doc-comment probe, the verified skill scored 2/3 against 3/3 without it.</p>
+
+      <h2 id="verification">What compiler verification found</h2>
+      <p>Compiler-run tests correct the guidance itself and catch drift on new builds. <a href="index.html#verification">See the audit totals</a>.</p>
+      <p id="earlier" class="small muted"><span id="questions"></span><span id="cost-study"></span>For the earlier cost results, see <a href="posts/cost-per-solved-task.html">our first, smaller study</a>.</p>
     </div>
   </div>
 </article>
