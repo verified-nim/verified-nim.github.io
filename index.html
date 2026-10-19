@@ -3,17 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Verified Nim Skills: compiler-tested Nim skills for coding agents</title>
-<meta name="description" content="18 Nim skills that Claude Code, Codex, Cursor and other coding agents load when they write Nim. Every code claim is compiled and run against the current compiler, and the catalog is re-tested when Nim changes. Installed and updated by the open-source NYX CLI.">
+<title>Nim agent skills for Claude Code, Codex and Cursor · Verified Nim Skills</title>
+<meta name="description" content="Nim agent skills that make your AI coding agent, from Claude Code to Codex, work like a careful Nim engineer. Less to review, compiler-verified, from $8/month.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://verified-nim.github.io/">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/site.css">
-<meta property="og:title" content="Verified Nim Skills: compiler-tested Nim skills for coding agents">
-<meta property="og:description" content="18 Nim skills your coding agent loads when it writes Nim. Every code claim is compiled and run against the current compiler, and the catalog is re-tested when Nim changes.">
+<meta property="og:site_name" content="Verified Nim Skills">
+<meta property="og:title" content="Give your AI coding agent the habits of a careful Nim engineer">
+<meta property="og:description" content="Nim agent skills that make your AI coding agent, from Claude Code to Codex, work like a careful Nim engineer. Less to review, compiler-verified, from $8/month.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://verified-nim.github.io/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Give your AI coding agent the habits of a careful Nim engineer">
+<meta name="twitter:description" content="Nim agent skills that make your AI coding agent, from Claude Code to Codex, work like a careful Nim engineer. Less to review, compiler-verified, from $8/month.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://verified-nim.github.io/#org",
+      "name": "Verified Nim Skills",
+      "url": "https://verified-nim.github.io/",
+      "logo": "https://verified-nim.github.io/assets/img/nyx-logo.svg",
+      "email": "verified.nim@gmail.com"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://verified-nim.github.io/#website",
+      "name": "Verified Nim Skills",
+      "url": "https://verified-nim.github.io/",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://verified-nim.github.io/#org" }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://verified-nim.github.io/#webpage",
+      "url": "https://verified-nim.github.io/",
+      "name": "Nim agent skills for Claude Code, Codex and Cursor",
+      "description": "Nim agent skills that make your AI coding agent, from Claude Code to Codex, work like a careful Nim engineer. Less to review, compiler-verified, from $8/month.",
+      "isPartOf": { "@id": "https://verified-nim.github.io/#website" },
+      "dateModified": "2026-10-19",
+      "inLanguage": "en",
+      "keywords": "AI coding agent Nim, Claude Code Nim, Nim agent skills, Codex Nim, Cursor Nim, Nimony, compiler-verified skills"
+    },
+    {
+      "@type": "FAQPage",
+      "url": "https://verified-nim.github.io/",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Don't strong models already know Nim?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They know how to write correct Nim. In the benchmark, 74 of 75 scored runs with the skills and 77 of 77 without passed every correctness check, such as the build, the tests and output parity. The skills add the part a correctness check never asks for: the workflow and code quality of a careful Nim engineer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do the skills make the agent cost more?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On workflow-heavy tasks a run does more work, so it often costs more. It also finishes far more often, so each passing run costs less. For DeepSeek V4.1 Flash, cost per passing run was 35% lower at maximum effort and 46% lower at low effort with the skills."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which agents are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Anything NYX installs into: Claude Code, Codex, Cursor, OpenCode, GitHub Copilot, Crush, Pi, Cline, Windsurf, Roo Code, Continue and others."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "They're markdown files. What am I paying for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The testing behind them. Each code claim has a program the real compiler builds and runs, the skills are tried on hard agent tasks, and the suite runs again on new compiler builds. When a test exposes a wrong statement, including in our own earlier versions, we fix it and ship it in your next update."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -38,20 +115,16 @@
 <section class="hero">
   <div class="wrap split">
     <div>
-      <span class="eyebrow">for Claude Code, Codex, Cursor and other agents</span>
-      <h1 class="hero__title">Nim skills for your coding agent, checked by the compiler</h1>
-      <p class="hero__lede">A skill is an instruction file your agent loads when it writes Nim: ownership hooks, C interop, error handling, testing and more. We compile and run every code claim in ours against the current compiler, and re-test the catalog when Nim changes. Your subscription pays for that checking.</p>
-      <ul class="post-meta" aria-label="What you get">
-        <li>18 skills</li>
-        <li>690 compiler-run tests</li>
-        <li>re-tested on new compiler builds</li>
-      </ul>
+      <h1 class="hero__title">Give your AI coding agent the habits of a careful Nim engineer</h1>
+      <p class="hero__lede">Your agent already writes Nim that compiles. With Verified Nim Skills it also tests its reproducers, records the bugs a port inherits, validates once at the trust boundary and sets up the sanitizer so memory faults get reported. You get less to check in review, and the same careful work from run to run.</p>
+      <p>Every code claim in the skills is a program the current Nim or Nimony compiler builds and runs, and the tests run again when the compiler changes. In a blind benchmark on DeepSeek V4.1 Flash and GPT-6.1 Sol, runs passed every check 56 of 57 times with the skills and 18 of 59 without. <a href="benchmarks.html">See the benchmark</a>.</p>
+      <p>Works with Claude Code, Codex, Cursor and other coding agents, installed and kept up to date by <a href="https://github.com/planetis-m/nyx">NYX</a>.</p>
       <div class="btn-row hero__actions">
         <a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month -->
-        <a class="btn" href="#problems">See what the testing catches</a>
+        <a class="btn" href="benchmarks.html">See the benchmark</a>
       </div>
       <p class="hero__note">$8/month is the founding yearly price: $96 a year for subscriptions started by 30 November 2026, kept while subscribed.<!-- CONTENT: after 30 November 2026 revert to $10/month --></p>
-      <p class="hero__note">Verified on Nim 2.3.1 &middot; Nimony 0.6.3<!-- CONTENT: update versions with each re-verification --></p>
+      <p class="hero__note">18 skills, 690 compiler-run tests. Verified on Nim 2.3.1 and Nimony 0.6.3.<!-- CONTENT: update versions with each re-verification --></p>
     </div>
     <div>
       <div class="diag diag--hero" role="group" aria-label="A moved-from Nim object segfaults on legal reuse">
@@ -69,6 +142,37 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
   </div>
 </section>
 
+<section class="section" id="work" aria-labelledby="work-h">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 id="work-h">What changes in your agent&rsquo;s Nim work</h2>
+      <p>Without guidance, strong models still write Nim that builds, passes its tests and matches the expected output. What they skip is the work a reviewer then has to ask for. The skills put that work into the agent&rsquo;s own routine.</p>
+    </div>
+    <div class="grid grid--2">
+      <div class="card"><h3 class="card__title">Bug reports a maintainer can act on</h3><p>The agent cuts the reproducer to the minimum, runs it to confirm it fails every time and quotes the Nim version and the failing output. Without the skills, not one run on either model stated a reproduction rate.</p></div>
+      <div class="card"><h3 class="card__title">Ports that put inherited bugs on record</h3><p>When a port from C keeps a defect on purpose, the defect is on record in the code and in the porting notes. Without the skills, no run recorded it, so the next maintainer finds it the hard way.</p></div>
+      <div class="card"><h3 class="card__title">Validation once, at the trust boundary</h3><p>The agent validates untrusted input once, where it enters, and trusts what the build already proved. Without the skills, error-handling code re-checked data the compiler had already checked in every run at three of the four model and effort settings. <a href="posts/agent-validates-everything-twice.html">See the pattern in code</a>.</p></div>
+      <div class="card"><h3 class="card__title">A sanitizer that reports every memory fault</h3><p>Debugging scripts stop Nim&rsquo;s own crash handler from swallowing segmentation faults, so AddressSanitizer prints its report. Without the skills, every DeepSeek V4.1 Flash run let the handler swallow the fault, at both effort levels.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="results" aria-labelledby="results-h">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 id="results-h">Two models, blind tests: 56 of 57 runs passed every check with the skills, 18 of 59 without</h2>
+      <p>Five private Nim tasks on bug reporting, porting, error handling, ownership hooks and debugging. DeepSeek V4.1 Flash and GPT-6.1 Sol ran each task three times per effort level and arm, blind, in a fresh sandbox. The plan was pre-registered and the task set frozen by hash before the first run. A run passes only when every check passes.</p>
+    </div>
+    <div class="grid grid--3">
+      <div class="card"><h3 class="card__title">56/57 with the skills</h3><p>Runs that passed every check, across both models at maximum and low reasoning effort.</p></div>
+      <div class="card"><h3 class="card__title">18/59 without</h3><p>Fewer than a third. The code was correct; the work a careful engineer adds was missing.</p></div>
+      <div class="card"><h3 class="card__title">14/15 at low effort</h3><p>DeepSeek V4.1 Flash at low effort with the skills, against 3 of 15 at maximum effort without them. More reasoning does not stand in for the skills.</p></div>
+    </div>
+    <p class="mt-6">Correctness was level: 74 of 75 scored runs with the skills and 77 of 77 without passed every correctness check. The gain is in the workflow and code quality your review would otherwise have to supply. <a href="benchmarks.html">Full results, method and limitations</a>.</p>
+    <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month --></div>
+  </div>
+</section>
+
 <section class="section" id="problems" aria-labelledby="problems-h">
   <div class="wrap">
     <div class="section__head">
@@ -78,56 +182,37 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
     </div>
     <div class="grid grid--3">
       <a class="card card--link" href="posts/moved-from-object-segfaults.html#alias">
-        <span class="card__kicker">use-after-free &middot; blind trial</span>
         <h3 class="card__title">A copy hook that reads freed memory</h3>
-        <p>A <code>=copy</code> guard that compares addresses misses aliasing, so the copy reads a buffer it just freed. The demo and the stress test still pass. Without the skill, the agent&rsquo;s container failed this memory-safety check. With the skill, it passed.</p>
+        <p>A <code>=copy</code> guard that compares addresses misses aliasing, so the copy reads a buffer it just freed. The demo and the stress test still pass. In a blind trial, the agent&rsquo;s container failed this memory-safety check without the skill and passed with it.</p>
       </a>
       <a class="card card--link" href="posts/moved-from-object-segfaults.html#dup">
-        <span class="card__kicker">uninitialized memory &middot; our own skill</span>
         <h3 class="card__title"><code>=dup</code> hooks that run on garbage</h3>
-        <p>Copy into freshly allocated raw storage and the compiler injects a <code>=sink</code> that treats uninitialized memory as a live value. Our verified skill had the right pragma for the wrong reason. A compiler-run test now pins the real rule.</p>
+        <p>Copy into freshly allocated raw storage and the compiler injects a <code>=sink</code> that treats uninitialized memory as a live value. Our own verified skill had the right pragma for the wrong reason. A compiler-run test now pins the real rule.</p>
       </a>
       <div class="card">
-        <span class="card__kicker">silent test skips &middot; blind trial</span>
         <h3 class="card__title">A green suite that never runs your new tests</h3>
-        <p>Add a test file and the suite stays green, because the new test never runs. Without the skill, the agent&rsquo;s runner listed the tests by hand. With the skill, the runner finds every test file.</p>
+        <p>Add a test file and the suite stays green, because the new test never runs. In a blind trial, the agent&rsquo;s runner listed the tests by hand without the skill. With the skill, the runner finds every test file.</p>
       </div>
     </div>
     <p class="mt-6">The pattern holds across the catalog. On 12 of 17 skills, the agent without the skill failed a check that the skill-guided agent passed. Other failures include C-library builds that work on only one machine and fuzz harnesses missing required flags.</p>
   </div>
 </section>
 
-<section class="section section--alt" id="results" aria-labelledby="results-h">
+<section class="section section--alt" id="compare" aria-labelledby="compare-h">
   <div class="wrap">
     <div class="section__head">
-      <h2 id="results-h">Same cheap model: 18 of 20 solved with our skills, 3 of 20 without</h2>
-      <p>Four hard Nim tasks, each run five times with the skill and five times without: a bug report with a reproducer, a C-to-Nim port, cross-module error handling and a manually managed container. Every run was blind and sandboxed. Deterministic checks scored it, and the plan was fixed before the first run.</p>
+      <h2 id="compare-h">Why not generate a skill, add a docs MCP or use a bigger model?</h2>
     </div>
     <div class="grid grid--3">
-      <div class="card"><span class="card__kicker">with verified skills</span><h3 class="card__title">18/20 passed</h3><p>Every task solved in most runs.</p></div>
-      <div class="card"><span class="card__kicker">without skills</span><h3 class="card__title">3/20 passed</h3><p>Three of the four tasks never solved.</p></div>
-      <div class="card"><span class="card__kicker">cost per solved task</span><h3 class="card__title">$0.05 vs $0.21</h3><p>About a quarter of the cost per solved task. The skill-guided agent reads more per attempt and finishes far more often.</p></div>
+      <div class="card"><h3 class="card__title">&ldquo;I&rsquo;ll generate my own skill&rdquo;</h3><p>Skills that models wrote for themselves gave no average gain in SkillsBench, while curated skills added about 16 points. In our trials the checking made the difference: the unverified drafts of three skills passed 1 of 3 runs each, the verified skills 3 of 3.</p></div>
+      <div class="card"><h3 class="card__title">&ldquo;I have a docs MCP&rdquo;</h3><p>Docs describe the hooks. They don&rsquo;t warn your agent that its <code>=wasMoved</code> leaves stale fields, or that its address guard misses aliasing. Keep the MCP for lookup and add the skills for what is safe.</p></div>
+      <div class="card"><h3 class="card__title">&ldquo;I&rsquo;ll use a bigger model&rdquo;</h3><p>At maximum reasoning effort without the skills, GPT-6.1 Sol passed every check in 5 of 14 runs; with them, 13 of 13. No model has seen the compiler build you installed last week, and verified guidance costs a flat monthly fee.</p></div>
     </div>
-    <p class="mt-6">The checking makes the difference: on three earlier tasks, the unverified drafts of the same skills passed 1 of 3 runs each, and the verified skills passed 3 of 3. <a href="benchmarks.html">Full results</a>.</p>
-    <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month --></div>
+    <p class="mt-6"><a href="why.html">Verified, generated or doc-based guidance: the full comparison, with sources</a>.</p>
   </div>
 </section>
 
-<section class="section" id="compare" aria-labelledby="compare-h">
-  <div class="wrap">
-    <div class="section__head">
-      <h2 id="compare-h">The alternatives don&rsquo;t check their work</h2>
-    </div>
-    <div class="grid grid--3">
-      <div class="card"><span class="card__kicker">&ldquo;I&rsquo;ll generate my own skill&rdquo;</span><h3 class="card__title">Self-written skills don&rsquo;t verify themselves</h3><p>Skills that models wrote for themselves gave no average gain in SkillsBench. Curated skills added about 16 points. A skill only helps when someone has checked it.</p></div>
-      <div class="card"><span class="card__kicker">&ldquo;I have a docs MCP&rdquo;</span><h3 class="card__title">Docs say what exists, not what is safe</h3><p>Docs describe the hooks. They don&rsquo;t warn your agent that its <code>=wasMoved</code> leaves stale fields, or that its address guard misses aliasing. Keep the MCP for lookup and add the skills for safety.</p></div>
-      <div class="card"><span class="card__kicker">&ldquo;I&rsquo;ll use a bigger model&rdquo;</span><h3 class="card__title">More cost per call, same blind spots</h3><p>On our four hard Nim tasks, OpenAI&rsquo;s GPT-6.1 Sol at maximum reasoning effort passed 1 of 12 runs without skills. A frontier model also costs more on every request and has not seen the compiler build you installed last week. Verified guidance costs a flat monthly fee.</p></div>
-    </div>
-    <p class="mt-6"><a href="why.html">Why verified skills win, with sources</a>.</p>
-  </div>
-</section>
-
-<section class="section section--alt" id="nimony" aria-labelledby="nimony-h">
+<section class="section" id="nimony" aria-labelledby="nimony-h">
   <div class="wrap">
     <div class="section__head">
       <h2 id="nimony-h">The files are cheap. The checking isn&rsquo;t.</h2>
@@ -138,11 +223,11 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
       <div class="card"><h3 class="card__title">Tried on hard tasks</h3><p>Agents solve hard Nim tasks with and without the skill. Where the agent still fails, the skill is rewritten and tested again.</p></div>
       <div class="card"><h3 class="card__title">Re-tested when the compiler moves</h3><p>New Nim and Nimony builds rerun the tests, and broken guidance is fixed. <code>nyx update</code> brings the fix to your agent.</p></div>
     </div>
-    <p class="mt-6">A downloaded skill goes stale without warning. One day after we corrected the error-handling skill, a Nimony fix began rejecting a <code>.raises</code> form it had just taught, and the version number did not change. Re-running the tests flagged the exact sentences to rewrite. A one-off copy would still teach the old rule. <a href="posts/release-build-swallowed-the-error.html">Read how a release build swallowed an error</a>.</p>
+    <p class="mt-6">A downloaded skill goes stale without warning. Our audit found 7 Nimony compiler bugs in error handling (<a href="https://github.com/nim-lang/nimony/issues/2674">#2674</a>&ndash;<a href="https://github.com/nim-lang/nimony/issues/2680">#2680</a>), and upstream fixed them within two days. One day after we corrected the error-handling skill, a Nimony fix began rejecting a <code>.raises</code> form it had just taught, and the version number did not change. Re-running the tests flagged the exact sentences to rewrite. A one-off copy would still teach the old rule. <a href="posts/release-build-swallowed-the-error.html">Read how a release build swallowed an error</a>.</p>
   </div>
 </section>
 
-<section class="section" id="what" aria-labelledby="what-h">
+<section class="section section--alt" id="what" aria-labelledby="what-h">
   <div class="wrap">
     <div class="section__head">
       <h2 id="what-h">What the subscription adds to the public skills</h2>
@@ -165,10 +250,10 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
   </div>
 </section>
 
-<section class="section section--alt" id="how" aria-labelledby="how-h">
+<section class="section" id="how" aria-labelledby="how-h">
   <div class="wrap">
     <div class="section__head">
-      <h2 id="how-h">In your agent in three steps</h2>
+      <h2 id="how-h">In Claude Code, Codex or Cursor in three steps</h2>
       <p>Works with Claude Code, Codex, Cursor, GitHub Copilot, OpenCode, Windsurf and <a href="get-access.html#targets">more</a>.</p>
     </div>
     <div class="grid grid--3">
@@ -179,7 +264,7 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
   </div>
 </section>
 
-<section class="section" id="pricing" aria-labelledby="pricing-h">
+<section class="section section--alt" id="pricing" aria-labelledby="pricing-h">
   <div class="wrap">
     <div class="section__head">
       <h2 id="pricing-h">From $8 a month, the catalog stays tested on the current compiler</h2><!-- CONTENT: after 30 November 2026 revert to $10/month -->
@@ -214,12 +299,14 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
   </div>
 </section>
 
-<section class="section section--alt" id="faq" aria-labelledby="faq-h">
+<section class="section" id="faq" aria-labelledby="faq-h">
   <div class="wrap">
     <div class="section__head"><h2 id="faq-h">Questions</h2></div>
     <div class="faq">
+      <details><summary>Don&rsquo;t strong models already know Nim?</summary><div class="faq__answer"><p>They know how to write correct Nim. In the benchmark, 74 of 75 scored runs with the skills and 77 of 77 without passed every correctness check: the build, the tests and output parity. The skills add the part a correctness check never asks for: the workflow and code quality of a careful Nim engineer. <a href="benchmarks.html#know-nim">More on this</a>.</p></div></details>
       <details><summary>They&rsquo;re markdown files. What am I paying for?</summary><div class="faq__answer"><p>The testing behind them. Each code claim has a program the real compiler builds and runs, the skills are tried on hard agent tasks, and the suite runs again on new compiler builds. When a test exposes a wrong statement, including in our own earlier versions, we fix it and ship it in your next update.</p></div></details>
-      <details><summary>How do I justify this to my engineering manager?</summary><div class="faq__answer"><p>Agent-written Nim that crashes on an unusual path costs a review cycle when you are lucky and an incident when you are not. The skills target exactly those paths. We build and test them on low-cost models, so the agent you already pay for gets them right.</p></div></details>
+      <details><summary>How do I justify this to my engineering manager?</summary><div class="faq__answer"><p>Without guidance, someone trims the reproducers, documents the inherited bugs and deletes the duplicate checks during review. The skills move that work into the agent&rsquo;s routine, so it arrives done, the same way each run. The <a href="benchmarks.html">benchmark</a> shows the difference on two models, and the compiler audit shows the guidance itself is right.</p></div></details>
+      <details><summary>Do the skills make the agent cost more?</summary><div class="faq__answer"><p>On workflow-heavy tasks a run does more work, so it often costs more. It also finishes far more often, so each passing run costs less. For DeepSeek V4.1 Flash, cost per passing run was 35% lower at maximum effort and 46% lower at low effort with the skills. <a href="benchmarks.html#cost">The numbers</a>.</p></div></details>
       <details><summary>Can I use the skills for my job or commercial work?</summary><div class="faq__answer"><p>The <a href="https://github.com/planetis-m/skills">public skills</a> are for non-commercial use. The subscription includes a <a href="license.html">commercial license</a> for your work, one developer per seat.</p></div></details>
       <details><summary>I already use Context7 or another docs MCP. Do I need this?</summary><div class="faq__answer"><p>Yes, and keep the MCP. Docs tell the agent what exists. The skills tell it what is safe on today&rsquo;s compiler, what to avoid and how to isolate a failure.</p></div></details>
       <details><summary>Will my agent actually use the skills?</summary><div class="faq__answer"><p>Add a two-line pointer to <code>AGENTS.md</code> or <code>CLAUDE.md</code> and it will load the matching skill. <a href="get-access.html#pointer">Copy the pointer</a>.</p></div></details>
@@ -230,15 +317,16 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
   </div>
 </section>
 
-<section class="section">
+<section class="section section--alt">
   <div class="wrap">
     <div class="cta">
-      <div><h2>Stop reviewing the same agent bugs</h2><p>Give your agent Nim guidance the compiler has already checked.</p></div>
-      <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month --><a class="btn btn--ghost" href="posts/index.html">Read the evidence</a></div>
+      <div><h2>Let your agent do the careful Nim work before review</h2><p>Give your agent Nim guidance the compiler has already checked, so the careful work arrives done.</p></div>
+      <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month --><a class="btn btn--ghost" href="benchmarks.html">See the benchmark</a></div>
     </div>
   </div>
 </section>
 </main>
+
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-grid">
