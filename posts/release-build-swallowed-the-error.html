@@ -67,16 +67,9 @@
   <header class="article-header">
     <div class="wrap">
       <p class="mb-0"><a class="btn btn--ghost" href="index.html">&larr; All articles</a></p>
-      <span class="eyebrow">nimony &middot; upstream</span>
       <h1>Your Nimony release build swallowed the error</h1>
-      <ul class="post-meta">
-        <li><time datetime="2026-10-17">17 October 2026</time></li>
-        <li>Antonis Geralis</li>
-        <li>5 min read</li>
-        <li>Reproduced on Nimony 0.6.3 @ 5574918d</li>
-        <li>Fix verified on Nimony 0.6.3 @ 0a20752c</li>
-      </ul>
-      <p class="lede measure">A Nimony routine raised an error. The debug build caught it; the release build returned 42 as if nothing had happened. Test error paths in the build mode you ship. Checking one AI-agent skill against the compiler found this bug, six more error-handling defects and three rules the compiler had already outgrown. All seven bugs were fixed upstream the next day.</p>
+      <ul class="post-meta"><li><time datetime="2026-10-17">17 October 2026</time></li></ul>
+      <p class="lede measure">The debug build caught a Nimony error; the release build returned 42 as if nothing had happened.</p>
     </div>
   </header>
 
@@ -94,6 +87,8 @@
       </nav>
 
       <div class="prose">
+        <p>Test error paths in the build mode you ship. Checking one AI-agent skill against the compiler found this bug, six more error-handling defects and three rules the compiler had already outgrown. All seven bugs were fixed upstream the next day.</p>
+        <p class="muted small">Reproduced on Nimony 0.6.3 @ 5574918d. Fix verified on Nimony 0.6.3 @ 0a20752c.</p>
         <h2 id="failure">Release returns 42, debug raises</h2>
         <div class="diag diag--error" role="group" aria-label="Runtime output">
           <div class="diag__head"><span class="diag__label">release build</span><span class="diag__msg">the raised IOError never reached the handler</span><span class="diag__loc">repro.nim</span></div>
@@ -192,7 +187,7 @@ $ nimony c -d:release -r repro.nim
         </section>
 
         <aside class="next-steps cta" aria-labelledby="next-h">
-          <div><h2 id="next-h">Give your agent a careful Nim engineer&rsquo;s habits</h2><p>The full verified Nim catalog, re-tested as Nim changes, from $8 a month (the founding yearly price of $96, open until 30 November 2026). See what it changes on two models in the <a href="../benchmarks.html">benchmark results</a>.</p><!-- CONTENT: after 30 November 2026 revert to $10/month --></div>
+          <div><h2 id="next-h">Give your agent a careful Nim engineer&rsquo;s habits</h2><p>The full verified Nim catalog, re-tested as Nim changes. See what it changes in the <a href="../benchmarks.html">benchmark</a>.</p></div>
           <div class="btn-row"><a class="btn btn--primary" href="../get-access.html">Get access</a><a class="btn" href="../pricing.html">See pricing</a></div>
         </aside>
       </div>

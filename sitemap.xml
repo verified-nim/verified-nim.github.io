@@ -3,8 +3,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://verified-nim.github.io/</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://verified-nim.github.io/why.html</loc><lastmod>2026-10-19</lastmod></url>
-  <url><loc>https://verified-nim.github.io/pricing.html</loc></url>
-  <url><loc>https://verified-nim.github.io/get-access.html</loc></url>
+  <url><loc>https://verified-nim.github.io/pricing.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://verified-nim.github.io/get-access.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://verified-nim.github.io/posts/index.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://verified-nim.github.io/posts/agent-validates-everything-twice.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://verified-nim.github.io/posts/cost-per-solved-task.html</loc><lastmod>2026-10-19</lastmod></url>

@@ -67,15 +67,9 @@
   <header class="article-header">
     <div class="wrap">
       <p class="mb-0"><a class="btn btn--ghost" href="index.html">&larr; All articles</a></p>
-      <span class="eyebrow">ownership hooks</span>
       <h1>Nim <code>=wasMoved</code>: why a moved-from object segfaults on reuse</h1>
-      <ul class="post-meta">
-        <li><time datetime="2026-10-17">17 October 2026</time></li>
-        <li>Antonis Geralis</li>
-        <li>5 min read</li>
-        <li>Verified on Nim 2.3.1</li>
-      </ul>
-      <p class="lede measure">Nil only the pointer in <code>=wasMoved</code> and the next legal write to the moved-from value goes through nil. The hook must reset every field your type&rsquo;s operations read, not only the one <code>=destroy</code> checks. Below are three ownership-hook rules that pass review and ordinary tests and are still wrong. One survived into my own first verified skill.</p>
+      <ul class="post-meta"><li><time datetime="2026-10-17">17 October 2026</time></li></ul>
+      <p class="lede measure">Nil only the pointer in <code>=wasMoved</code> and the next legal write to the moved-from value goes through nil.</p>
     </div>
   </header>
 
@@ -93,6 +87,8 @@
       </nav>
 
       <div class="prose">
+        <p>The hook must reset every field your type&rsquo;s operations read, not only the one <code>=destroy</code> checks. Below are three ownership-hook rules that pass review and ordinary tests and are still wrong. One survived into my own first verified skill.</p>
+        <p class="muted small">Verified on Nim 2.3.1.</p>
         <h2 id="failure">The segfault</h2>
         <div class="diag diag--error" role="group" aria-label="Runtime output">
           <div class="diag__head"><span class="diag__label">runtime</span><span class="diag__msg">SIGSEGV: Illegal storage access. (Attempt to read from nil?)</span><span class="diag__loc">in writeByte</span></div>
@@ -189,7 +185,7 @@ ERROR SUMMARY: 4 errors from 4 contexts</code></pre>
         <p class="muted small">All three examples were compiled and run with Nim 2.3.1 on Linux amd64 (ORC, default settings unless noted).</p>
 
         <aside class="next-steps cta" aria-labelledby="next-h">
-          <div><h2 id="next-h">Give your agent a careful Nim engineer&rsquo;s habits</h2><p>The full verified Nim catalog, re-tested as Nim changes, from $8 a month (the founding yearly price of $96, open until 30 November 2026). See what it changes on two models in the <a href="../benchmarks.html">benchmark results</a>.</p><!-- CONTENT: after 30 November 2026 revert to $10/month --></div>
+          <div><h2 id="next-h">Give your agent a careful Nim engineer&rsquo;s habits</h2><p>The full verified Nim catalog, re-tested as Nim changes. See what it changes in the <a href="../benchmarks.html">benchmark</a>.</p></div>
           <div class="btn-row"><a class="btn btn--primary" href="../get-access.html">Get access</a><a class="btn" href="../pricing.html">See pricing</a></div>
         </aside>
       </div>

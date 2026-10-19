@@ -64,20 +64,13 @@
   </div>
 </header>
 <main id="main">
-<main id="main">
 <article>
   <header class="article-header">
     <div class="wrap">
       <p class="mb-0"><a class="btn btn--ghost" href="index.html">&larr; All articles</a></p>
       <h1>Nim <code>{.raises: [].}</code>: stop your agent validating trusted data twice</h1>
-      <ul class="post-meta">
-        <li><time datetime="2026-10-18">18 October 2026</time></li>
-        <li>Antonis Geralis</li>
-        <li>7 min read</li>
-        <li>Verified on Nim 2.3.1</li>
-      </ul>
-      <p class="muted small">Updated <time datetime="2026-10-19">2026-10-19</time>: added compile-time data and a second study.</p>
-      <p class="lede measure">Nim can prove that a proc never raises, yet coding agents fill trusted code with error paths that cannot run: an &ldquo;unknown unit&rdquo; raise on a value that already passed validation, a <code>try</code> around a call that cannot fail, a run-time check on a table the compiler already parsed. Validate once at the boundary, carry the proof in a <code>distinct</code> type, and mark the code behind it <code>{.raises: [].}</code>. In two studies, agents without guidance broke this rule in every run.</p>
+      <ul class="post-meta"><li><time datetime="2026-10-18">18 October 2026</time></li></ul>
+      <p class="lede measure">Validate once at the boundary, carry the proof in a <code>distinct</code> type, and mark the code behind it <code>{.raises: [].}</code>.</p>
     </div>
   </header>
 
@@ -97,6 +90,8 @@
       </nav>
 
       <div class="prose">
+        <p>Nim can prove that a proc never raises, yet coding agents fill trusted code with error paths that cannot run: an &ldquo;unknown unit&rdquo; raise on a value that already passed validation, a <code>try</code> around a call that cannot fail, a run-time check on a table the compiler already parsed. In two studies, agents without guidance broke this rule in every run.</p>
+        <p class="muted small">Verified on Nim 2.3.1. Updated <time datetime="2026-10-19">2026-10-19</time>: added compile-time data and a second study.</p>
         <h2 id="failure">The check that can never fire</h2>
         <p>A command-line tool converts lengths. The user names a unit; the conversion factors are compiled into the binary. This is the shape agents write without guidance:</p>
         <figure class="code-block">
@@ -125,11 +120,7 @@
         <p>It compiles, <code>./before km</code> prints <code>3000.0</code> and <code>./before ft</code> exits with <code>unknown unit: ft</code>. Every test passes. The second &ldquo;unknown unit&rdquo; check and the <code>try</code> around <code>toMeters</code> can never run: the only <code>unit</code> that reaches them has already passed <code>parseUnit</code>, and the table cannot change after the build.</p>
 
         <h2 id="cost">What a dead error path costs</h2>
-        <ul>
-          <li><strong>It cannot be tested.</strong> No input reaches the second raise, so no test covers it and nobody notices when its message or type drifts.</li>
-          <li><strong>It spreads to every caller.</strong> <code>toMeters</code> now says it can raise, so each caller writes a handler for a failure that cannot happen, and each handler is dead code too.</li>
-          <li><strong>It hides the real contract.</strong> The one place a user can cause an error is the boundary. When trusted code raises the same error, a reader can no longer tell where bad input is rejected.</li>
-        </ul>
+        <p>No input reaches a dead raise, so no test covers it. Its signature still says the proc can fail, so every caller writes a handler that is dead too. And a reader can no longer tell where bad input is actually rejected.</p>
 
         <h2 id="fix">Validate once, carry the proof</h2>
         <p>Raise once, where untrusted input enters. Return a <code>distinct</code> type from that check, so the type itself says &ldquo;this value was validated&rdquo;, and let everything behind it take only that type:</p>
@@ -156,7 +147,7 @@
            <span class="tok-k">except</span> ValueError <span class="tok-k">as</span> e: quit e.msg
 echo toMeters(unit, <span class="tok-n">3.0</span>)</code></pre>
         </div>
-        <p>Same output, one raise, one handler. A raw string no longer fits: <code>toMeters("km", 3.0)</code> is a <code>type mismatch</code> at compile time, so unvalidated input cannot reach the trusted path by accident. If the compiled-in table needs checking, the <code>static</code> block checks it during the build; a zero factor stops compilation instead of failing on a customer&rsquo;s machine.</p>
+        <p>Same output, one raise, one handler. A raw string no longer fits: <code>toMeters("km", 3.0)</code> is a <code>type mismatch</code>, so unvalidated input cannot reach the trusted path. The <code>static</code> block checks the table during the build, so a zero factor stops compilation instead of a customer&rsquo;s run.</p>
 
         <h2 id="raises">Make the compiler enforce it</h2>
         <p>A comment saying &ldquo;this cannot fail&rdquo; lasts until the next edit. <code>{.raises: [].}</code> is checked on every build. Add a raise to <code>toMeters</code>, as an agent tidying up &ldquo;missing validation&rdquo; would, and the build stops:</p>
@@ -167,10 +158,9 @@ echo toMeters(unit, <span class="tok-n">3.0</span>)</code></pre>
 <span class="caret">                ^</span></code></pre>
           <div class="diag__note"><p>Nim 2.3.1, the file above with one line added. Calling a proc that can raise is rejected the same way.</p></div>
         </div>
-        <p>In Python or TypeScript, &ldquo;this function cannot fail&rdquo; is a convention a reviewer has to remember. In Nim it is part of the signature, and the compiler rejects the redundant check before review starts. A wrong decision about where errors belong becomes a build error.</p>
-
+        
         <h2 id="compile-time">Data the compiler already checked</h2>
-        <p>The same rule covers the data a program ships with. A second tool prices parcels by shipping zone. The rates live in a CSV file in the repository, and the program parses that file with <code>staticRead</code> inside a <code>const</code>, so the parser runs in the compiler and the binary carries the finished table:</p>
+        <p>The same rule covers data a program ships with. A second tool prices parcels by zone from a CSV file in the repository, parsed with <code>staticRead</code> inside a <code>const</code>, so the parser runs in the compiler:</p>
         <figure class="code-block">
           <figcaption><span>rates.csv</span><span>bundled with the source</span></figcaption>
 <pre><code>zone,eur_per_kg
@@ -207,7 +197,7 @@ after.nim(12, 20) parseRates
 after.nim(12, 20) <span class="hl">Error: unhandled exception: rates.csv:3: expected zone,eur_per_kg [ValueError]</span></code></pre>
           <div class="diag__note"><p>Nim 2.3.1, <code>rates.csv</code> line 3 changed to <code>eu;4.50</code>. A rate of <code>-9.80</code> stops the build with <code>rate must be positive</code>, and <code>9.8O</code> with <code>invalid float: 9.8O</code>. Paths shortened.</p></div>
         </div>
-        <p>No binary exists with a bad table in it. Agents without guidance still treat the compiled-in table like a file read from disk. This is the shape they write after the same <code>parseRates</code>:</p>
+        <p>No binary exists with a bad table in it. Agents without guidance re-check it at run time anyway:</p>
         <figure class="code-block">
           <figcaption><span>before.nim, lines 15&ndash;42</span><span>Nim 2.3.1</span></figcaption>
 <pre><code><span class="tok-k">const</span> Rates = parseRates(staticRead(<span class="tok-s">"rates.csv"</span>))
@@ -239,21 +229,21 @@ after.nim(12, 20) <span class="hl">Error: unhandled exception: rates.csv:3: expe
 <span class="tok-k">except</span> ValueError <span class="tok-k">as</span> e:
   quit e.msg</code></pre>
         </figure>
-        <p>It compiles and behaves exactly like the lean version: <code>./before eu 2</code> prints <code>9.0</code> and <code>./before mars 2</code> exits with <code>unknown zone: mars</code>. Three raises guard a table the compiler has already checked, and a fourth repeats <code>parseZone</code>. The fix is the one from the units example: <code>parseZone</code> returns a <code>Zone</code>, and <code>shippingCost(z: Zone; kg: float): float {.raises: [].}</code> shrinks to <code>kg * Rates[z.int].perKg</code>. That file is 32 lines against 42. Put <code>{.raises: [].}</code> on the agent&rsquo;s <code>shippingCost</code> instead and the redundant check becomes a compile error:</p>
+        <p>It behaves exactly like the lean version: <code>./before eu 2</code> prints <code>9.0</code>. Three raises guard a table the compiler has already checked, and a fourth repeats <code>parseZone</code>. With a <code>Zone</code> type, as in the units example, <code>shippingCost</code> shrinks to <code>kg * Rates[z.int].perKg</code> and the file to 32 lines from 42. Mark the agent&rsquo;s <code>shippingCost</code> <code>{.raises: [].}</code> instead and the redundant check becomes a compile error:</p>
         <div class="diag diag--error" role="group" aria-label="Compiler error">
           <div class="diag__head"><span class="diag__label"></span><span class="diag__msg">(ref ValueError)(msg: "corrupt rate for " &amp; zone, parent: nil) can raise an unlisted exception: ref ValueError</span><span class="diag__loc">before.nim(32, 9)</span></div>
 <pre class="diag__body"><code>      <span class="tok-k">if</span> r.perKg &lt;= <span class="tok-n">0</span>:                        <span class="tok-c"># checked twice already</span>
         <span class="hl"><span class="tok-k">raise</span> newException(ValueError, <span class="tok-s">"corrupt rate for "</span> &amp; zone)</span>
 <span class="caret">        ^</span></code></pre>
-          <div class="diag__note"><p>Nim 2.3.1, <code>before.nim</code> with <code>{.raises: [].}</code> added to <code>shippingCost</code> on line 28. The compiler also prints <code>before.nim(28, 61) template/generic instantiation from here</code>.</p></div>
+          <div class="diag__note"><p>Nim 2.3.1, <code>before.nim</code> with <code>{.raises: [].}</code> added to <code>shippingCost</code> on line 28.</p></div>
         </div>
         <p>Data the project ships and the compiler parses is already trusted. Its checks belong in the build; run-time checks belong where outside input enters.</p>
 
         <h2 id="agents">What agents did in two studies</h2>
-        <p>Both studies ran sandboxed coding agents with and without the verified error-handling skill. They measured different tasks, so their numbers are kept apart.</p>
+        <p>Both studies compared agents with and without the verified error-handling skill, on different tasks, so their numbers stay apart.</p>
 
         <h3 id="study-input">Study 1, user input: 0 of 11 without the skill, 8 of 11 with it</h3>
-        <p>We tested this on a multi-module Nim command-line tool where customer-uploaded input must be validated and the product data is compiled into the binary. Each run was blind and sandboxed. Without the skill, every run validated trusted data again:</p>
+        <p>The task: a multi-module command-line tool that validates uploaded input and compiles its product data into the binary. Runs were blind and sandboxed.</p>
         <div class="table-wrap">
           <table class="compare">
             <thead><tr><th scope="col">Runs passed</th><th scope="col" class="is-us">Verified skill</th><th scope="col">No skill</th></tr></thead>
@@ -265,39 +255,37 @@ after.nim(12, 20) <span class="hl">Error: unhandled exception: rates.csv:3: expe
             </tbody>
           </table>
         </div>
-        <p>The unguided programs mostly produced correct output. The output was right; the design wasn&rsquo;t. They raised errors that no input could trigger and handed callers a wider error contract than the program has. More reasoning did not help: the frontier model at maximum effort made the same choice in all three runs.</p>
-        <p class="muted small">Three to five runs per arm on each model, on a task chosen because it separates agents with and without the skill. Sample sizes and the remaining notes are on the <a href="../benchmarks.html#scope">benchmarks page</a>. All code examples were compiled and run with Nim 2.3.1 on Linux amd64.</p>
+        <p>The unguided programs mostly produced correct output, but raised errors no input could trigger and handed callers a wider error contract than the program has. GPT-6.1 Sol at maximum effort made the same choice in all three runs.</p>
+        <p class="muted small">The task was chosen because it separates agents with and without the skill. Code examples were compiled and run with Nim 2.3.1 on Linux amd64.</p>
 
         <h3 id="study-tables">Study 2, compiled-in tables: 8 of 8 without the skill re-validated, 0 of 8 with it</h3>
-        <p>We measured this on a private benchmark task: a multi-module quote calculator with three bundled data tables compiled into the program. Each run used the pi coding agent in a sandbox, with or without the nim-error-handling skill, on DeepSeek V4.1 Flash and GPT-6.1 Sol, both at maximum reasoning. We counted the raise and assert sites reachable from the bundled-table initialisers over lexed source, so comments and strings are ignored. Each arm had 8 runs: 7 DeepSeek and 1 GPT.</p>
+        <p>The task: a multi-module quote calculator with three bundled data tables compiled into the program. Agents ran sandboxed at maximum reasoning, 8 runs per arm (7 DeepSeek V4.1 Flash, 1 GPT-6.1 Sol). We counted raise and assert sites reachable from the table initialisers in lexed source.</p>
         <div class="table-wrap">
           <table class="compare">
             <thead><tr><th scope="col">8 runs per arm</th><th scope="col" class="is-us">Verified skill</th><th scope="col">No skill</th></tr></thead>
             <tbody>
               <tr><th scope="row">Runs that re-validated the bundled tables</th><td class="is-us">0/8</td><td><span class="no">8/8</span></td></tr>
               <tr><th scope="row">Raise or assert sites per run</th><td class="is-us">0 in every run</td><td>11, 12, 11, 3, 12, 6, 11, 12</td></tr>
-              <tr><th scope="row">GPT-6.1 Sol run</th><td class="is-us">0 sites</td><td>12 sites</td></tr>
               <tr><th scope="row">Runs that passed every correctness check</th><td class="is-us">8/8</td><td>8/8</td></tr>
               <tr><th scope="row">Held-out DeepSeek trials that re-validated (3 per arm)</th><td class="is-us">0/3</td><td><span class="no">3/3</span></td></tr>
             </tbody>
           </table>
         </div>
         <p>An exact permutation test on the site counts gives p &asymp; 0.0002, and the held-out confirmation on fresh trials split the same way.</p>
-        <p>Both arms produced correct programs. Every run in both arms built and passed every check on output, error reporting and API. The difference is in the code the agent left behind: with the skill, it validated once, at the boundary, and wrote fewer raise paths and less dead code. In a 5-runs-per-arm subset, the trusted modules came to 55&ndash;94 lines with the skill and 96&ndash;170 without it.</p>
-        <p class="muted small">The sample is small: 8 runs per arm, mostly one model family, with GPT-6.1 Sol contributing 1 run per arm. The task stays private because it feeds a future leaderboard.</p>
+        <p>Every run in both arms built and passed every check on output, error reporting and API. The difference is the code left behind: in a 5-run subset, the trusted modules came to 55&ndash;94 lines with the skill and 96&ndash;170 without.</p>
+        <p class="muted small">Small sample, mostly one model family. The task stays private for a future leaderboard.</p>
         <p>Both results are about code quality; this article makes no claim about cost or speed.</p>
 
         <h2 id="takeaways">Checklist for your own code</h2>
         <ul>
-          <li><strong>Find the boundary.</strong> Command-line arguments, uploaded files and network input get validated there, once.</li>
-          <li><strong>Return a <code>distinct</code> type from the validator</strong> and make trusted procs take that type, not the raw value.</li>
-          <li><strong>Check project-owned data at compile time,</strong> with <code>const</code> and <code>staticRead</code> or a <code>static</code> block, and raise from the parser. A bad file then fails the build.</li>
-          <li><strong>Delete run-time re-checks of trusted data.</strong> They cannot fire, so they only add untested raise paths.</li>
-          <li><strong>Mark trusted procs <code>{.raises: [].}</code>.</strong> A raise added later becomes a compile error.</li>
+          <li>Validate command-line arguments, uploads and network input once, at the boundary.</li>
+          <li>Return a <code>distinct</code> type from the validator and make trusted procs take it.</li>
+          <li>Check project-owned data at compile time with <code>const</code> and <code>staticRead</code>, so a bad file fails the build.</li>
+          <li>Delete run-time re-checks of trusted data and mark trusted procs <code>{.raises: [].}</code>.</li>
         </ul>
 
         <aside class="next-steps cta" aria-labelledby="next-h">
-          <div><h2 id="next-h">Give your agent a careful Nim engineer&rsquo;s habits</h2><p>The full verified Nim catalog, re-tested as Nim changes, from $8 a month (the founding yearly price of $96, open until 30 November 2026). See what it changes on two models in the <a href="../benchmarks.html">benchmark results</a>.</p><!-- CONTENT: after 30 November 2026 revert to $10/month --></div>
+          <div><h2 id="next-h">Give your agent a careful Nim engineer&rsquo;s habits</h2><p>The full verified Nim catalog, re-tested as Nim changes. See what it changes in the <a href="../benchmarks.html">benchmark</a>.</p></div>
           <div class="btn-row"><a class="btn btn--primary" href="../get-access.html">Get access</a><a class="btn" href="../pricing.html">See pricing</a></div>
         </aside>
       </div>
