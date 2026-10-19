@@ -124,7 +124,7 @@
         <a class="btn" href="benchmarks.html">See the benchmark</a>
       </div>
       <p class="hero__note">$8/month is the founding yearly price: $96 a year for subscriptions started by 30 November 2026, kept while subscribed.<!-- CONTENT: after 30 November 2026 revert to $10/month --></p>
-      <p class="hero__note">18 skills, 690 compiler-run tests. Verified on Nim 2.3.1 and Nimony 0.6.3.<!-- CONTENT: update versions with each re-verification --></p>
+      <p class="hero__note">18 skills. Verified on Nim 2.3.1 and Nimony 0.6.3.<!-- CONTENT: update versions with each re-verification --></p>
     </div>
     <div>
       <div class="diag diag--hero" role="group" aria-label="A moved-from Nim object segfaults on legal reuse">
@@ -219,11 +219,11 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
       <p>Anyone can write a skill file. The subscription pays for the work that keeps ours right.</p>
     </div>
     <div class="grid grid--3">
-      <div class="card"><h3 class="card__title">Compiled and run</h3><p>Each code claim is a program the current Nim compiler builds and runs. 690 test programs back the catalog and its audit so far.</p></div>
+      <div class="card"><h3 class="card__title">Compiled and run</h3><p>Each code claim is a program the current Nim compiler builds and runs before the claim ships.</p></div>
       <div class="card"><h3 class="card__title">Tried on hard tasks</h3><p>Agents solve hard Nim tasks with and without the skill. Where the agent still fails, the skill is rewritten and tested again.</p></div>
       <div class="card"><h3 class="card__title">Re-tested when the compiler moves</h3><p>New Nim and Nimony builds rerun the tests, and broken guidance is fixed. <code>nyx update</code> brings the fix to your agent.</p></div>
     </div>
-    <p class="mt-6">A downloaded skill goes stale without warning. Our audit found 7 Nimony compiler bugs in error handling (<a href="https://github.com/nim-lang/nimony/issues/2674">#2674</a>&ndash;<a href="https://github.com/nim-lang/nimony/issues/2680">#2680</a>), and upstream fixed them within two days. One day after we corrected the error-handling skill, a Nimony fix began rejecting a <code>.raises</code> form it had just taught, and the version number did not change. Re-running the tests flagged the exact sentences to rewrite. A one-off copy would still teach the old rule. <a href="posts/release-build-swallowed-the-error.html">Read how a release build swallowed an error</a>.</p>
+    <p class="mt-6">A downloaded skill goes stale without warning. When a Nimony fix began rejecting a <code>.raises</code> form the error-handling skill had just taught, the version number did not change. Re-running the tests flagged the exact sentences to rewrite, and a one-off copy would still teach the old rule. <a href="posts/release-build-swallowed-the-error.html">Read how a release build swallowed an error</a>.</p>
   </div>
 </section>
 
@@ -344,7 +344,6 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
         <h2>Evidence</h2>
         <ul>
           <li><a href="posts/index.html">Articles</a></li>
-          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
         </ul>
       </div>
       <div>

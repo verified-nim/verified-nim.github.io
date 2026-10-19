@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Make your AI coding agent work like a careful Nim engineer</title>
-<meta name="description" content="Nim agent skills that make your AI coding agent test its reproducers, record inherited bugs and validate once. Proven in a blind benchmark on two models.">
+<title>Nim agent skills benchmark: 56 of 57 runs pass with the skills</title>
+<meta name="description" content="Blind, pre-registered benchmark of Nim agent skills on DeepSeek V4.1 Flash and GPT-6.1 Sol: runs passed every check 56 of 57 times with the skills, 18 of 59 without.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
@@ -12,73 +12,31 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/site.css">
 <meta property="og:site_name" content="Verified Nim Skills">
-<meta property="og:title" content="Make your AI coding agent work like a careful Nim engineer">
-<meta property="og:description" content="Nim agent skills that make your AI coding agent test its reproducers, record inherited bugs and validate once. Proven in a blind benchmark on two models.">
+<meta property="og:title" content="Your AI coding agent does the careful Nim work in 56 of 57 runs with the skills">
+<meta property="og:description" content="Blind, pre-registered benchmark of Nim agent skills on DeepSeek V4.1 Flash and GPT-6.1 Sol: runs passed every check 56 of 57 times with the skills, 18 of 59 without.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://verified-nim.github.io/benchmarks.html">
 <meta property="article:modified_time" content="2026-10-19">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Make your AI coding agent work like a careful Nim engineer">
-<meta name="twitter:description" content="Nim agent skills that make your AI coding agent test its reproducers, record inherited bugs and validate once. Proven in a blind benchmark on two models.">
+<meta name="twitter:title" content="Your AI coding agent does the careful Nim work in 56 of 57 runs with the skills">
+<meta name="twitter:description" content="Blind, pre-registered benchmark of Nim agent skills on DeepSeek V4.1 Flash and GPT-6.1 Sol: runs passed every check 56 of 57 times with the skills, 18 of 59 without.">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="3 minutes">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Article",
-      "headline": "Make your AI coding agent work like a careful Nim engineer",
-      "description": "Nim agent skills that make your AI coding agent test its reproducers, record inherited bugs and validate once. Proven in a blind benchmark on two models.",
-      "datePublished": "2026-10-17",
-      "dateModified": "2026-10-19",
-      "author": {
-        "@type": "Person",
-        "name": "Antonis Geralis",
-        "url": "https://github.com/planetis-m"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Verified Nim Skills",
-        "url": "https://verified-nim.github.io/"
-      },
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://verified-nim.github.io/benchmarks.html"
-      },
-      "url": "https://verified-nim.github.io/benchmarks.html",
-      "inLanguage": "en",
-      "keywords": "AI coding agent Nim, Nim agent skills, AI Nim code quality, Nim benchmark for AI agents, DeepSeek V4.1 Flash, GPT-6.1 Sol, reasoning effort"
-    },
-    {
-      "@type": "FAQPage",
-      "url": "https://verified-nim.github.io/benchmarks.html",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Don't strong models already know Nim?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "They know how to write correct Nim. In the benchmark, 74 of 75 scored runs with the skills and 77 of 77 without passed every correctness check, such as the build, the tests and output parity. The skills add the part a correctness check never asks for: the workflow and code quality of a careful Nim engineer."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is the benchmark cherry-picked?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The tasks, models, metrics and analysis were pre-registered, and the task set was frozen by hash before the first run. Two control tasks check that the skills do no harm, an independent audit labelled every check, and the limitations are published with the results. The separating tasks were chosen because they separate, so their lift is an upper bound for skill-relevant work."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do the skills make the agent cost more?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "On workflow-heavy tasks a run does more work, so it often costs more. It also finishes far more often, so each passing run costs less. For DeepSeek V4.1 Flash, cost per passing run was 35% lower at maximum effort and 46% lower at low effort with the skills."
-          }
-        }
-      ]
-    }
-  ]
+  "@type": "Article",
+  "headline": "Your AI coding agent does the careful Nim work in 56 of 57 runs with the skills",
+  "description": "Blind, pre-registered benchmark of Nim agent skills on DeepSeek V4.1 Flash and GPT-6.1 Sol: runs passed every check 56 of 57 times with the skills, 18 of 59 without.",
+  "datePublished": "2026-10-17",
+  "dateModified": "2026-10-19",
+  "timeRequired": "PT3M",
+  "author": { "@type": "Person", "name": "Antonis Geralis", "url": "https://github.com/planetis-m" },
+  "publisher": { "@type": "Organization", "name": "Verified Nim Skills", "url": "https://verified-nim.github.io/" },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://verified-nim.github.io/benchmarks.html" },
+  "url": "https://verified-nim.github.io/benchmarks.html",
+  "inLanguage": "en",
+  "keywords": "Nim agent skills benchmark, AI coding agent Nim, Claude Code Nim, DeepSeek V4.1 Flash, GPT-6.1 Sol"
 }
 </script>
 </head>
@@ -105,165 +63,67 @@
 <article>
   <header class="article-header">
     <div class="wrap">
-      <h1>Make your AI coding agent work like a careful Nim engineer</h1>
-      <p class="lede measure">Your agent already writes Nim that compiles. With Verified Nim Skills it also tests its reproducers, records every bug a port inherits, validates once at the trust boundary and sets up the sanitizer so memory faults get reported. You get less to check in review, and the same careful work from run to run.</p>
-      <p class="measure">In blind, pre-registered tests on DeepSeek V4.1 Flash and GPT-6.1 Sol, both models passed every check in nearly every run with the skills, and in fewer than a third of runs without them. That held at low reasoning effort too.</p>
-      <p class="measure">The skills work with Claude Code, Codex, Cursor and other coding agents, installed and kept up to date through <a href="https://github.com/planetis-m/nyx">NYX</a>.</p>
+      <h1>Your AI coding agent does the careful Nim work in 56 of 57 runs with the skills</h1>
+      <p class="lede measure">Your agent already writes Nim that compiles. Verified Nim Skills give it the habits of a careful Nim engineer. In a blind, pre-registered benchmark on DeepSeek V4.1 Flash and GPT-6.1 Sol, runs passed every check 56 of 57 times with the skills and 18 of 59 without.</p>
       <div class="btn-row">
         <a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month -->
         <a class="btn" href="#results">See the results</a>
       </div>
-      <ul class="post-meta"><li>Updated <time datetime="2026-10-19">2026-10-19</time></li><li>9 min read</li></ul>
+      <p class="small muted">$8/month is the founding yearly price for subscriptions started by 30 November 2026.<!-- CONTENT: after 30 November 2026 revert to $10/month --></p>
+      <ul class="post-meta"><li>Updated <time datetime="2026-10-19">2026-10-19</time></li><li>3 min read</li></ul>
     </div>
   </header>
   <div class="wrap">
-    <div class="article-layout">
-      <nav class="toc" aria-labelledby="toc-h">
-        <h2 id="toc-h">On this page</h2>
-        <ol>
-          <li><a href="#changes">What changes in your agent&rsquo;s work</a></li>
-          <li><a href="#results">The evidence</a></li>
-          <li><a href="#questions">Questions developers ask</a></li>
-          <li><a href="#method">How we test</a></li>
-          <li><a href="#limits">Limitations</a></li>
-          <li><a href="#earlier">Earlier studies</a></li>
-        </ol>
-      </nav>
-      <div class="prose">
-        <h2 id="changes">What changes in your agent&rsquo;s work</h2>
-        <p>Without guidance, both models still wrote Nim that builds, passes its tests and matches the expected output. What they skipped was the work a reviewer then has to ask for. The skills put that work back into the agent&rsquo;s own routine.</p>
+    <div class="prose measure">
+      <h2 id="changes">What changes in your agent&rsquo;s work</h2>
+      <p>Without the skills, both models still wrote correct Nim. They skipped the work a reviewer then has to ask for. With the skills:</p>
+      <ul>
+        <li>Bug reports come with a tested reproducer and a measured failure rate.</li>
+        <li>Ports record every bug they inherit.</li>
+        <li>Untrusted input is validated once, at the trust boundary, and data the compiler already checked is not checked again.</li>
+        <li>The sanitizer setup actually reports memory faults.</li>
+      </ul>
 
-        <h3 id="reports">Bug reports a maintainer can act on</h3>
-        <p>Without the skills, reports arrived with untrimmed reproducers and no word on how often the failure happens. Not one run on either model stated a reproduction rate. With the skills, the agent cuts the reproducer to the minimum, runs it to confirm it fails every time and quotes the Nim version and the failing output.</p>
-
-        <h3 id="ports">Ports that put inherited bugs on record</h3>
-        <p>A port from C matched the original tool&rsquo;s output in both arms. Without the skills, no run recorded the C defect the port deliberately keeps, so the next maintainer finds it the hard way. With the skills, the defect is on record in the code and in the porting notes.</p>
-
-        <h3 id="boundary">Validation once, at the trust boundary</h3>
-        <p>Without the skills, error-handling code checked data the compiler had already checked, in every run at three of the four model and effort settings. With the skills, the agent validates untrusted input once, where it enters, and trusts what the build already proved. <a href="posts/agent-validates-everything-twice.html">Stop your agent validating trusted data twice</a> shows the pattern in code.</p>
-
-        <h3 id="sanitizer">A sanitizer setup that reports every memory fault</h3>
-        <p>Without the skills, the debugging scripts let Nim&rsquo;s own crash handler swallow segmentation faults, so AddressSanitizer never printed its report. That happened in every DeepSeek V4.1 Flash run without the skills, at both effort levels. With the skills, the sanitizer sees the fault and reports it.</p>
-
-        <p>With the skills, one check failed across all 57 separating runs: a low-effort DeepSeek V4.1 Flash report left out the Nim version. On the fifth task, a container with ownership hooks, both arms passed every run.</p>
-        <p>Behind each behavior is a skill file the compiler has checked. Every code claim in the catalog is a program that the current Nim or Nimony compiler builds and runs, and the tests run again when the compiler changes. <a href="#verification">What the compiler audit found</a>.</p>
-
-        <h2 id="results">The evidence: a blind Nim benchmark on two models</h2>
-        <p>Five private Nim tasks measure the quality of AI-written Nim on the work above: bug reporting, porting, error handling, ownership hooks and debugging. Each ran three times per model, effort level and arm, blind, in a fresh sandbox. A run passes only when every check passes.</p>
-        <div class="table-wrap">
-          <table class="compare">
-            <thead><tr><th scope="col">Runs that passed every check</th><th scope="col" class="is-us">With skills</th><th scope="col">Without skills</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">DeepSeek V4.1 Flash, maximum effort</th><td class="is-us">15/15</td><td>3/15</td></tr>
-              <tr><th scope="row">GPT-6.1 Sol, maximum effort</th><td class="is-us">13/13</td><td>5/14</td></tr>
-              <tr><th scope="row">DeepSeek V4.1 Flash, low effort</th><td class="is-us">14/15</td><td>3/15</td></tr>
-              <tr><th scope="row">GPT-6.1 Sol, low effort</th><td class="is-us">14/14</td><td>7/15</td></tr>
-              <tr><th scope="row">Total</th><td class="is-us"><strong>56/57</strong></td><td><strong>18/59</strong></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="muted small">Every gap is statistically significant (stratified permutation test, p &le; 0.0011; pooled lift between +0.51 and +0.80). A run the provider stopped, by a content-filter refusal or a usage limit, is retried once and otherwise left unscored, which is why some GPT-6.1 Sol cells have fewer than 15 runs. At maximum effort, GPT-6.1 Sol covers 5 of the 7 tasks.</p>
-
-        <h3 id="effort">Low effort with the skills beats maximum effort without</h3>
-        <p>More reasoning does not stand in for the skills. At low effort with them, DeepSeek V4.1 Flash passed 14 of 15 runs; at maximum effort without them, 3 of 15. GPT-6.1 Sol shows the same pattern in the table above.</p>
-
-        <h3 id="controls">No change where no change was expected</h3>
-        <p>Two control tasks, which agents already pass on their own, check that the skills do no harm. Pass rates on them stayed level with and without the skills. The one miss was a low-effort DeepSeek V4.1 Flash run with the skills that built a JSON writer failing the basic output check, the only run in either arm that failed a correctness check. GPT-6.1 Sol did not run the control tasks at maximum effort.</p>
-
-        <h3 id="substantive">Beyond formatting, the gain remains</h3>
-        <p>Some checks look only at conventions, such as the port&rsquo;s defect record and the report&rsquo;s field order. Remove every one of them, and the skills still lift both models at both effort levels, with a pooled lift between +0.31 and +0.60 (p &le; 0.0186). We added this measure after the first results came in, and report it as post hoc.</p>
-
-        <div class="btn-row">
-          <a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month -->
-          <a class="btn" href="pricing.html">See pricing</a>
-        </div>
-
-        <h2 id="questions">Questions developers ask</h2>
-        <h3 id="know-nim">Don&rsquo;t strong models already know Nim?</h3>
-        <p>They know how to write correct Nim. Across both models and both effort levels, 74 of 75 scored runs with the skills and 77 of 77 without passed every correctness check: the build, the tests and output parity. The skills add the part a correctness check never asks for: the workflow and code quality of a careful Nim engineer.</p>
-
-        <h3 id="cherry-picked">Is the benchmark cherry-picked?</h3>
-        <p>The tasks, models, metrics and analysis were written down before the first run, and the task set was frozen by hash. Two control tasks check for harm, an independent audit labelled every check, and the <a href="#limits">limitations</a> are published with the results. The separating tasks were chosen because they separate, so their lift is an upper bound for skill-relevant work, and we say so.</p>
-
-        <h3 id="cost">Do the skills make the agent cost more?</h3>
-        <p>On workflow-heavy tasks a run does more work, so it often costs more: the agent trims the reproducer, records the defect, runs the sanitizer. It also finishes far more often, so each passing run costs less. For DeepSeek V4.1 Flash, the one model here billed per API token, cost per passing run was 35% lower at maximum effort with the skills and 46% lower at low effort.</p>
-        <p>The cheapest passing run came from low effort with the skills, at $0.039 against $0.147 for maximum effort without them.</p>
-
-        <h2 id="method">How we test</h2>
-        <ul>
-          <li><strong>Pre-registered.</strong> Seven tasks, two models, two effort levels and the analysis were fixed in writing, with the task set frozen by hash, before the first run.</li>
-          <li><strong>Blind and sandboxed.</strong> Each run starts in a fresh workspace with no context files. In the skill arm the skill is mounted read-only and the agent must read it.</li>
-          <li><strong>Scripted checks.</strong> A deterministic judge scores each task with named checks, and an independent audit labelled every check as correctness, defect, quality or convention.</li>
-          <li><strong>Controls and clean scoring.</strong> Two control tasks test for harm. A timeout, provider error or empty reply is retried once and otherwise reported as unscored, never as a pass or a fail.</li>
-        </ul>
-
-        <h2 id="limits">Limitations</h2>
-        <ul>
-          <li>Three runs per cell. The pooled lift across tasks is the claim; single-task numbers are indicative.</li>
-          <li>The tasks are designed in-house and their text is withheld, so the benchmark stays uncontaminated. The frozen task hashes and the independent label audit limit the bias, and the result measures skill-relevant work, not Nim coding in general.</li>
-          <li>Two models at two reasoning efforts, the two named in the pre-registration. Providers change models over time, so every run is dated.</li>
-          <li>At maximum effort, GPT-6.1 Sol covers 5 of the 7 tasks, with 2 scored runs per arm on the debugging task and no control runs. At low effort it covers all 7.</li>
-          <li>Two disclosed deviations from the pre-registration: the pooled lift is a Mantel&ndash;Haenszel risk difference in place of an odds ratio, which is undefined when a cell is all-pass or all-fail, and the lift without convention checks was added post hoc.</li>
-          <li>Costs are priced for DeepSeek V4.1 Flash only.</li>
-        </ul>
-
-        <h2 id="earlier">Earlier studies</h2>
-        <p>Three earlier, smaller studies point the same way. Their numbers stand as published.</p>
-
-        <h3 id="cost-study">Cost study: 18 of 20 with the skill, 3 of 20 without</h3>
-        <p>A pre-registered study in October 2026 ran four hard Nim tasks, five blind runs per arm, on DeepSeek V4.1 Flash with and without the verified skill. Costs are recomputed from logged tokens at the provider&rsquo;s off-peak API rates.</p>
-        <ul>
-          <li><strong>Per attempt</strong>, the skill-guided agent used about twice the tokens (3.1M vs 1.6M) and cost about $0.048 vs $0.028.</li>
-          <li><strong>Per solved task</strong>, it cost about $0.05 vs $0.21, about a quarter, because the unguided agent rarely finished.</li>
-          <li><strong>Frontier check.</strong> On the same four tasks, GPT-6.1 Sol at maximum reasoning effort passed 1 of 12 runs without skills and 9 of 10 scored runs with them (two skill runs blocked by the provider&rsquo;s content filter were not scored).</li>
-          <li><strong>Rerun after a model update.</strong> When DeepSeek updated V4.1 Flash, the same four tasks passed 11 of 12 runs with skills and 3 of 12 without.</li>
-          <li>On the container task the model already coped; there the skill added about 30% cost for a gain that was not statistically significant.</li>
-        </ul>
-        <p>Read <a href="posts/cost-per-solved-task.html">the full write-up of the cost study</a>, with <a href="posts/cost-per-solved-task.html#bigger-model">per-task results</a>.</p>
-
-        <h3 id="trials">Verified skill vs its unverified draft</h3>
-        <p>The verified skill passed every run; its unverified draft passed one in three. Agents solved each task in a sandbox with the verified skill, the unverified draft of the same skill, or no skill.</p>
-        <div class="table-wrap">
-          <table class="compare">
-            <thead><tr><th scope="col">Task (3 runs per arm)</th><th scope="col" class="is-us">Verified skill</th><th scope="col">Unverified draft</th><th scope="col">No skill</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Bug-report drafting</th><td class="is-us">3/3</td><td>1/3</td><td>0/3</td></tr>
-              <tr><th scope="row">C-to-Nim port of a tool with a latent bug</th><td class="is-us">3/3</td><td>1/3</td><td>0/3</td></tr>
-              <tr><th scope="row">Error-handling discipline across modules</th><td class="is-us">3/3</td><td>1/3</td><td>0/3</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p>Across the catalog, on 12 of 17 skills the agent without the skill failed a check that the skill-guided agent passed (one run per arm), including a use-after-free under self-assignment aliasing and test runners that silently skip new tests. Trimming one skill cut mean agent time per task by 44% (about 1,480 s to 824 s) at the same 3/3 pass rate.</p>
-
-        <h3 id="verification">The compiler audit</h3>
-        <p>This evidence does not depend on agent behavior at all.</p>
-        <ul>
-          <li><strong>912 claims</strong> across 21 skills, checked against Nim 2.3.1 or Nimony 0.6.3. 783 are testable by a program; the rest are process advice.</li>
-          <li><strong>690 compiler-run test programs</strong> back the testable claims.</li>
-          <li><strong>127 corrections</strong> to the first drafts, about one in seven claims, and <strong>104</strong> claims given a precise caveat: right in the common case, wrong at an edge an agent will reach.</li>
-          <li><strong>7 Nimony compiler bugs</strong> in error handling (<a href="https://github.com/nim-lang/nimony/issues/2674">#2674</a>&ndash;<a href="https://github.com/nim-lang/nimony/issues/2680">#2680</a>); four lost errors silently or crashed. Upstream fixed them within two days, and the fix changed a <code>.raises</code> rule the error-handling skill taught, so the next test run flagged the sentences to rewrite.</li>
-          <li>Auditing the Nimony assembler skill found further toolchain bugs, including a silent miscompile. Some are public as <a href="https://github.com/nim-lang/nimony/issues/2686">#2686</a> and <a href="https://github.com/nim-lang/nimony/issues/2687">#2687</a>.</li>
-        </ul>
-        <p>A skill file repeats its mistakes in every run that loads it, so one correction fixes every later run. Two corrections in detail: <a href="posts/moved-from-object-segfaults.html">why a moved-from object segfaults on reuse</a> and <a href="posts/release-build-swallowed-the-error.html">the Nimony release build that swallowed the error</a>.</p>
-
-        <h3 id="scope">Notes on the earlier studies</h3>
-        <ul>
-          <li>The three-arm trials are n=3 per arm; the cost study is n=5 per arm; the frontier check is n=3 per arm; catalog probes are n=1 per arm.</li>
-          <li>Cost-study tasks were chosen because they had separated before, so their pass-rate gaps are an upper bound. The cost study used one model family; the frontier check used one frontier model.</li>
-          <li>Two three-arm results come after a revision, one to the skill and one to the scorer. Before it, the verified skill scored 2/3 on each.</li>
-          <li>Some probe separations only show that the agent adopted a convention the skill teaches.</li>
-          <li>On one doc-comment probe the verified skill scored 2/3 against 3/3 without it.</li>
-        </ul>
-        <p>Stronger models will solve more tasks unaided. We track that and prune guidance that stops helping, which keeps the skills small.</p>
-
-        <div class="cta next-steps">
-          <div><h2>Give your agent a careful Nim engineer&rsquo;s habits</h2><p>The full verified catalog, re-tested as Nim changes, from $8 a month (the founding yearly price of $96, open until 30 November 2026).</p><!-- CONTENT: after 30 November 2026 revert to $10/month --></div>
-          <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access</a><a class="btn" href="pricing.html">See pricing</a></div>
-        </div>
+      <h2 id="results">The results</h2>
+      <div class="table-wrap">
+        <table class="compare">
+          <caption>Runs that passed every check on the five skill-specific tasks</caption>
+          <thead><tr><th scope="col">Model and reasoning effort</th><th scope="col" class="is-us">With skills</th><th scope="col">Without</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">DeepSeek V4.1 Flash, maximum</th><td class="is-us">15/15</td><td>3/15</td></tr>
+            <tr><th scope="row">GPT-6.1 Sol, maximum</th><td class="is-us">13/13</td><td>5/14</td></tr>
+            <tr><th scope="row">DeepSeek V4.1 Flash, low</th><td class="is-us">14/15</td><td>3/15</td></tr>
+            <tr><th scope="row">GPT-6.1 Sol, low</th><td class="is-us">14/14</td><td>7/15</td></tr>
+            <tr><th scope="row">Total</th><td class="is-us"><strong>56/57</strong></td><td><strong>18/59</strong></td></tr>
+          </tbody>
+        </table>
       </div>
+      <p class="small muted">Pooled lift by row: +0.80, +0.63, +0.73 and +0.51, each with p &le; 0.0011.</p>
+      <p id="controls">On the two control tasks, where no lift was expected, runs passed 17 of 18 times with the skills and 18 of 18 without.</p>
+      <p id="know-nim">Correctness was level: 74 of 75 runs with the skills and 77 of 77 without passed the build, tests and output parity. The skills change how your agent works, not whether its code compiles.</p>
+      <p id="substantive">Leave out the checks that only test conventions, and the lift is still +0.60 and +0.40 at maximum effort, +0.53 and +0.31 at low.</p>
+
+      <h2 id="cost">Cost per passing run</h2>
+      <p>With the skills, the agent often does more work in a run, yet each passing run costs less. On DeepSeek V4.1 Flash, the API-priced model, a passing run cost $0.096 instead of $0.147 at maximum effort, and $0.039 instead of $0.072 at low effort.</p>
+
+      <h2 id="method">How we tested</h2>
+      <p>We pre-registered the study before any run. Agents worked blind in fresh sandboxes on 7 private Nim tasks: 5 that test skill-specific work and 2 controls, across bug reporting, porting, error handling, ownership hooks and debugging. Each model ran each task 3 times per effort level, with and without the skills. A run passes only when every check passes.</p>
+      <div class="faq" id="scope">
+        <details id="limits"><summary>Limitations</summary><div class="faq__answer"><p>Three runs per cell. Seven in-house tasks, withheld to keep them out of training data. Two models. At maximum effort, GPT-6.1 Sol covered 5 of the 7 tasks and ran no controls. The without-conventions measure was added after pre-registration.</p></div></details>
+      </div>
+      <p id="earlier" class="small muted"><span id="questions"></span><span id="trials"></span><span id="verification"></span><span id="cost-study"></span>For background, see <a href="posts/cost-per-solved-task.html">our first, smaller study</a>.</p>
     </div>
   </div>
 </article>
+
+<section class="section section--alt">
+  <div class="wrap">
+    <div class="cta">
+      <div><h2>Let your agent do the careful Nim work before review</h2><p>Works with Claude Code, Codex, Cursor and other coding agents, installed and kept up to date by <a href="https://github.com/planetis-m/nyx">NYX</a>.</p></div>
+      <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month --><a class="btn btn--ghost" href="pricing.html">See pricing</a></div>
+    </div>
+  </div>
+</section>
 </main>
 <footer class="site-footer">
   <div class="wrap">
@@ -282,7 +142,6 @@
         <h2>Evidence</h2>
         <ul>
           <li><a href="posts/index.html">Articles</a></li>
-          <li><a href="https://github.com/nim-lang/nimony/issues/2674">Nimony issue #2674</a> <span class="muted">(first of #2674&ndash;#2680)</span></li>
         </ul>
       </div>
       <div>
