@@ -215,10 +215,9 @@ tbody th { font-weight: 600; }
 .site-header__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-5); min-height: var(--header-h); padding-block: var(--space-2); }
 
 /* Brand: text wordmark "Verified Nim Skills" leads; the NYX mark is secondary */
-.brand { display: inline-flex; align-items: center; gap: var(--space-3); color: var(--fg); text-decoration: none; }
-.brand__sub { order: -1; font: 650 var(--step-0)/1 var(--font-sans); letter-spacing: -0.01em; color: var(--fg); white-space: nowrap; }
-.brand img { display: block; height: 16px; width: auto; opacity: 0.8; padding-left: var(--space-3); border-left: 1px solid var(--border-strong); box-sizing: content-box; }
-.brand:hover img { opacity: 1; }
+.brand { display: inline-flex; align-items: baseline; gap: 0.32em; color: var(--fg); text-decoration: none; font: 650 1.1875rem/1 var(--font-sans); letter-spacing: -0.02em; white-space: nowrap; }
+.brand__qed { width: 0.42em; height: 0.7em; flex: none; }
+.brand:hover { color: var(--fg); }
 
 .nav ul { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-5); list-style: none; margin: 0; padding: 0; align-items: center; }
 .nav a { color: var(--muted); text-decoration: none; font-size: var(--step--1); font-weight: 500; padding: var(--space-2) 0; display: inline-block; }
