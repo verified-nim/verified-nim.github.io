@@ -59,7 +59,7 @@
           "name": "Don't strong models already know Nim?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Knowing Nim leaves room for memory-safety bugs and skipped engineering checks. In our latest benchmark, build and output checks were comparable; runs with the skills passed the full set of checks far more often."
+            "text": "Knowing Nim still leaves room for memory-safety bugs, and a passing build won't show them. The skills tell the agent which extra checks to run. See the trial results."
           }
         },
         {
@@ -67,7 +67,7 @@
           "name": "They're markdown files. What am I paying for?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The testing behind them: code claims compiled and run, skills tried on hard agent tasks, and re-testing on new compiler builds. When a test exposes wrong guidance, we fix it and ship the correction in your next update."
+            "text": "Nim instructions your agent loads, checked against the compiler and kept current as Nim changes. NYX installs and updates them. When a test shows the guidance is wrong, we fix it and the fix arrives in your next update."
           }
         },
         {
@@ -75,7 +75,7 @@
           "name": "Do the skills make the agent cost more?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The skills lowered cost per passing run on DeepSeek V4.1 Flash at both reasoning levels. Individual runs can cost more because the agent does more work, but far more runs pass."
+            "text": "Much of the cost is your time reviewing unfinished work and sending the agent back. The skills have the agent check more itself, like confirming a bug reproduces and reading sanitizer output. API cost per passing run was lower on DeepSeek V4.1 Flash."
           }
         },
         {
@@ -83,7 +83,7 @@
           "name": "I already use Context7 or another docs MCP. Do I need this?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, and keep the MCP. Docs tell the agent what exists. The skills tell it what is safe on today’s compiler, what to avoid and how to isolate a failure."
+            "text": "Yes. Docs help the agent look things up, and some include examples. The skills are maintained, compiler-tested instructions for doing Nim work, like checking ownership edge cases and confirming a bug reproduces. Keep the docs MCP for API details."
           }
         }
       ]
@@ -233,11 +233,11 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
   <div class="wrap">
     <div class="section__head"><h2 id="faq-h">Questions</h2></div>
     <div class="faq">
-      <details><summary>Don&rsquo;t strong models already know Nim?</summary><div class="faq__answer"><p>Knowing Nim leaves room for memory-safety bugs and skipped engineering checks. In our latest benchmark, build and output checks were comparable; runs with the skills passed the full set of checks far more often. <a href="benchmarks.html#know-nim">See the results</a>.</p></div></details>
-      <details><summary>They&rsquo;re markdown files. What am I paying for?</summary><div class="faq__answer"><p>The testing behind them: code claims compiled and run, skills tried on hard agent tasks, and re-testing on new compiler builds. When a test exposes wrong guidance, we fix it and ship the correction in your next update.</p></div></details>
-      <details><summary>Do the skills make the agent cost more?</summary><div class="faq__answer"><p>The skills lowered cost per passing run on DeepSeek V4.1 Flash at both reasoning levels. Individual runs can cost more because the agent does more work, but far more runs pass. <a href="benchmarks.html#cost">Cost per passing run</a>.</p></div></details>
-      <details><summary>I already use Context7 or another docs MCP. Do I need this?</summary><div class="faq__answer"><p>Yes, and keep the MCP. Docs tell the agent what exists. The skills tell it what is safe on today&rsquo;s compiler, what to avoid and how to isolate a failure.</p></div></details>
-      <details><summary>Will my agent actually use the skills?</summary><div class="faq__answer"><p>Add a two-line pointer to <code>AGENTS.md</code> or <code>CLAUDE.md</code> and it will load the matching skill. <a href="get-access.html#pointer">Copy the pointer</a>.</p></div></details>
+      <details><summary>Don&rsquo;t strong models already know Nim?</summary><div class="faq__answer"><p>Knowing Nim still leaves room for memory-safety bugs, and a passing build won&rsquo;t show them. The skills tell the agent which extra checks to run. <a href="benchmarks.html#know-nim">See the trial results</a>.</p></div></details>
+      <details><summary>They&rsquo;re markdown files. What am I paying for?</summary><div class="faq__answer"><p>Nim instructions your agent loads, checked against the compiler and kept current as Nim changes. NYX installs and updates them. When a test shows the guidance is wrong, we fix it and the fix arrives in your next update.</p></div></details>
+      <details><summary>Do the skills make the agent cost more?</summary><div class="faq__answer"><p>Much of the cost is your time reviewing unfinished work and sending the agent back. The skills have the agent check more itself, like confirming a bug reproduces and reading sanitizer output. <a href="benchmarks.html#cost">API cost per passing run</a> was lower on DeepSeek V4.1 Flash.</p></div></details>
+      <details><summary>I already use Context7 or another docs MCP. Do I need this?</summary><div class="faq__answer"><p>Yes. Docs help the agent look things up, and some include examples. The skills are maintained, compiler-tested instructions for doing Nim work, like checking ownership edge cases and confirming a bug reproduces. Keep the docs MCP for API details.</p></div></details>
+      <details><summary>Will my agent actually use the skills?</summary><div class="faq__answer"><p>NYX installs the skills where your agent looks for them. Add the <a href="get-access.html#pointer">pointer</a> to <code>AGENTS.md</code> or <code>CLAUDE.md</code> so it loads the matching skill before Nim work.</p></div></details>
       <details><summary>Billing, licensing and refunds?</summary><div class="faq__answer"><p>See <a href="pricing.html">pricing</a> for plans, invoices, cancellation and refunds.</p></div></details>
     </div>
   </div>
