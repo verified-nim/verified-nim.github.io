@@ -75,7 +75,7 @@
           "name": "Do the skills make the agent cost more?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "In our latest DeepSeek V4.1 Flash benchmark, cost per passing run was 35% lower at maximum effort with the skills. Each run can cost more because the agent does more work; far more runs pass."
+            "text": "The skills lowered cost per passing run on DeepSeek V4.1 Flash at both reasoning levels. Individual runs can cost more because the agent does more work, but far more runs pass."
           }
         },
         {
@@ -113,7 +113,7 @@
   <div class="wrap split">
     <div>
       <h1 class="hero__title">Give your AI coding agent the habits of a careful Nim engineer</h1>
-      <p class="hero__lede">Compiler-verified instruction files teach your coding agent safe Nim patterns and careful engineering habits, with every code claim compiled, run and re-tested.</p>
+      <p class="hero__lede">Compiler-tested instruction files help Claude Code, Codex and Cursor write safer Nim and finish the checks you would otherwise request in review.</p>
       <div class="btn-row hero__actions">
         <a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month -->
         <a class="btn" href="benchmarks.html">See the benchmark</a>
@@ -147,7 +147,7 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
       <div class="card"><h3 class="card__title">Validation once, at the trust boundary</h3><p>Untrusted input is checked where it enters. Data the compiler already proved is left alone. <a href="posts/agent-validates-everything-twice.html">See the pattern in code</a>.</p></div>
       <div class="card"><h3 class="card__title">A sanitizer that reports memory faults</h3><p>Debugging scripts stop Nim&rsquo;s crash handler from swallowing segmentation faults, so AddressSanitizer prints its report.</p></div>
     </div>
-    <p class="mt-6">In blind tests on DeepSeek V4.1 Flash and GPT-6.1 Sol, the skills made the agent pass the full engineering checks far more often. <a href="benchmarks.html">See the benchmark</a>.</p>
+    <p class="mt-6">In blind tests on DeepSeek V4.1 Flash and GPT-6.1 Sol, runs with the skills passed every check 56 of 57 times. <a href="benchmarks.html">See the benchmark</a>.</p>
   </div>
 </section>
 
@@ -235,7 +235,7 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
     <div class="faq">
       <details><summary>Don&rsquo;t strong models already know Nim?</summary><div class="faq__answer"><p>Knowing Nim leaves room for memory-safety bugs and skipped engineering checks. In our latest benchmark, build and output checks were comparable; runs with the skills passed the full set of checks far more often. <a href="benchmarks.html#know-nim">See the results</a>.</p></div></details>
       <details><summary>They&rsquo;re markdown files. What am I paying for?</summary><div class="faq__answer"><p>The testing behind them: code claims compiled and run, skills tried on hard agent tasks, and re-testing on new compiler builds. When a test exposes wrong guidance, we fix it and ship the correction in your next update.</p></div></details>
-      <details><summary>Do the skills make the agent cost more?</summary><div class="faq__answer"><p>In our latest DeepSeek V4.1 Flash benchmark, cost per passing run was 35% lower at maximum effort with the skills. Each run can cost more because the agent does more work; far more runs pass. <a href="benchmarks.html#cost">Cost per passing run</a>.</p></div></details>
+      <details><summary>Do the skills make the agent cost more?</summary><div class="faq__answer"><p>The skills lowered cost per passing run on DeepSeek V4.1 Flash at both reasoning levels. Individual runs can cost more because the agent does more work, but far more runs pass. <a href="benchmarks.html#cost">Cost per passing run</a>.</p></div></details>
       <details><summary>I already use Context7 or another docs MCP. Do I need this?</summary><div class="faq__answer"><p>Yes, and keep the MCP. Docs tell the agent what exists. The skills tell it what is safe on today&rsquo;s compiler, what to avoid and how to isolate a failure.</p></div></details>
       <details><summary>Will my agent actually use the skills?</summary><div class="faq__answer"><p>Add a two-line pointer to <code>AGENTS.md</code> or <code>CLAUDE.md</code> and it will load the matching skill. <a href="get-access.html#pointer">Copy the pointer</a>.</p></div></details>
       <details><summary>Billing, licensing and refunds?</summary><div class="faq__answer"><p>See <a href="pricing.html">pricing</a> for plans, invoices, cancellation and refunds.</p></div></details>
