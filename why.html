@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Generated, doc-based or verified Nim agent skills? · Verified Nim Skills</title>
-<meta name="description" content="Generated skills and docs go unchecked by the compiler. Verified Nim skills make your AI coding agent consistent and leave you less to review. With sources.">
+<title>Why verified Nim skills leave less to review · Verified Nim Skills</title>
+<meta name="description" content="Verified Nim skills are maintained and tested against the real compiler. Your AI coding agent does more of the careful work, so you review less. With sources.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
@@ -13,19 +13,19 @@
 <link rel="stylesheet" href="assets/css/site.css">
 <meta property="og:site_name" content="Verified Nim Skills">
 <meta property="og:title" content="Why compiler-verified skills leave less to review in your agent&rsquo;s Nim">
-<meta property="og:description" content="Generated skills and docs go unchecked by the compiler. Verified Nim skills make your AI coding agent consistent and leave you less to review. With sources.">
+<meta property="og:description" content="Verified Nim skills are maintained and tested against the real compiler. Your AI coding agent does more of the careful work, so you review less. With sources.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://verified-nim.github.io/why.html">
 <meta property="article:modified_time" content="2026-10-19">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Why compiler-verified skills leave less to review in your agent&rsquo;s Nim">
-<meta name="twitter:description" content="Generated skills and docs go unchecked by the compiler. Verified Nim skills make your AI coding agent consistent and leave you less to review. With sources.">
+<meta name="twitter:description" content="Verified Nim skills are maintained and tested against the real compiler. Your AI coding agent does more of the careful work, so you review less. With sources.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Why compiler-verified skills leave less to review in your agent's Nim",
-  "description": "Generated skills and docs go unchecked by the compiler. Verified Nim skills make your AI coding agent consistent and leave you less to review. With sources.",
+  "description": "Verified Nim skills are maintained and tested against the real compiler. Your AI coding agent does more of the careful work, so you review less. With sources.",
   "dateModified": "2026-10-19",
   "author": {
     "@type": "Person",
@@ -68,7 +68,7 @@
   <header class="article-header">
     <div class="wrap">
       <h1>Why compiler-verified skills leave less to review in your agent&rsquo;s Nim</h1>
-      <p class="lede measure">Generated skills and docs read well but were never run; verified guidance was, so your agent&rsquo;s Nim needs less review.</p>
+      <p class="lede measure">Maintained instructions, tested against the real Nim compiler, so your agent does the careful work before you review.</p>
       <div class="btn-row"><a class="btn btn--primary" href="get-access.html">Get access &middot; from $8/month</a><!-- CONTENT: after 30 November 2026 revert to $10/month --></div>
     </div>
   </header>
@@ -78,8 +78,8 @@
         <h2 id="toc-h">On this page</h2>
         <ol>
           <li><a href="#problem">The problem</a></li>
-          <li><a href="#generate">Self-written skills don&rsquo;t check themselves</a></li>
-          <li><a href="#mcp">Docs say what exists, not what is safe</a></li>
+          <li><a href="#generate">A skill helps only if it is right</a></li>
+          <li><a href="#mcp">Docs for lookup, skills for the work</a></li>
           <li><a href="#review">Consistent work, less to review</a></li>
           <li><a href="#small">Small, targeted, tested</a></li>
           <li><a href="#cheap">What the skills do to cost</a></li>
@@ -90,24 +90,24 @@
         <h2 id="problem">The problem: Nim that passes and still needs a careful reviewer</h2>
         <p>Code models are weaker on low-resource languages, and Nim is one.<sup class="fnref"><a href="#fn-9" id="fnref-9">9</a></sup> Even code that builds and passes its tests can be missing the work a careful Nim engineer adds: a trimmed and confirmed reproducer, a record of the bug a port inherits, one validation at the trust boundary. Your review has to ask for it, run after run.</p>
         <p>Guidance can close that gap only if the guidance is right, and Nim&rsquo;s sharpest rules are where fluent advice goes wrong. The dangerous mistakes compile: ownership hooks that crash on legal reuse, copy guards that miss aliasing, fuzz harnesses that die on an empty input. They pass the happy-path test and fail in production.</p>
-        <p>An agent cannot catch these by reading. Someone has to run the code. <a href="posts/moved-from-object-segfaults.html">See three real examples &rarr;</a></p>
+        <p>In each example the code reads as correct, and the failure appears only when a test reuses a moved-from value, counts hook calls on raw storage or runs an aliased copy under valgrind. <a href="posts/moved-from-object-segfaults.html">See three real examples &rarr;</a></p>
 
-        <h2 id="generate">Self-written skills don&rsquo;t check themselves</h2>
-        <p>Claude Code and Codex both ship skill creators.<sup class="fnref"><a href="#fn-1" id="fnref-1">1</a></sup> The output reads well. It is not verified.</p>
+        <h2 id="generate">A skill helps only if its guidance is right</h2>
+        <p>Claude Code and Codex both ship skill creators.<sup class="fnref"><a href="#fn-1" id="fnref-1">1</a></sup> A drafted skill is only as good as the testing behind it.</p>
         <p>SkillsBench measured this directly. Curated skills raised task success by about 16 percentage points. Skills that models wrote for themselves gave no average gain.<sup class="fnref"><a href="#fn-2" id="fnref-2">2</a></sup> In the authors&rsquo; words, models &ldquo;cannot reliably author the procedural knowledge they benefit from consuming.&rdquo;</p>
-        <p>Generated skills improve only with a test loop.<sup class="fnref"><a href="#fn-3" id="fnref-3">3</a></sup> For Nim, that loop means test programs run against the real compiler, in debug and release, on every new build. A self-generated skill skips it. That loop is our product.</p>
+        <p>Generated skills improve with a test loop.<sup class="fnref"><a href="#fn-3" id="fnref-3">3</a></sup> For Nim, that loop is test programs run against the real compiler, in debug and release, on every new build. That loop is our product.</p>
         <p>Our earlier trials compared verified skills directly with their unverified drafts. Verification improved the result on all three tasks tested: bug reports, a C port and error handling. <a href="benchmarks.html#trials">See the comparison and its limits</a>.</p>
 
-        <h2 id="mcp">Docs say what exists, not what is safe</h2>
-        <p>Context7 indexes Nim and Nimony, and nimlangserver has an MCP mode.<sup class="fnref"><a href="#fn-8" id="fnref-8">8</a></sup> Keep them. They answer &ldquo;what API exists&rdquo;.</p>
-        <p>They don&rsquo;t answer &ldquo;will this crash&rdquo;. No doc page lists compiler bugs nobody has found yet. Our verification found one, a <a href="posts/release-build-swallowed-the-error.html">release build that silently drops errors</a>, and got it fixed upstream. Docs also don&rsquo;t tell the agent how a careful engineer works: when to confirm a reproducer, where to validate, what to record. Raw docs add the context volume the studies below warn about.</p>
-        <div class="callout callout--ok"><span class="callout__title">The setup that works</span><p>Keep a docs MCP for lookup, add Verified Nim Skills for what is safe, and put a two-line pointer in <code>AGENTS.md</code> so the agent loads them. <a href="get-access.html#pointer">Copy the pointer</a>.</p></div>
+        <h2 id="mcp">Docs for lookup, skills for the work</h2>
+        <p>Context7 indexes Nim and Nimony, and nimlangserver has an MCP mode.<sup class="fnref"><a href="#fn-8" id="fnref-8">8</a></sup> Keep them for API lookup. Docs can carry examples and safety notes too.</p>
+        <p>The skills are maintained, compiler-tested instructions for doing the work. They tell the agent to check ownership hooks against legal reuse, confirm a bug reproduces before reporting it, validate input once at the trust boundary and record the bugs a port inherits. Running those tests also found a <a href="posts/release-build-swallowed-the-error.html">release build that silently drops errors</a>, which was fixed upstream.</p>
+        <div class="callout callout--ok"><span class="callout__title">Use both</span><p>Keep a docs MCP for lookup, add Verified Nim Skills for the work, and put a two-line pointer in <code>AGENTS.md</code> so the agent loads them. <a href="get-access.html#pointer">Copy the pointer</a>.</p></div>
 
         <h2 id="review">Consistent work, less to review</h2>
-        <p>In our latest blind benchmark, runs with and without the skills generally passed the build, tests and output checks. Without the skills, runs often skipped further checks: the confirmed reproducer, the recorded defect, the single validation at the trust boundary. With the skills, the agent passed the full set of checks in nearly every run, at low reasoning effort as well as at maximum. <a href="benchmarks.html">See the benchmark</a>.</p>
+        <p>In our latest blind benchmark, runs with and without the skills generally passed the build, tests and output checks. Without the skills, runs often skipped further checks: the confirmed reproducer, the recorded defect, the single validation at the trust boundary. With the skills, the agent passed the full set of checks in nearly every run, at low reasoning effort as well as at maximum. Each skipped check is something you notice, ask for and wait on. <a href="benchmarks.html">See the benchmark</a>.</p>
 
         <h2 id="small">Why our skills are small, targeted and tested</h2>
-        <p>Bloated, unverified skill packs make agents worse:</p>
+        <p>Two studies found little or no benefit from bulk context:</p>
         <ul>
           <li>In SkillsBench, focused sets of two or three skills beat comprehensive bundles, which came out slightly negative.<sup class="fnref"><a href="#fn-2" id="fnref-2b">2</a></sup></li>
           <li>An ETH study found generic context files raised inference cost by over 20% without improving success.<sup class="fnref"><a href="#fn-4" id="fnref-4">4</a></sup> Model quality also drops as input grows.<sup class="fnref"><a href="#fn-5" id="fnref-5">5</a></sup></li>
@@ -116,12 +116,12 @@
         <p>Skills also have to load. Agents skip unforced skills often,<sup class="fnref"><a href="#fn-6" id="fnref-6">6</a></sup><sup class="fnref"><a href="#fn-7" id="fnref-7">7</a></sup> so onboarding includes a two-line <code>AGENTS.md</code> pointer that tells the agent to load them.</p>
 
         <h2 id="cheap">What the skills do to cost</h2>
-        <p>In our latest benchmark, the skills improved the work and lowered cost per passing run on DeepSeek V4.1 Flash. A skill-guided run often does more work, but far more runs pass, which also leaves fewer failed runs for you to review. <a href="benchmarks.html#cost">See cost per passing run</a>.</p>
-        <p>A bigger model is no shortcut. No model, however large, has seen the compiler build you installed last week, and published work finds that smaller models with good skills compete with larger models without them.<sup class="fnref"><a href="#fn-2" id="fnref-2c">2</a></sup><sup class="fnref"><a href="#fn-6" id="fnref-6b">6</a></sup></p>
+        <p>API spend is only part of the cost. The rest is your time reviewing unfinished work and sending the agent back. In our latest benchmark, the skills improved the work and lowered cost per passing run on DeepSeek V4.1 Flash. A skill-guided run often does more work, but far more runs pass, which also leaves fewer failed runs for you to review. <a href="benchmarks.html#cost">See cost per passing run</a>.</p>
+        <p>Published work, not specific to Nim, finds smaller models with good skills competing with larger models without them.<sup class="fnref"><a href="#fn-2" id="fnref-2c">2</a></sup><sup class="fnref"><a href="#fn-6" id="fnref-6b">6</a></sup></p>
 
         <h2 id="subscription">Why a subscription, not a download</h2>
         <p>Compilers move, and correct guidance goes stale without anyone touching it. A moved library path broke all 12 tests of one skill during our own verification. Newer rules required an explicit <code>std/syncio</code> import. An API a skill named had been renamed.</p>
-        <p>The test suite turns that drift into a list of failures we fix before your agent hits them. You pay for that stream. Cancel, and you keep what you received.</p>
+        <p>Re-running the test suite on each new compiler build turns that drift into a list of failures, which we fix before your agent hits them. The same tests have caught wrong statements in our own skills. Fixes reach you as NYX updates. Cancel, and you keep what you received.</p>
 
         <div class="cta next-steps">
           <div><h2>Give your agent a careful Nim engineer&rsquo;s habits</h2><p>The full verified catalog, re-tested as Nim changes.</p></div>
