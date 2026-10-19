@@ -88,7 +88,7 @@
       </nav>
       <div class="prose">
         <h2 id="problem">The problem: Nim that passes and still needs a careful reviewer</h2>
-        <p>Code models are weaker on low-resource languages, and Nim is one.<sup class="fnref"><a href="#fn-9" id="fnref-9">9</a></sup> Even code that builds and passes its tests can leave essential engineering work undone: a trimmed and confirmed reproducer, a record of the bug a port inherits, one validation at the trust boundary. Your review has to ask for it, run after run.</p>
+        <p>Code models are weaker on low-resource languages, and Nim is one.<sup class="fnref"><a href="#fn-9" id="fnref-9">9</a></sup> Even code that builds and passes its tests can be missing the work a careful Nim engineer adds: a trimmed and confirmed reproducer, a record of the bug a port inherits, one validation at the trust boundary. Your review has to ask for it, run after run.</p>
         <p>Guidance can close that gap only if the guidance is right, and Nim&rsquo;s sharpest rules are where fluent advice goes wrong. The dangerous mistakes compile: ownership hooks that crash on legal reuse, copy guards that miss aliasing, fuzz harnesses that die on an empty input. They pass the happy-path test and fail in production.</p>
         <p>An agent cannot catch these by reading. Someone has to run the code. <a href="posts/moved-from-object-segfaults.html">See three real examples &rarr;</a></p>
 
@@ -96,7 +96,7 @@
         <p>Claude Code and Codex both ship skill creators.<sup class="fnref"><a href="#fn-1" id="fnref-1">1</a></sup> The output reads well. It is not verified.</p>
         <p>SkillsBench measured this directly. Curated skills raised task success by about 16 percentage points. Skills that models wrote for themselves gave no average gain.<sup class="fnref"><a href="#fn-2" id="fnref-2">2</a></sup> In the authors&rsquo; words, models &ldquo;cannot reliably author the procedural knowledge they benefit from consuming.&rdquo;</p>
         <p>Generated skills improve only with a test loop.<sup class="fnref"><a href="#fn-3" id="fnref-3">3</a></sup> For Nim, that loop means test programs run against the real compiler, in debug and release, on every new build. A self-generated skill skips it. That loop is our product.</p>
-        <p>Our earlier trials compared verified skills directly with their unverified drafts. Verification improved results on every task. <a href="benchmarks.html#trials">See the comparison and its limits</a>.</p>
+        <p>Our earlier trials compared verified skills directly with their unverified drafts. Verification improved the result on all three tasks tested: bug reports, a C port and error handling. <a href="benchmarks.html#trials">See the comparison and its limits</a>.</p>
 
         <h2 id="mcp">Docs say what exists, not what is safe</h2>
         <p>Context7 indexes Nim and Nimony, and nimlangserver has an MCP mode.<sup class="fnref"><a href="#fn-8" id="fnref-8">8</a></sup> Keep them. They answer &ldquo;what API exists&rdquo;.</p>
@@ -104,7 +104,7 @@
         <div class="callout callout--ok"><span class="callout__title">The setup that works</span><p>Keep a docs MCP for lookup, add Verified Nim Skills for what is safe, and put a two-line pointer in <code>AGENTS.md</code> so the agent loads them. <a href="get-access.html#pointer">Copy the pointer</a>.</p></div>
 
         <h2 id="review">Consistent work, less to review</h2>
-        <p>In our latest blind benchmark, both arms generally passed the build, tests and output checks. Runs without the skills often skipped additional engineering checks: the confirmed reproducer, the recorded defect, the single validation at the trust boundary. With the skills, the agent passed the full set of checks in nearly every run, at low reasoning effort as well as at maximum. <a href="benchmarks.html">See the benchmark</a>.</p>
+        <p>In our latest blind benchmark, runs with and without the skills generally passed the build, tests and output checks. Without the skills, runs often skipped further checks: the confirmed reproducer, the recorded defect, the single validation at the trust boundary. With the skills, the agent passed the full set of checks in nearly every run, at low reasoning effort as well as at maximum. <a href="benchmarks.html">See the benchmark</a>.</p>
 
         <h2 id="small">Why our skills are small, targeted and tested</h2>
         <p>Bloated, unverified skill packs make agents worse:</p>
@@ -116,7 +116,7 @@
         <p>Skills also have to load. Agents skip unforced skills often,<sup class="fnref"><a href="#fn-6" id="fnref-6">6</a></sup><sup class="fnref"><a href="#fn-7" id="fnref-7">7</a></sup> so onboarding includes a two-line <code>AGENTS.md</code> pointer that tells the agent to load them.</p>
 
         <h2 id="cheap">What the skills do to cost</h2>
-        <p>In our latest benchmark, the skills improved the work and lowered cost per passing run on DeepSeek V4.1 Flash. A skill-guided run often does more work, but far more runs pass. <a href="benchmarks.html#cost">See cost per passing run</a>.</p>
+        <p>In our latest benchmark, the skills improved the work and lowered cost per passing run on DeepSeek V4.1 Flash. A skill-guided run often does more work, but far more runs pass, which also leaves fewer failed runs for you to review. <a href="benchmarks.html#cost">See cost per passing run</a>.</p>
         <p>A bigger model is no shortcut. No model, however large, has seen the compiler build you installed last week, and published work finds that smaller models with good skills compete with larger models without them.<sup class="fnref"><a href="#fn-2" id="fnref-2c">2</a></sup><sup class="fnref"><a href="#fn-6" id="fnref-6b">6</a></sup></p>
 
         <h2 id="subscription">Why a subscription, not a download</h2>
