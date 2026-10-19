@@ -213,6 +213,7 @@
           <li><strong>Per attempt</strong>, the skill-guided agent used about twice the tokens (3.1M vs 1.6M) and cost about $0.048 vs $0.028.</li>
           <li><strong>Per solved task</strong>, it cost about <strong>$0.05 vs $0.21</strong>, about a quarter, because the unguided agent rarely finished.</li>
           <li><strong>Frontier check.</strong> On the same four tasks, GPT-6.1 Sol at maximum reasoning effort passed 1 of 12 runs without skills and 9 of 10 scored runs with them (two skill runs blocked by the provider&rsquo;s content filter were not scored). <a href="posts/cost-per-solved-task.html#bigger-model">Per-task results</a>.</li>
+          <li><strong>Rerun after a model update.</strong> When DeepSeek updated V4.1 Flash, we reran the same four tasks: 11 of 12 runs passed with skills, 3 of 12 without.</li>
           <li>On the container task the model already coped; there the skill added about 30% cost for a gain that was not statistically significant.</li>
         </ul>
         <p>Read <a href="posts/cost-per-solved-task.html">the full write-up of the cost study</a>.</p>
