@@ -184,10 +184,10 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
     </div>
     <div class="grid grid--3">
       <div class="card"><h3 class="card__title">Compiled and run</h3><p>Each code claim has a program the current Nim compiler builds and runs before the claim ships.</p></div>
-      <div class="card"><h3 class="card__title">Tried on hard tasks</h3><p>Agents solve hard Nim tasks with and without the skill. Where the agent still fails, the skill is rewritten and tested again.</p></div>
+      <div class="card"><h3 class="card__title">Tried on hard tasks</h3><p>Agents solve hard Nim tasks with and without the skill, including tasks held out from tuning. Where the agent still fails, the skill is rewritten and tested again. Rules that change nothing are cut.</p></div>
       <div class="card"><h3 class="card__title">Re-tested when the compiler moves</h3><p>New Nim and Nimony builds rerun the tests, and broken guidance is fixed. <code>nyx update</code> brings the fix to your agent.</p></div>
     </div>
-    <p class="mt-6" id="verification">We audited 912 claims. 783 were testable, backed by 690 compiler-run tests. Testing led to 127 corrections and precise caveats on 104 claims. <a href="posts/moved-from-object-segfaults.html">See the ownership-hook corrections</a>.</p>
+    <p class="mt-6" id="verification">We audited 1,037 claims. 900 were testable, backed by 693 compiler-run tests. Testing led to 138 corrections and precise caveats on 124 claims. <a href="posts/moved-from-object-segfaults.html">See the ownership-hook corrections</a>.</p>
     <p class="mt-6">A downloaded skill goes stale without warning. When a Nimony fix began rejecting a <code>.raises</code> form the error-handling skill had just taught, the version number did not change. Re-running the tests flagged the sentences to rewrite. A one-off copy would still teach the old rule. <a href="posts/release-build-swallowed-the-error.html">Read how a release build swallowed an error</a>.</p>
   </div>
 </section>
@@ -211,7 +211,7 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
         </tbody>
       </table>
     </div>
-    <p class="small muted">18 skills, verified on Nim 2.3.1 and Nimony 0.6.3.<!-- CONTENT: update versions with each re-verification --> Catalog areas: ownership hooks, error handling, API design, C bindings and wrappers, testing, fuzzing, debugging, defect analysis, bug reporting, porting, performance, code organization, style, doc comments, Atlas, and Nimony error handling and plugins.<!-- CONTENT: confirm list against the private repo at launch --></p>
+    <p class="small muted">25 skills, verified on Nim 2.3.1 and Nimony 0.6.3.<!-- CONTENT: update versions with each re-verification --> Catalog areas: ownership hooks, error handling, API design, C bindings and wrappers, testing, fuzzing, debugging, defect analysis, bug reporting, porting, performance, string parsing, code organization, style, doc comments, Atlas, formal verification, Wine debugging, and Nimony error handling, plugins, borrow checking, static contracts, assembler and native release builds.<!-- CONTENT: confirm list against the private repo at launch --></p>
   </div>
 </section>
 
