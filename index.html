@@ -187,7 +187,7 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
       <div class="card"><h3 class="card__title">Tried on hard tasks</h3><p>Agents solve hard, unseen Nim tasks with and without the skill. Where they still fail, the skill is fixed and retested. Unhelpful rules are cut.</p></div>
       <div class="card"><h3 class="card__title">Re-tested when the compiler moves</h3><p>New Nim and Nimony builds rerun the tests, and broken guidance is fixed. <code>nyx update</code> brings the fix to your agent.</p></div>
     </div>
-    <p class="mt-6" id="verification">We audited 1,037 claims. 900 were testable, backed by 693 compiler-run tests. Testing led to 138 corrections and precise caveats on 124 claims. <a href="posts/moved-from-object-segfaults.html">See the ownership-hook corrections</a>.</p>
+    <p class="mt-6" id="verification">We audited 1,146 claims. 1,005 were testable, backed by 779 compiler-run tests. Testing led to 146 corrections and precise caveats on 110 claims. <a href="posts/moved-from-object-segfaults.html">See the ownership-hook corrections</a>.</p>
     <p class="mt-6">A downloaded skill goes stale without warning. When a Nimony fix began rejecting a <code>.raises</code> form the error-handling skill had just taught, the version number did not change. Re-running the tests flagged the sentences to rewrite. A one-off copy would still teach the old rule. <a href="posts/release-build-swallowed-the-error.html">Read how a release build swallowed an error</a>.</p>
   </div>
 </section>
@@ -211,7 +211,7 @@ a.writeByte <span class="tok-s">'z'</span>    <span class="tok-c"># reusing a mo
         </tbody>
       </table>
     </div>
-    <p class="small muted">25 skills, verified on Nim 2.3.1 and Nimony 0.6.3.<!-- CONTENT: update versions with each re-verification --> Catalog areas: ownership hooks, error handling, API design, C bindings and wrappers, testing, fuzzing, debugging, defect analysis, bug reporting, porting, performance, string parsing, code organization, style, doc comments, Atlas, formal verification, Wine debugging, and Nimony error handling, plugins, borrow checking, static contracts, assembler and native release builds.<!-- CONTENT: confirm list against the private repo at launch --></p>
+    <p class="small muted">29 skills, verified on Nim 2.3.1 and Nimony 0.6.3.<!-- CONTENT: update versions with each re-verification --> Catalog areas: ownership hooks, error handling, API design, C bindings and wrappers, testing, fuzzing, debugging, defect analysis, bug reporting, porting, performance, string parsing, code organization, style, doc comments, Atlas, formal verification, autovectorization, Wine debugging, and Nimony error handling, Nim 2 differences, plugins, borrow checking, static contracts, assembler, autovectorization and native release builds.<!-- CONTENT: confirm list against the private repo at launch --></p>
   </div>
 </section>
 
