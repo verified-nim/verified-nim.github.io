@@ -16,7 +16,7 @@
     if (text) e.textContent = text;
     return e;
   }
-  const shortName = n => n.replace(/^nimony-/, "").replace(/^nim-/, "");
+  const shortName = n => n.replace(/^nimony-/, "").replace(/^nim-/, "").replace(/-build-debugging$/, "-build");
   function symbol(n) {
     const w = shortName(n).split("-");
     const s = w.length > 1 ? w[0][0] + w[1][0] : w[0].slice(0, 2);
